@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.VerProductoActivity">
+
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/carouselView"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        app:fillColor="#000000"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:slideInterval="3000"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp"/>
+
+    <TextView
+        android:id="@+id/txtTituloProducto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:layout_toEndOf="@+id/carouselView"
+        android:text="Caldera a Pellets hasta 180m2"
+        android:textSize="45px" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="140px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTituloProducto"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="23dp"
+        android:layout_marginRight="30px"
+        android:layout_toEndOf="@+id/carouselView"
+        android:text="Valor:"
+        android:textSize="35px"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtValor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTituloProducto"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="23dp"
+        android:layout_toEndOf="@+id/textView4"
+        android:text="TextView"
+        android:textColor="#4CAF50"
+        android:textSize="35px"
+        android:textStyle="bold" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButtonAddToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:clickable="true"
+            android:tint="#fff"
+            app:srcCompat="@drawable/ic_add_shopping_cart" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

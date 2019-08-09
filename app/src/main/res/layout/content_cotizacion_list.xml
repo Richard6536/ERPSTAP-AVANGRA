@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical"
+    tools:context=".Activity.CotizacionesListActivity"
+    android:weightSum="10"
+    tools:showIn="@layout/app_bar_lista_cotizaciones">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_Cotizaciones"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center">
+
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:id="@+id/loaderCotizaciones"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:mk_color="@color/colorPrimary"
+            app:mk_type="Whirlpool" />
+    </RelativeLayout>
+</LinearLayout>

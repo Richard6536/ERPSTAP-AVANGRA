@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CECECE"
+    tools:context=".MainActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            app:contentScrim="@color/colorPrimary"
+            android:id="@+id/collapse_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true">
+            <ImageView
+                android:id="@+id/header_logo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                android:fitsSystemWindows="true"
+                android:src="@drawable/logo_ayn"
+                app:layout_collapseMode="parallax"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/toolbar_gradient"
+                android:layout_gravity="center_horizontal|top"/>
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:paddingRight="5dp"
+                app:layout_collapseMode="pin"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:tint="#fff"
+                    android:src="@drawable/ic_arrow_back_black_24dp"/>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.core.widget.NestedScrollView
+        android:paddingBottom="60dp"
+        android:id="@+id/nested_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CECECE"
+        android:clipToPadding="false"
+        android:scrollbars="none"
+        android:scrollingCache="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/txtTituloPrincipal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:backgroundTint="#FFC107">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left">
+
+                    <ImageView
+                        android:id="@+id/img_cot_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_description_black_24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="2dp"
+                        android:layout_toEndOf="@+id/img_cot_1"
+                        android:padding="5dp"
+                        android:textColor="#000"
+                        android:text="Datos Principales"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <include
+                android:id="@+id/cot_main"
+                layout="@layout/cardview_cotizacion_principal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/txtTituloPrincipal"
+                android:layout_marginBottom="3dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/txtTituloProductos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/cot_main"
+                android:backgroundTint="#FFC107">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left">
+                    <ImageView
+                        android:id="@+id/img_cot_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_shopping_cart_black_24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/img_cot_2"
+                        android:layout_marginStart="2dp"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:padding="5dp"
+                        android:text="Productos" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <include
+                android:id="@+id/cot_prods"
+                layout="@layout/content_productos_cotizacion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/txtTituloProductos"/>
+            <include
+                android:id="@+id/cot_total"
+                layout="@layout/cardview_total_cotizacion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/cot_prods"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/txtTituloCondiciones"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/cot_total"
+                android:backgroundTint="#FFC107">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left">
+                    <ImageView
+                        android:id="@+id/img_cot_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/ic_assignment_black_24dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/img_cot_3"
+                        android:layout_marginStart="2dp"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:padding="5dp"
+                        android:text="Condiciones" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+            <include
+                android:id="@+id/cot_condiciones"
+                layout="@layout/content_condiciones_cotizacion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/txtTituloCondiciones" />
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

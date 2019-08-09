@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:layout_margin="0.5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30px">
+
+                <TextView
+                    android:id="@+id/txtReferenciaMensaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Referencia:"
+                    android:textSize="@dimen/text_cardview"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtFechaCotCardviewMensaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtReferenciaMensaje"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:text="Fecha:"
+                    android:textSize="@dimen/text_cardview"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtReferencia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="28dp"
+                    android:layout_toEndOf="@+id/txtReferenciaMensaje"
+                    android:gravity="start"
+                    android:text="Precio"
+                    android:textColor="#4CAF50"
+                    android:textSize="@dimen/text_cardview"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtFechaCot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="66dp"
+                    android:layout_marginTop="54dp"
+                    android:layout_toEndOf="@+id/txtFechaCotCardviewMensaje"
+                    android:gravity="start"
+                    android:text="Precio"
+                    android:textColor="#4CAF50"
+                    android:textSize="@dimen/text_cardview"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

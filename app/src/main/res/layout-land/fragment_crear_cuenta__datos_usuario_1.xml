@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".Fragments.CrearCuenta_DatosUsuario_1Fragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30px"
+        android:background="@drawable/background_container_login"
+        android:padding="20dp"
+        tools:ignore="MissingConstraints">
+
+        <Spinner
+            android:id="@+id/spinnerCrearCuenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30px"
+        android:background="@drawable/background_container_login"
+        android:baselineAligned="false"
+        android:paddingBottom="20dp"
+        tools:ignore="MissingConstraints">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20px"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawableRight="@drawable/ic_priority_high_black_24dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/txtNombreOfantasia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtEmail"
+                android:drawableRight="@drawable/ic_priority_high_black_24dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-47dp"
+                android:layout_toEndOf="@+id/txtEmail"
+                android:ems="10"
+                android:hint="Nombre"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/txtGiroOapellido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtNombreOfantasia"
+                android:drawableRight="@drawable/ic_priority_high_black_24dp"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:hint="Apellido Paterno"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/txtRazonSocial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtGiroOapellido"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="-46dp"
+                android:layout_toEndOf="@+id/txtGiroOapellido"
+                android:ems="10"
+                android:hint="Razón Social"
+                android:inputType="textPersonName" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnContinuarCrearCuenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/crear_cuenta_button"
+            android:text="Continuar"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+</LinearLayout>
