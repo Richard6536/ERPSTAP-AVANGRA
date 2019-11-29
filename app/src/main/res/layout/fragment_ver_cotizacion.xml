@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff">
+
+    <include layout="@layout/content_ver_cotizacion_dx" />
+
+    <RelativeLayout
+        android:id="@+id/loaderVerCotizacion"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center">
+
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:mk_color="@color/colorPrimary"
+            app:mk_type="Whirlpool" />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

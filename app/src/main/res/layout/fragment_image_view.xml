@@ -1,0 +1,35 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#000000"
+    tools:context="com.stap.erpstap_avangra.Fragments.ImageViewFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+        <ImageView
+            android:id="@+id/img_close_imageview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:tint="#fff"
+            android:src="@drawable/ic_close_black_24dp"/>
+    </LinearLayout>
+
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/imgViewProd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="75dp"
+        app:fillColor="#000000"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:slideInterval="3000"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp" />
+
+    <include layout="@layout/bottomsheets_carrocompra" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

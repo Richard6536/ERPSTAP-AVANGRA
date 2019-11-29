@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.stap.erpstap_avangra.Activity.PerfilActivity">
+    <item
+        android:id="@+id/navigation_perfil_edit"
+        android:title="Perfil"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+    <item
+        android:id="@+id/navigation_password_edit"
+        android:title="Contraseña"
+        android:icon="@drawable/ic_lock_open_white_24dp"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/navigation_about"
+        android:title="Acerca de"
+        android:icon="@drawable/ic_info_black_24dp"
+        app:showAsAction="ifRoom"/>
+</menu>

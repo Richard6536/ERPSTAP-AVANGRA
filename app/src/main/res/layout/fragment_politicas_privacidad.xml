@@ -1,0 +1,86 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context="com.stap.erpstap_avangra.Fragments.PoliticasPrivacidadFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="POLÍTICA DE PRIVACIDAD"
+                android:textSize="17dp"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="12dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:textSize="16dp"
+                android:text="@string/politicas" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Información que es recogida"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:textSize="16dp"
+                android:text="@string/politicas_info_recogida" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Uso de la información recogida"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:textSize="16dp"
+                android:text="@string/politicas_info_usada" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Control de su información personal"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:textSize="17dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:justificationMode="inter_word"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:textSize="16dp"
+                android:text="@string/politicas_cont_info" />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</FrameLayout>

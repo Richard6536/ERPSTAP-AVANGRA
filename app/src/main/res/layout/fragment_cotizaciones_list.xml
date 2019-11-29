@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <LinearLayout
+        android:id="@+id/no_cot_registradas_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/colorBackgroundLogin"
+        android:orientation="vertical"
+        android:padding="50dp">
+
+        <TextView
+            android:id="@+id/mensajeNoCotizaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="26dp"
+            android:gravity="center|top"
+            android:textColor="#fff"
+            android:text="No tienes Cotizaciones registradas"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#24348B"
+            android:padding="8dp"
+            app:el_duration="1000"
+            app:el_expanded="false"
+            app:el_parallax="0.5">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/txtFechaToolbar1"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:textAlignment="center"
+                        android:textColorHint="#F1F1F1"
+                        android:backgroundTint="#fff"
+                        android:textColor="#fff"
+                        android:hint=" Desde"
+                        android:drawableLeft="@drawable/ic_date_range_black_24dp" />
+                    <EditText
+                        android:id="@+id/txtFechaToolbar2"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColorHint="#F1F1F1"
+                        android:backgroundTint="#fff"
+                        android:textColor="#fff"
+                        android:hint=" Hasta"
+                        android:layout_marginLeft="20dp"
+                        android:drawableLeft="@drawable/ic_date_range_black_24dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <Button
+                            android:id="@+id/btnBuscarEntreFechas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="Buscar"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_Cotizaciones"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center">
+
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:id="@+id/loaderCotizaciones"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:mk_color="@color/colorPrimary"
+            app:mk_type="Whirlpool" />
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

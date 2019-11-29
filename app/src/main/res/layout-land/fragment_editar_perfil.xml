@@ -1,0 +1,198 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundLogin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.stap.erpstap_avangra.Fragments.EditarPerfilFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="30dp"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/spinnerTipoClienteLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_spinner_account"
+                android:layout_marginBottom="5dp"
+                android:padding="20dp"
+                tools:ignore="MissingConstraints">
+
+                <Spinner
+                    android:id="@+id/spinnerTipoClienteCuenta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutEmailPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginBottom="5dp"
+                    android:clickable="false"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editEmailPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutNombreOrFantasiaPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginBottom="5dp"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editNombreOrFantasiaPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutApellidoOrGiroPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editApellidoOrGiroPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Apellido Paterno" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutRazonSocialPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginBottom="5dp"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editRazonSocialPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Razon Social" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutRutPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editRutPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Rut" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutTelefonoPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTelefonoPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Telefono" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutDomicilioPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginBottom="5dp"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDomicilioPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Domicilio" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutCiudadPerfil"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_marginBottom="5dp"
+                    app:boxBackgroundColor="#ffffff">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editCiudadPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ciudad" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButtonEditPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:backgroundTint="@color/colorBackgroundLogin"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:clickable="true"
+        app:tint="#fff"
+        app:backgroundTint="@color/colorBackground"
+        app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

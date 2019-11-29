@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    android:orientation="vertical"
+    tools:context="com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment">
+    <RelativeLayout
+        android:id="@+id/loaderPasosCarroCompra"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center">
+
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:mk_color="@color/colorPrimary"
+            app:mk_type="Whirlpool" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:padding="5dp"
+        android:background="@color/colorBackgroundLogin">
+
+        <TextView
+            android:id="@+id/txtDescripcionCarroCompraPasos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="18dp"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:text="Esto es una Descripción"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_carro_compra_pasos"
+            android:layout_above="@id/btnContinuarCrearCotizacion"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1">
+        </androidx.recyclerview.widget.RecyclerView>
+        <ProgressBar
+            android:id="@+id/progress_circular_carro_compra_pasos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/colorBackgroundLogin"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"/>
+
+        <Button
+            android:id="@+id/btnContinuarCrearCotizacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:textColor="#fff"
+            android:layout_marginLeft="10px"
+            android:layout_marginRight="10px"
+            android:drawableTint="#fff"
+            android:textStyle="bold"
+            android:backgroundTint="#EB3323"
+            android:layout_alignParentBottom="true"
+            android:text="Continuar" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

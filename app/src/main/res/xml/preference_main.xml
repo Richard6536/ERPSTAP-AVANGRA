@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Seguridad">
+        <Preference
+            android:key="@string/key_password_change"
+            android:summary="@string/summary_password_change"
+            android:title="@string/title_password_change" />
+    </PreferenceCategory>
+</PreferenceScreen>

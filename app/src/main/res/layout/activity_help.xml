@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_help"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_0"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#838383"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="¿Cómo cotizar?"
+                    android:textColor="#fff" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:justificationMode="inter_word"
+                            android:textSize="18dp"
+                            android:gravity="left"
+                            android:text="Paso 1: Dirígete a la pestaña 'Productos' y selecciona un producto en la lista." />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:src="@drawable/ayuda_producto"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="25dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="Paso 2: Después de seleccionar un producto, presiona en el botón 'Agregar al carro' y escoge la cantidad." />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="250dp"
+                            android:layout_margin="12dp"
+                            android:src="@drawable/ayuda_producto_al_carro"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="25dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="Paso 3: Puedes repetir el Paso 1 y 2 para agregar más productos al carro de compra." />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="12dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="Una vez agregados los productos al carro de compra, dirígete a la pestaña 'Carro' en donde podrás escoger servicios adicionales para tus productos." />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="250dp"
+                            android:layout_margin="12dp"
+                            android:src="@drawable/ayuda_carro_compra"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="25dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="Paso 4: Si no haz escogido un servicio adicional, la cotización se creará inmediatamente presionando en el botón 'Crear Cotización', de lo contrario, deberás seguir una serie de pasos." />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="12dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="Al escoger un servicio adicional, podrás seleccionar ductos, instalaciones, mantenciones, etc. Estos servicios adicionales se sumarán como cargo en el total de la cotización." />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="310dp"
+                            android:layout_margin="12dp"
+                            android:src="@drawable/ayuda_servicios_prod"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="25dp"
+                            android:layout_marginTop="25dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="Una vez hayas completado el proceso de selección de servicios adicionales, podrás generar la cotización, la cual será enviada automáticamente." />
+
+                    </LinearLayout>
+
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expand_button_1"
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#838383"
+                    android:elevation="6dp"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="¿Cómo ver mis cotizaciones?"
+                    android:textColor="#fff" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:id="@+id/expandable_layout_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="false">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginTop="12dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="Una vez que hayas creado alguna cotización, esta será visible en la pestaña 'Cotizaciones'." />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="100dp"
+                            android:layout_margin="12dp"
+                            android:src="@drawable/ayuda_nav_cot"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="25dp"
+                            android:layout_marginTop="25dp"
+                            android:justificationMode="inter_word"
+                            android:gravity="left"
+                            android:textSize="18dp"
+                            android:text="El módulo 'Cotizaciones' lista todas las cotizaciones que hayas creado, agrupandolas por fecha. Al hacer click en una de ellas, mostrará los datos principales, productos y condiciones que fueron seleccionadas en el momento de la creación" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="300dp"
+                            android:layout_margin="12dp"
+                            android:src="@drawable/ayuda_mis_cotizaciones"/>
+                    </LinearLayout>
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
