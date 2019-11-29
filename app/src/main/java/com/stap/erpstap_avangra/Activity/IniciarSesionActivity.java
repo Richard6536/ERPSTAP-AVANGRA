@@ -1,10 +1,12 @@
 package com.stap.erpstap_avangra.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
@@ -41,6 +45,9 @@ public class IniciarSesionActivity extends AppCompatActivity {
         sessionController = new SessionManager(getApplicationContext());
         int i = android.os.Build.VERSION_CODES.LOLLIPOP;
         int b = android.os.Build.VERSION.SDK_INT;
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1){
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -164,7 +171,7 @@ public class IniciarSesionActivity extends AppCompatActivity {
 
                 sessionController.levantarSesion(nombreUsuario,"AVANGRA/AYN", emailStr, llave, usuarioId, 1);//ID:Avangra:1, Testing:3
 
-                Intent myIntent = new Intent(IniciarSesionActivity.this, MenuEmpresaActivity.class);
+                Intent myIntent = new Intent(IniciarSesionActivity.this, MainNavigationActivity.class);
                 startActivity(myIntent);
 
             }
@@ -175,11 +182,31 @@ public class IniciarSesionActivity extends AppCompatActivity {
                 btnLogin.setEnabled(true);
 
                 String errorMensaje = respuesta.getString("Mensaje");
-                new DialogBox().CreateDialogError(getApplicationContext(),"Ha ocurrido un problema", errorMensaje);
+
+                new AlertDialog.Builder(IniciarSesionActivity.this)
+                        .setTitle("Error al Iniciar Sesión")
+                        .setMessage(errorMensaje)
+
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+                //new DialogBox().CreateDialogError(getApplicationContext(),"Ha ocurrido un problema", errorMensaje);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        //moveTaskToBack(true);
     }
 }

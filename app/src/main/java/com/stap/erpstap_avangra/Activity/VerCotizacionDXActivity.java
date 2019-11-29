@@ -56,6 +56,7 @@ public class VerCotizacionDXActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
         //TODO:VIEW:content_productos_cotizacion.xml
         recyclerView_productos_cotizacion = (RecyclerView)findViewById(R.id.recyclerView_productos_cotizacion);
         recyclerView_productos_cotizacion.setHasFixedSize(true);

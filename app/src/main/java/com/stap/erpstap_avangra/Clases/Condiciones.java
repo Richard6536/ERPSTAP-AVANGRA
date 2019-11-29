@@ -13,7 +13,9 @@ public class Condiciones {
     String nombreItem;
     String descripcion;
     boolean esTitulo;
-    public static List<Condiciones> condicionesList;
+    public static Condiciones condicionSeleccionada = null;
+
+    List<PasosCondicion> pasosCondicions = new ArrayList<>();
 
     public String getDescripcion() {
         return descripcion;
@@ -39,16 +41,23 @@ public class Condiciones {
         return nombreItem;
     }
 
+    public List<PasosCondicion> getPasosCondicions() {
+        return pasosCondicions;
+    }
+
+    public void setPasosCondicions(List<PasosCondicion> pasosCondicions) {
+        this.pasosCondicions = pasosCondicions;
+    }
 
     @Override
     public String toString() {
         return nombreItem;
     }
 
-    public void cargarCondiciones(JSONArray condiciones){
+    public List<Condiciones> cargarCondiciones(JSONArray condiciones){
         try {
 
-            condicionesList = new ArrayList<>();
+            List<Condiciones> condicionesList = new ArrayList<>();
             for(int x = 0; x <condiciones.length(); x++){
                 JSONObject condicionJSONObject = null;
                 condicionJSONObject = condiciones.getJSONObject(x);
@@ -56,16 +65,56 @@ public class Condiciones {
                 int id = condicionJSONObject.getInt("Id");
                 String nombre = condicionJSONObject.getString("Nombre");
 
+                JSONArray pasosJSONArray = condicionJSONObject.getJSONArray("Pasos");
+
                 Condiciones condicion = new Condiciones();
                 condicion.setId(id);
                 condicion.setNombreItem(nombre);
 
+                if(pasosJSONArray.length() > 0){
+                    List<PasosCondicion> listaPasos = crearPasoCondicion(pasosJSONArray);
+                    condicion.setPasosCondicions(listaPasos);
+                }
+
                 condicionesList.add(condicion);
             }
+
+            return condicionesList;
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return new ArrayList<>();
+    }
+
+    public List<PasosCondicion> crearPasoCondicion(JSONArray pasos){
+
+        try{
+
+            List<PasosCondicion> listaPasosCondicion = new ArrayList<>();
+
+            for(int y = 0; y <pasos.length(); y++){
+
+                JSONObject pasoJSONObject = null;
+                pasoJSONObject = pasos.getJSONObject(y);
+
+                int idPaso = pasoJSONObject.getInt("Id");
+                int ordenPaso = pasoJSONObject.getInt("Orden");
+                String nombrePaso = pasoJSONObject.getString("Nombre");
+                String descripcionPaso = pasoJSONObject.getString("Descripcion");
+
+                PasosCondicion pasoCondicion = new PasosCondicion(idPaso, ordenPaso, nombrePaso, descripcionPaso);
+                listaPasosCondicion.add(pasoCondicion);
+            }
+
+            return listaPasosCondicion;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public List<String> obtenerNombresItem(JSONArray condiciones){

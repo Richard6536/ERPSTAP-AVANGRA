@@ -1,11 +1,16 @@
 package com.stap.erpstap_avangra.Clases;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.stap.erpstap_avangra.Activity.CotizacionesListActivity;
 import com.stap.erpstap_avangra.Activity.VerCotizacionDXActivity;
+import com.stap.erpstap_avangra.Fragments.CotizacionesListFragment;
+import com.stap.erpstap_avangra.Fragments.VerCotizacionFragment;
+import com.stap.erpstap_avangra.Session.SessionManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +23,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Cotizacion {
@@ -35,28 +41,11 @@ public class Cotizacion {
     float iva;
     float totalAPagar;
     String usuarioQueAtendio;
+    int position_cardview;
 
     List<Producto> productos = new ArrayList<>();
     List<Condiciones> condiciones = new ArrayList<>();
 
-    public Cotizacion(int id, String referencia, boolean dividirPorCategoria, String codigo, String fecha, String notasVendedor, String moneda, float subTotalNeto, float descuento, String recargo, float totalNeto, float iva, float totalAPagar, String usuarioQueAtendio, List<Producto> productos, List<Condiciones> condiciones) {
-        this.id = id;
-        this.referencia = referencia;
-        this.dividirPorCategoria = dividirPorCategoria;
-        this.codigo = codigo;
-        this.fecha = fecha;
-        this.notasVendedor = notasVendedor;
-        this.moneda = moneda;
-        this.subTotalNeto = subTotalNeto;
-        this.descuento = descuento;
-        Recargo = recargo;
-        this.totalNeto = totalNeto;
-        this.iva = iva;
-        this.totalAPagar = totalAPagar;
-        this.usuarioQueAtendio = usuarioQueAtendio;
-        this.productos = productos;
-        this.condiciones = condiciones;
-    }
 
     public int getId() {
         return id;
@@ -186,6 +175,50 @@ public class Cotizacion {
         this.condiciones = condiciones;
     }
 
+    public int getPosition_cardview() {
+        return position_cardview;
+    }
+
+    public void setPosition_cardview(int position_cardview) {
+        this.position_cardview = position_cardview;
+    }
+
+    public void prepararCotizacion(Context context, List<ProductoEnCarro> productoEnCarroList, int idPerfilSeleccionado){
+        SessionManager sessionController = new SessionManager(context);
+
+        HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
+        int idUsuario = Integer.parseInt(datosUsuario.get(SessionManager.KEY_ID));
+        String llave = datosUsuario.get(SessionManager.KEY_LLAVE);
+        int idEmpresa = Integer.parseInt(datosUsuario.get(SessionManager.KEY_IDEMPRESA));
+
+        JSONObject datos = new JSONObject();
+        JSONArray productosEnCotizacion = new JSONArray();
+
+        try {
+
+            for(ProductoEnCarro pc : productoEnCarroList){
+
+                JSONObject productoJson = new JSONObject();
+                productoJson.put("Id", pc.getId());
+                productoJson.put("Cantidad", pc.getCantidad());
+
+                productosEnCotizacion.put(productoJson);
+            }
+
+            datos.put("IdUser", idUsuario);
+            datos.put("IdEmpresa",idEmpresa);
+            datos.put("Llave",llave);
+            datos.put("Productos", productosEnCotizacion);
+            datos.put("IdPerfilCondiciones", idPerfilSeleccionado);
+
+            //Enviar datos al webservice
+            new ProductoEnCarro.CrearCotizacion().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static class ObtenerCotizaciones extends AsyncTask<String,String, JSONObject>
     {
         @Override
@@ -199,7 +232,6 @@ public class Cotizacion {
             BufferedReader reader = null;
             OutputStream os = null;
 
-            Log.d("Session", "params: "+datos);
             try {
                 URL url = new URL("http://stap.cl/odata/UsuariosClientes/ListaCotizaciones");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -212,13 +244,11 @@ public class Cotizacion {
                 os = new BufferedOutputStream(urlConnection.getOutputStream());
                 os.write(datos.toString().getBytes());
                 os.flush();
-                Log.d("Session", "pass1: " + "pass");
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
 
                 }
-                Log.d("Session", "pass2: " + "pass2");
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String inputLine = "";
@@ -229,12 +259,10 @@ public class Cotizacion {
 
                 JsonResponse = buffer.toString();
                 JSONObject resultadoJSON = new JSONObject(JsonResponse);
-                Log.d("Session", "resultadoJSON: " + resultadoJSON);
 
                 return resultadoJSON;
 
             } catch (IOException e) {
-                Log.d("Session", "Error1: " + e.getMessage());
                 e.printStackTrace();
 
                 try{
@@ -249,7 +277,6 @@ public class Cotizacion {
                 }
 
             } catch (JSONException e) {
-                Log.d("Session", "Error2: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -259,7 +286,6 @@ public class Cotizacion {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.d("Session", "Error3: " + e.getMessage());
                     }
                 }
             }
@@ -271,11 +297,11 @@ public class Cotizacion {
         {
             try
             {
-                String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
-                if(activityActual.equals("CotizacionesListActivity"))
+                String activityActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
+                if(activityActual.equals("CotizacionesListFragment"))
                 {
-                    CotizacionesListActivity login = (CotizacionesListActivity) ControllerActivity.activiyAbiertaActual;
-                    login.CargarCotizaciones(respuestaOdata);
+                    CotizacionesListFragment cotizacionesListFragment = (CotizacionesListFragment) ControllerActivity.fragmentAbiertoActual;
+                    cotizacionesListFragment.CargarCotizaciones(respuestaOdata);
                 }
             }
             catch (Exception e)
@@ -298,7 +324,6 @@ public class Cotizacion {
             BufferedReader reader = null;
             OutputStream os = null;
 
-            Log.d("Session", "params: "+datos);
             try {
                 URL url = new URL("http://stap.cl/odata/UsuariosClientes/VerCotizacion");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -311,13 +336,11 @@ public class Cotizacion {
                 os = new BufferedOutputStream(urlConnection.getOutputStream());
                 os.write(datos.toString().getBytes());
                 os.flush();
-                Log.d("Session", "pass1: " + "pass");
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
 
                 }
-                Log.d("Session", "pass2: " + "pass2");
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String inputLine = "";
@@ -328,12 +351,10 @@ public class Cotizacion {
 
                 JsonResponse = buffer.toString();
                 JSONObject resultadoJSON = new JSONObject(JsonResponse);
-                Log.d("Session", "resultadoJSON: " + resultadoJSON);
 
                 return resultadoJSON;
 
             } catch (IOException e) {
-                Log.d("Session", "Error1: " + e.getMessage());
                 e.printStackTrace();
 
                 try{
@@ -348,7 +369,6 @@ public class Cotizacion {
                 }
 
             } catch (JSONException e) {
-                Log.d("Session", "Error2: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -358,7 +378,6 @@ public class Cotizacion {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.d("Session", "Error3: " + e.getMessage());
                     }
                 }
             }
@@ -368,9 +387,9 @@ public class Cotizacion {
 
         protected void onPostExecute(JSONObject respuestaOdata) {
             try {
-                String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
-                if(activityActual.equals("VerCotizacionDXActivity")) {
-                    VerCotizacionDXActivity verCot = (VerCotizacionDXActivity) ControllerActivity.activiyAbiertaActual;
+                String activityActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
+                if(activityActual.equals("VerCotizacionFragment")) {
+                    VerCotizacionFragment verCot = (VerCotizacionFragment) ControllerActivity.fragmentAbiertoActual;
                     verCot.RecibirCotizacion(respuestaOdata);
                 }
             }

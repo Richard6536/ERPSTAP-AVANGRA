@@ -7,8 +7,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.stap.erpstap_avangra.Activity.QRCodeScannerActivity;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,13 +15,5 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btnLogin = (Button) findViewById(R.id.buttonLogin);
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }

@@ -86,17 +86,24 @@ public class CrearCuenta_DatosUsuario_1Fragment extends Fragment {
                 String apellidoStr = CrearCuentaActivity.apellido.getText().toString();
                 String emailStr = CrearCuentaActivity.email.getText().toString();
 
+                String emailAddress = CrearCuentaActivity.email.getText().toString().trim();
+
                 if (TextUtils.isEmpty(emailStr)) {
                     CrearCuentaActivity.email.setError(getString(R.string.error_field_required));
                     focusView = CrearCuentaActivity.email;
                     cancel = true;
 
-                } else if (TextUtils.isEmpty(nombreStr)) {
+                }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()){
+                    CrearCuentaActivity.email.setError("Formato de Email no válido");
+                    focusView = CrearCuentaActivity.email;
+                    cancel = true;
+                }
+                else if (TextUtils.isEmpty(nombreStr) || nombreStr.trim().length() == 0) {
                     CrearCuentaActivity.nombreUs.setError(getString(R.string.error_field_required));
                     focusView = CrearCuentaActivity.nombreUs;
                     cancel = true;
 
-                }else if (TextUtils.isEmpty(apellidoStr)) {
+                }else if (TextUtils.isEmpty(apellidoStr) || apellidoStr.trim().length() == 0) {
                     if(tipoDeCliente == 0){
                         CrearCuentaActivity.apellido.setError(getString(R.string.error_field_required));
                         focusView = CrearCuentaActivity.apellido;

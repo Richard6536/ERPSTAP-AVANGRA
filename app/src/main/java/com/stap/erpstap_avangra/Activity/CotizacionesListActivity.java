@@ -2,6 +2,7 @@ package com.stap.erpstap_avangra.Activity;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import com.stap.erpstap_avangra.Adapters.CardviewAdapterCotizaciones;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
@@ -38,6 +42,7 @@ public class CotizacionesListActivity extends AppCompatActivity implements Navig
     public RecyclerView recyclerView_Cotizaciones;
     public static JSONArray listaCotizaciones;
     MKLoader loader;
+    CardviewAdapterCotizaciones adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +139,26 @@ public class CotizacionesListActivity extends AppCompatActivity implements Navig
                     String fecha = proveedor.getString("Fecha");
                     String fechaSplit = fecha.split("T")[0];
 
-                    listaCotizacionesAdapter.add(new Cotizacion(id,"",false, codigo, fechaSplit, "","",-1,-1,"", -1,-1,-1,"", null, null));
+                    Cotizacion cotizacion = new Cotizacion();
+                    cotizacion.setId(id);
+                    cotizacion.setReferencia("");
+                    cotizacion.setDividirPorCategoria(false);
+                    cotizacion.setCodigo(codigo);
+                    cotizacion.setFecha(fechaSplit);
+                    cotizacion.setNotasVendedor("");
+                    cotizacion.setMoneda("");
+                    cotizacion.setSubTotalNeto(-1);
+                    cotizacion.setDescuento(-1);
+                    cotizacion.setReferencia("");
+                    cotizacion.setTotalNeto(-1);
+                    cotizacion.setIva(-1);
+                    cotizacion.setTotalAPagar(-1);
+                    cotizacion.setUsuarioQueAtendio("");
+                    cotizacion.setProductos(null);
+                    cotizacion.setCondiciones(null);
+                    cotizacion.setPosition_cardview(0);
+
+                    listaCotizacionesAdapter.add(cotizacion);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -143,16 +167,6 @@ public class CotizacionesListActivity extends AppCompatActivity implements Navig
 
             Collections.reverse(listaCotizacionesAdapter);
 
-            CardviewAdapterCotizaciones adapter = new CardviewAdapterCotizaciones(getApplicationContext(), listaCotizacionesAdapter, new CardviewAdapterCotizaciones.OnItemClickListener() {
-                @Override
-                public void onItemClicked(int position, int itemPosition, Cotizacion cotizacionSeleccionada) {
-
-                    Intent intent = new Intent(CotizacionesListActivity.this, VerCotizacionDXActivity.class);
-                    intent.putExtra("Id", cotizacionSeleccionada.getId());
-                    startActivity(intent);
-
-                }
-            });
 
             loader.setVisibility(View.GONE);
             recyclerView_Cotizaciones.setAdapter(adapter);
@@ -213,6 +227,33 @@ public class CotizacionesListActivity extends AppCompatActivity implements Navig
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu_cotizaciones, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //adapter.getFilter().filter(newText);
+
+                return false;
+            }
+        });
+
         return true;
     }
 }

@@ -1,11 +1,8 @@
 package com.stap.erpstap_avangra.Activity;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,15 +16,13 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.stap.erpstap_avangra.Adapters.CardviewAdapterProductos;
-import com.stap.erpstap_avangra.Adapters.SpinnerAdapter;
 import com.stap.erpstap_avangra.Clases.Condiciones;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
-import com.stap.erpstap_avangra.Clases.NavigationViewHeader;
+import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.R;
 import com.stap.erpstap_avangra.Session.SessionManager;
-import com.google.android.material.navigation.NavigationView;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.json.JSONArray;
@@ -38,16 +33,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProductosListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ProductosListActivity extends AppCompatActivity {
 
     SessionManager sessionController;
-    public int idSeleccionado = 0;
+    public int idSeleccionado = 0, precio;
     public static JSONArray listaProductos;
     public static JSONArray listaCondiciones;
-    String nombre, precio;
+    String nombre;
     MKLoader loader;
     public RecyclerView recyclerView_productos;
-    CardviewAdapterProductos adapter;
+    public static CardviewAdapterProductos adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +55,16 @@ public class ProductosListActivity extends AppCompatActivity implements Navigati
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         new NavigationViewHeader().NavHeaderText(navigationView, sessionController);
         navigationView.setNavigationItemSelectedListener(this);
+        */
 
         loader = (MKLoader)findViewById(R.id.loaderProductos);
         loader.setVisibility(View.VISIBLE);
@@ -109,7 +105,7 @@ public class ProductosListActivity extends AppCompatActivity implements Navigati
 
     public void mostrarProductos() {
         if(listaProductos.length() > 0) {
-            ArrayList<SpinnerAdapter> listaProductosAdapter = new ArrayList<>();
+            ArrayList<Producto> listaProductosAdapter = new ArrayList<>();
             for(int x = 0; x <listaProductos.length(); x++) {
 
                 JSONObject proveedor = null;
@@ -120,8 +116,9 @@ public class ProductosListActivity extends AppCompatActivity implements Navigati
 
                     int id = proveedor.getInt("Id");
                     String nombre = proveedor.getString("Nombre");
-                    String precio = proveedor.getString("Valor");
-                    String cantidad = proveedor.getString("Cantidad");
+                    int precio = proveedor.getInt("Valor");
+                    int cantidad = proveedor.getInt("Cantidad");
+                    String descripcion = proveedor.getString("Descripcion");
                     JSONArray imagenes = proveedor.getJSONArray("DireccionImagenes");
 
                     ArrayList<String> imageList = new ArrayList<String>();
@@ -133,7 +130,15 @@ public class ProductosListActivity extends AppCompatActivity implements Navigati
                         }
                     }
 
-                    listaProductosAdapter.add(new SpinnerAdapter(id, nombre, precio, cantidad, imageList));
+                    Producto producto = new Producto();
+                    producto.setId(id);
+                    producto.setNombre(nombre);
+                    producto.setValor(precio);
+                    producto.setCantidad(cantidad);
+                    producto.setDescripcion(descripcion);
+                    producto.setImagenes(imageList);
+
+                    listaProductosAdapter.add(producto);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -142,12 +147,12 @@ public class ProductosListActivity extends AppCompatActivity implements Navigati
 
             adapter = new CardviewAdapterProductos(getApplicationContext(), listaProductosAdapter, new CardviewAdapterProductos.OnItemClickListener() {
                 @Override
-                public void onItemClicked(int position, int itemPosition, SpinnerAdapter productoSeleccionado) {
+                public void onItemClicked(int position, int itemPosition, Producto productoSeleccionado) {
 
                     idSeleccionado = productoSeleccionado.getId();
                     nombre = productoSeleccionado.getNombre();
                     precio = productoSeleccionado.getValor();
-                    int cantidad = Integer.parseInt(productoSeleccionado.getCantidad());
+                    int cantidad = productoSeleccionado.getCantidad();
 
                     List<String> imagenes = productoSeleccionado.getImagenes();
                     ArrayList<String> imgArray = new ArrayList<>(imagenes);
@@ -156,7 +161,7 @@ public class ProductosListActivity extends AppCompatActivity implements Navigati
 
                     intent.putExtra("Id", idSeleccionado);
                     intent.putExtra("Nombre", nombre);
-                    intent.putExtra("Precio", precio);
+                    intent.putExtra("Precio", precio+"");
                     intent.putExtra("Cantidad",cantidad);
 
                     intent.putStringArrayListExtra("Imagenes",imgArray);
@@ -202,34 +207,6 @@ public class ProductosListActivity extends AppCompatActivity implements Navigati
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_inicio) {
-            Intent intent = new Intent(ProductosListActivity.this, MenuEmpresaActivity.class);
-            startActivity(intent);
-
-        }else if (id == R.id.nav_home) {
-            Intent intent = new Intent(ProductosListActivity.this, CarroCompraActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(ProductosListActivity.this, CotizacionesListActivity.class);
-            startActivity(intent);
-
-        }else if (id == R.id.nav_share) {
-            sessionController.logoutUser();
-        }
-
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override

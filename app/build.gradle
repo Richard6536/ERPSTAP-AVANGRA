@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.erpstap"
+        applicationId "com.stap.erpstap"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -25,7 +25,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha01'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -36,6 +37,8 @@ dependencies {
 
     implementation "com.squareup.picasso:picasso:2.5.2"
     implementation "com.tuyenmonkey:mkloader:1.4.0"
+    implementation 'net.cachapa.expandablelayout:expandablelayout:[2.9.2]'
+    implementation 'com.github.chivorns:smartmaterialspinner:1.1.6'
 
     implementation "com.google.code.gson:gson:2.3.1"
     implementation 'com.github.Theophrast:SquareImageView:1.0.1'

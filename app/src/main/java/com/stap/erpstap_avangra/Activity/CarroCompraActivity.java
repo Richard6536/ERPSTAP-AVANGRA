@@ -70,16 +70,16 @@ public class CarroCompraActivity extends AppCompatActivity {
         progress_circular_carro_compra = (ProgressBar)findViewById(R.id.progress_circular_carro_compra);
         progress_circular_carro_compra.setVisibility(View.GONE);
 
-        List<Condiciones> condiciones = Condiciones.condicionesList;
+        //List<Condiciones> condiciones = Condiciones.condicionesList;
         spinnerCondicionesCarroCompra = (Spinner)findViewById(R.id.spinnerCondicionesCarroCompra);
-        cargarSpinner(condiciones);
+        //cargarSpinner(condiciones);
 
 
         spinnerCondicionesCarroCompra.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Condiciones condicion = Condiciones.condicionesList.get(position);
-                idPerfilSeleccionado = condicion.getId();
+                //Condiciones condicion = Condiciones.condicionesList.get(position);
+                //idPerfilSeleccionado = condicion.getId();
             }
 
             @Override
@@ -170,7 +170,13 @@ public class CarroCompraActivity extends AppCompatActivity {
             ArrayList<ProductoEnCarro> listaProductosAdapter = new ArrayList<>();
             for(ProductoEnCarro pc : productoEnCarroList)
             {
-                listaProductosAdapter.add(new ProductoEnCarro(pc.getId(), pc.getNombre(), pc.getValor(), pc.getCantidad(), pc.getImagenes()));
+                ProductoEnCarro productoEnCarro = new ProductoEnCarro();
+                productoEnCarro.setId(pc.getId());
+                productoEnCarro.setNombre(pc.getNombre());
+                productoEnCarro.setValor(pc.getValor());
+                productoEnCarro.setCantidad(pc.getCantidad());
+                productoEnCarro.setImagenes(pc.getImagenes());
+                listaProductosAdapter.add(productoEnCarro);
             }
 
             adapter = new CardviewAdapterCarroCompra(getApplicationContext(), listaProductosAdapter, new CardviewAdapterCarroCompra.OnItemClickListener() {
@@ -257,7 +263,7 @@ public class CarroCompraActivity extends AppCompatActivity {
                 try {
                     DialogBox dialog = new DialogBox();
                     BorrarProductoDelCarro();
-                    dialog.Create(this, "Cotización Enviada con Éxito", "La nueva cotización se registrará en su lista de cotizaciones.");
+                    dialog.Create(this, "Cotización Enviada con Éxito", "La nueva cotización se registrará en su lista de cotizaciones.", false);
                 }
                 catch (Exception e){
                     e.getStackTrace();

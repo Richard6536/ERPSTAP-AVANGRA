@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.R;
@@ -20,16 +21,30 @@ public class VerificacionLoginActivity extends AppCompatActivity {
         ControllerActivity.activiyAbiertaActual = this;
         sessionController = new SessionManager(getApplicationContext());
 
-        if(sessionController.checkLogin() == true) {
+        new CountDownTimer(2000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
 
-            Intent intent = new Intent(VerificacionLoginActivity.this, MenuEmpresaActivity.class);
-            startActivity(intent);
-        }
-        else {
-            Intent intent = new Intent(VerificacionLoginActivity.this, IniciarSesionActivity.class);
-            startActivity(intent);
-            finish();
-        }
+            public void onFinish() {
+
+                Intent intent = new Intent(VerificacionLoginActivity.this, MainNavigationActivity.class);
+                startActivity(intent);
+                finish();
+
+                /*
+                if(sessionController.checkLogin() == true) {
+
+                    Intent intent = new Intent(VerificacionLoginActivity.this, MainNavigationActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(VerificacionLoginActivity.this, IniciarSesionActivity.class);
+                    startActivity(intent);
+                    finish();
+                }*/
+
+            }
+        }.start();
 
     }
 }

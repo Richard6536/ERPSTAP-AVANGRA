@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">ERPSTAP - AVANGRA V.1.3.0</string>
+    <string name="app_name">AVANGRA</string>
+    <string name="app_version">1.0.2</string>
     <string name="title_activity_sesion">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -32,6 +33,23 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_perfil">PerfilActivity</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Etiam eget ligula eu lectus lobortis condimentum.</string>
+    <string name="politicas">
+El presente Política de Privacidad establece los términos en que AVANGRA usa y protege la información que es proporcionada por sus usuarios al momento de utilizar su App. Esta compañía está comprometida con la seguridad de los datos de sus usuarios. Cuando le pedimos llenar los campos de información personal con la cual usted pueda ser identificado, lo hacemos asegurando que sólo se empleará de acuerdo con los términos de este documento. Sin embargo, esta Política de Privacidad puede cambiar con el tiempo o ser actualizada por lo que le recomendamos y enfatizamos revisar continuamente esta página para asegurarse que está de acuerdo con dichos cambios.
+    </string>
+
+    <string name="politicas_info_recogida">
+        Nuestra App podrá recoger información personal por ejemplo: Nombre, información de contacto como  su dirección de correo electrónica e información demográfica. Así mismo cuando sea necesario podrá ser requerida información específica para procesar algún pedido o realizar una entrega.
+    </string>
+    <string name="politicas_info_usada">
+        Nuestra App emplea la información con el fin de proporcionar el mejor servicio posible, particularmente para mantener un registro de usuarios, al momento de generar una Cotización, o mejorar nuestros productos y servicios.\n\n
+AVANGRA está altamente comprometido para cumplir con el compromiso de mantener su información segura. Usamos los sistemas más avanzados y los actualizamos constantemente para asegurarnos que no exista ningún acceso no autorizado.
+    </string>
+    <string name="politicas_cont_info">
+        Esta compañía no venderá, cederá ni distribuirá la información personal que es recopilada sin su consentimiento, salvo que sea requerido por un juez con un orden judicial.\n\n
+AVANGRA Se reserva el derecho de cambiar los términos de la presente Política de Privacidad en cualquier momento.
+    </string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -122,4 +140,16 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_ver_cotizacion_dx">VerCotizacionDXActivity</string>
+    <string name="title_activity_navigation_bottom">NavigationBottomActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_main_navigation">MainNavigationActivity</string>
+
+    <!-- PREFERENCES -->
+    <string name="title_password_change">Cambiar contraseña</string>
+    <string name="summary_password_change">Deberá iniciar sesión después del cambio.</string>
+    <string name="key_password_change">key_password_change</string>
+    <string name="title_activity_default">DefaultActivity</string>
+    <string name="title_activity_test2">Test2Activity</string>
 </resources>

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.stap.erpstap_avangra.Activity.CrearCuentaActivity;
 import com.stap.erpstap_avangra.Activity.IniciarSesionActivity;
+import com.stap.erpstap_avangra.Fragments.EditarPerfilFragment;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -45,10 +46,8 @@ public class InternetConnection
                     return (urlc.getResponseCode() == 204 &&
                             urlc.getContentLength() == 0);
                 } catch (IOException e) {
-                    Log.e(LOG_TAG, "Error checking internet connection", e);
                 }
             } else {
-                Log.d(LOG_TAG, "No network available!");
             }
             return false;
         }
@@ -57,15 +56,30 @@ public class InternetConnection
         protected void onPostExecute(Boolean result) {
 
             String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
+
             if(activityActual.equals("IniciarSesionActivity"))
             {
                 IniciarSesionActivity login = (IniciarSesionActivity) ControllerActivity.activiyAbiertaActual;
                 login.validar(result);
             }
-            if(activityActual.equals("CrearCuentaActivity"))
+            else if(activityActual.equals("CrearCuentaActivity"))
             {
                 CrearCuentaActivity login = (CrearCuentaActivity) ControllerActivity.activiyAbiertaActual;
                 login.validar(result);
+            }
+            else {
+                try{
+                    String fragmentActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
+                    if(fragmentActual.equals("EditarPerfilFragment"))
+                    {
+                        EditarPerfilFragment login = (EditarPerfilFragment) ControllerActivity.fragmentAbiertoActual;
+                        login.validar(result);
+                    }
+                }
+                catch (Exception e){
+
+                }
+
             }
         }
 

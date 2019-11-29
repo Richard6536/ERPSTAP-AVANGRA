@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.stap.erpstap_avangra.Activity.MenuEmpresaActivity;
 import com.stap.erpstap_avangra.Activity.ProductosListActivity;
+import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
+import com.stap.erpstap_avangra.Fragments.ProductosListFragment;
+import com.stap.erpstap_avangra.Fragments.VerProductoFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +55,6 @@ public class Empresa {
             BufferedReader reader = null;
             OutputStream os = null;
 
-            Log.d("Session", "params: "+datos);
             try {
                 URL url = new URL("http://stap.cl/odata/UsuariosClientes/ObtenerEmpresa");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -65,13 +67,11 @@ public class Empresa {
                 os = new BufferedOutputStream(urlConnection.getOutputStream());
                 os.write(datos.toString().getBytes());
                 os.flush();
-                Log.d("Session", "pass1: " + "pass");
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
 
                 }
-                Log.d("Session", "pass2: " + "pass2");
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String inputLine = "";
@@ -82,12 +82,10 @@ public class Empresa {
 
                 JsonResponse = buffer.toString();
                 JSONObject resultadoJSON = new JSONObject(JsonResponse);
-                Log.d("Session", "resultadoJSON: " + resultadoJSON);
 
                 return resultadoJSON;
 
             } catch (IOException e) {
-                Log.d("Session", "Error1: " + e.getMessage());
                 e.printStackTrace();
 
                 try{
@@ -102,7 +100,6 @@ public class Empresa {
                 }
 
             } catch (JSONException e) {
-                Log.d("Session", "Error2: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -112,7 +109,6 @@ public class Empresa {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.d("Session", "Error3: " + e.getMessage());
                     }
                 }
             }
@@ -124,15 +120,20 @@ public class Empresa {
         {
             try
             {
-                String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
-                if(activityActual.equals("MenuEmpresaActivity"))
+                String activityActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
+
+                if(activityActual.equals("CarroCompraMainFragment"))
                 {
-                    MenuEmpresaActivity login = (MenuEmpresaActivity) ControllerActivity.activiyAbiertaActual;
-                    //login.ValidacionEmpresa(respuestaOdata);
+                    CarroCompraMainFragment cc = (CarroCompraMainFragment) ControllerActivity.fragmentAbiertoActual;
+                    cc.obtenerListaPerfilCondicionesRespuesta(respuestaOdata);
                 }
-                else if(activityActual.equals("ProductosListActivity")){
-                    ProductosListActivity login = (ProductosListActivity) ControllerActivity.activiyAbiertaActual;
-                    login.obtenerListaProductos(respuestaOdata);
+                else if(activityActual.equals("ProductosListFragment")){
+                    ProductosListFragment cc = (ProductosListFragment) ControllerActivity.fragmentAbiertoActual;
+                    cc.obtenerListaProductos(respuestaOdata);
+                }
+                else if(activityActual.equals("VerProductoFragment")){
+                    VerProductoFragment cc = (VerProductoFragment) ControllerActivity.fragmentAbiertoActual;
+                    //cc.obtenerListaPerfilCondicionesRespuesta(respuestaOdata);
                 }
             }
             catch (Exception e)

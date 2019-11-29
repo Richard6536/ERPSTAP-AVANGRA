@@ -85,7 +85,12 @@ public class VerProductoActivity extends AppCompatActivity {
 
     public void verificarProductoEnCarro(View view){
 
-        ProductoEnCarro productoEnCarro = new ProductoEnCarro(id, nombre, valor, 1, imagenes);
+        ProductoEnCarro productoEnCarro = new ProductoEnCarro();
+        productoEnCarro.setId(id);
+        productoEnCarro.setNombre(nombre);
+        productoEnCarro.setValor(valor);
+        productoEnCarro.setCantidad(1);
+        productoEnCarro.setImagenes(imagenes);
         if(inicio == true){
 
             if (checkProduct() == true) {

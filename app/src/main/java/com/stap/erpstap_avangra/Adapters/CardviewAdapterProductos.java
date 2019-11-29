@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stap.erpstap_avangra.Clases.Moneda;
 import com.stap.erpstap_avangra.Clases.Producto;
+import com.stap.erpstap_avangra.Fragments.ProductosListFragment;
 import com.stap.erpstap_avangra.R;
 import com.squareup.picasso.Picasso;
 
@@ -22,21 +23,21 @@ import java.util.List;
 
 public class CardviewAdapterProductos extends RecyclerView.Adapter<CardviewAdapterProductos.CardViewHolder> implements Filterable {
 
-    private List<SpinnerAdapter> listaProductos = new ArrayList<>();
-    private List<SpinnerAdapter> listaProductosFull = new ArrayList<>();
+    private List<Producto> listaProductos = new ArrayList<>();
+    private List<Producto> listaProductosFull = new ArrayList<>();
 
-    SpinnerAdapter producto;
+    Producto producto;
 
     private OnItemClickListener onItemClickListener; // Global scope
 
     public interface OnItemClickListener {
-        void onItemClicked(int position, int itemPosition, SpinnerAdapter auto);
+        void onItemClicked(int position, int itemPosition, Producto auto);
     }
 
     private Context mCtx;
 
     //getting the context and product list with constructor
-    public CardviewAdapterProductos(Context mCtx, List<SpinnerAdapter> lista, CardviewAdapterProductos.OnItemClickListener onItemClickListener) {
+    public CardviewAdapterProductos(Context mCtx, List<Producto> lista, CardviewAdapterProductos.OnItemClickListener onItemClickListener) {
         this.mCtx = mCtx;
         this.listaProductos = lista;
         this.onItemClickListener = onItemClickListener;
@@ -59,14 +60,15 @@ public class CardviewAdapterProductos extends RecyclerView.Adapter<CardviewAdapt
         producto = listaProductos.get(position);
 
         holder.txtNombreProducto.setText(producto.getNombre());
-        holder.txtPrecioProducto.setText("$"+ new Moneda().Format(Integer.parseInt(producto.getValor())));
+        holder.txtPrecioProducto.setText("$"+ new Moneda().Format(producto.getValor()));
 
         List<String> imagenes = producto.getImagenes();
 
         try {
             String primeraImagen = (String)imagenes.get(0);
 
-            Picasso.with(mCtx).load(primeraImagen).fit().into(holder.imgViewProducto);
+            holder.imgViewProducto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            Picasso.with(mCtx).load(primeraImagen).into(holder.imgViewProducto);
 
         }
         catch (Exception e){
@@ -77,7 +79,7 @@ public class CardviewAdapterProductos extends RecyclerView.Adapter<CardviewAdapt
             @Override
             public void onClick(View v) {
 
-                SpinnerAdapter productoSeleccionado = listaProductos.get(position);
+                Producto productoSeleccionado = listaProductos.get(position);
                 onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
             }
         });
@@ -109,13 +111,14 @@ public class CardviewAdapterProductos extends RecyclerView.Adapter<CardviewAdapt
     private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            List<SpinnerAdapter> filterProducts = new ArrayList<>();
+            List<Producto> filterProducts = new ArrayList<>();
+
             if(charSequence == null || charSequence.length() == 0){
-                filterProducts.add((SpinnerAdapter) listaProductos);
+                filterProducts.add((Producto) listaProductos);
             }
             else{
                 String filterPattern = charSequence.toString().toLowerCase().trim();
-                for(SpinnerAdapter product : listaProductos){
+                for(Producto product : listaProductosFull){
                     if(product.getNombre().toLowerCase().contains(filterPattern)){
                         filterProducts.add(product);
                     }
@@ -131,17 +134,22 @@ public class CardviewAdapterProductos extends RecyclerView.Adapter<CardviewAdapt
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             if(filterResults.values != null){
-                if(listaProductos.size() == 0){
-                    listaProductos.addAll(listaProductosFull);
-                }
                 listaProductos.clear();
                 listaProductos.addAll((List) filterResults.values);
                 notifyDataSetChanged();
+
+                if(((List) filterResults.values).size() == 0){
+                    ProductosListFragment.txtMensajeNoExistenProductosList.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ProductosListFragment.txtMensajeNoExistenProductosList.setVisibility(View.GONE);
+                }
             }
             else {
                 listaProductos.clear();
                 listaProductos.addAll(listaProductosFull);
                 notifyDataSetChanged();
+                ProductosListFragment.txtMensajeNoExistenProductosList.setVisibility(View.GONE);
             }
         }
     };

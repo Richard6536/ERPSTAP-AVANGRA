@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
@@ -13,6 +14,7 @@ import com.stap.erpstap_avangra.Session.SessionManager;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -39,8 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MenuEmpresaActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MenuEmpresaActivity extends AppCompatActivity {
 
     SessionManager sessionController;
     String idEmpresa = "";
@@ -65,15 +66,18 @@ public class MenuEmpresaActivity extends AppCompatActivity
         getSupportActionBar().setTitle("AVANGRA/AYN");
         getSupportActionBar().setElevation(0);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        /*
+                DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         new NavigationViewHeader().NavHeaderText(navigationView, sessionController);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        */
 
         cardView_cot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,42 +231,5 @@ public class MenuEmpresaActivity extends AppCompatActivity
         }*/
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_inicio) {
-            Intent intent = new Intent(MenuEmpresaActivity.this, MenuEmpresaActivity.class);
-            startActivity(intent);
-
-        }else if (id == R.id.nav_home) {
-            Intent intent = new Intent(MenuEmpresaActivity.this, CarroCompraActivity.class);
-            startActivity(intent);
-
-        }else if(id == R.id.nav_productos){
-            Intent intent = new Intent(MenuEmpresaActivity.this, ProductosListActivity.class);
-            startActivity(intent);
-
-        }else if (id == R.id.nav_gallery) {
-            Intent intent = new Intent(MenuEmpresaActivity.this, CotizacionesListActivity.class);
-            startActivity(intent);
-
-        }else if (id == R.id.nav_share) {
-            sessionController.logoutUser();
-
-        }
-        /*
-        else if(id == R.id.nav_editar_cuenta){
-
-        }*/
-
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

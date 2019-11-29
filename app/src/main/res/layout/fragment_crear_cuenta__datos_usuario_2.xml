@@ -99,9 +99,9 @@
             android:id="@+id/btnFinalizarCrearCuenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/crear_cuenta_button"
+            android:backgroundTint="@color/colorBackground"
             android:layout_alignParentBottom="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBackgroundLogin"
             android:text="Finalizar" />
     </LinearLayout>
 </LinearLayout>

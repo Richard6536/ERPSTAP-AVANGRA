@@ -1,9 +1,13 @@
 package com.stap.erpstap_avangra.Clases;
 
 import android.os.AsyncTask;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
-import com.stap.erpstap_avangra.Activity.CarroCompraActivity;
+import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
+import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment;
+import com.stap.erpstap_avangra.Fragments.VerProductoFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +21,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ProductoEnCarro {
@@ -24,17 +29,11 @@ public class ProductoEnCarro {
     String nombre;
     String valor;
     int cantidad;
+    int paso;
     List<String> imagenes = new ArrayList<>();
 
     public static List<ProductoEnCarro> productosEnCarro = new ArrayList<>();
-
-    public ProductoEnCarro(int id, String nombre, String valor, int cantidad, List<String> imagenes) {
-        this.id = id;
-        this.nombre = nombre;
-        this.valor = valor;
-        this.cantidad = cantidad;
-        this.imagenes = imagenes;
-    }
+    public static List<ProductoEnCarro> productosEnCarroTemporalList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -52,7 +51,7 @@ public class ProductoEnCarro {
         this.nombre = nombre;
     }
 
-    public void setValor(String precio) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 
@@ -72,10 +71,39 @@ public class ProductoEnCarro {
         this.imagenes = imagenes;
     }
 
+    public int getPaso() {
+        return paso;
+    }
+
+    public void setPaso(int paso) {
+        this.paso = paso;
+    }
+
     public List<String> getImagenes() {
         return imagenes;
     }
 
+    public void crearProductoEnCarro(int _id, String _nombre, String _valor, int _cantidad, List<String> _imagenes){
+        ProductoEnCarro productoEnCarro = new ProductoEnCarro();
+        productoEnCarro.setId(_id);
+        productoEnCarro.setNombre(_nombre);
+        productoEnCarro.setCantidad(_cantidad);
+        productoEnCarro.setValor(_valor);
+        productoEnCarro.setImagenes(_imagenes);
+        productoEnCarro.setPaso(-1);
+
+        productosEnCarro.add(productoEnCarro);
+    }
+
+    public static void limpiarListaProductosEnCarro(){
+
+        for(Iterator<ProductoEnCarro> it = productosEnCarro.iterator(); it.hasNext();) {
+            ProductoEnCarro element = it.next();
+            if(element.getPaso() > -1) {
+                it.remove();
+            }
+        }
+    }
     public static class CrearCotizacion extends AsyncTask<String,String, JSONObject>
     {
         @Override
@@ -89,7 +117,6 @@ public class ProductoEnCarro {
             BufferedReader reader = null;
             OutputStream os = null;
 
-            Log.d("Session", "params: "+datos);
             try {
                 URL url = new URL("http://stap.cl/odata/UsuariosClientes/CrearCotizacion");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -102,7 +129,6 @@ public class ProductoEnCarro {
                 os = new BufferedOutputStream(urlConnection.getOutputStream());
                 os.write(datos.toString().getBytes());
                 os.flush();
-                Log.d("Session", "pass1: " + "pass");
 
                 int status = urlConnection.getResponseCode();
                 InputStream inputStream = urlConnection.getInputStream();
@@ -112,7 +138,6 @@ public class ProductoEnCarro {
                 if (inputStream == null) {
 
                 }
-                Log.d("Session", "pass2: " + "pass2");
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String inputLine = "";
@@ -123,12 +148,10 @@ public class ProductoEnCarro {
 
                 JsonResponse = buffer.toString();
                 JSONObject resultadoJSON = new JSONObject(JsonResponse);
-                Log.d("Session", "resultadoJSON: " + resultadoJSON);
 
                 return resultadoJSON;
 
             } catch (IOException e) {
-                Log.d("Session", "Error1: " + e.getMessage());
                 e.printStackTrace();
 
                 try{
@@ -143,7 +166,6 @@ public class ProductoEnCarro {
                 }
 
             } catch (JSONException e) {
-                Log.d("Session", "Error2: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -153,7 +175,6 @@ public class ProductoEnCarro {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.d("Session", "Error3: " + e.getMessage());
                     }
                 }
             }
@@ -165,11 +186,19 @@ public class ProductoEnCarro {
         {
             try
             {
-                String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
-                if(activityActual.equals("CarroCompraActivity"))
+                String activityActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
+                if(activityActual.equals("CarroCompraMainFragment"))
                 {
-                    CarroCompraActivity carroCompraActivity = new CarroCompraActivity();
+                    CarroCompraMainFragment carroCompraActivity = new CarroCompraMainFragment();
                     carroCompraActivity.RespuestaEnvioCotizacion(respuestaOdata);
+                }
+                else if(activityActual.equals("CarroCompraPasosFragment")){
+                    CarroCompraPasosFragment carroCompraActivity = new CarroCompraPasosFragment();
+                    carroCompraActivity.RespuestaEnvioCotizacion(respuestaOdata);
+                }
+                else if(activityActual.equals("VerProductoFragment")){
+                    VerProductoFragment carroCompraActivity = new VerProductoFragment();
+                    //carroCompraActivity.RespuestaEnvioCotizacion(respuestaOdata);
                 }
             }
             catch (Exception e)

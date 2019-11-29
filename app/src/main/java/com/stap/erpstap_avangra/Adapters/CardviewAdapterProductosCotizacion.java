@@ -60,7 +60,8 @@ public class CardviewAdapterProductosCotizacion extends RecyclerView.Adapter<Car
 
         try {
             String primeraImagen = (String)imagenes.get(0);
-            Picasso.with(mCtx).load(primeraImagen).fit().into(holder.imgViewProductoCotizacion);
+            holder.imgViewProductoCotizacion.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            Picasso.with(mCtx).load(primeraImagen).into(holder.imgViewProductoCotizacion);
 
         }
         catch (Exception e){
@@ -71,6 +72,14 @@ public class CardviewAdapterProductosCotizacion extends RecyclerView.Adapter<Car
             @Override
             public void onClick(View v) {
 
+                Producto productoSeleccionado = listaProductos.get(position);
+                onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
+            }
+        });
+
+        holder.imgViewProductoCotizacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Producto productoSeleccionado = listaProductos.get(position);
                 onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
             }

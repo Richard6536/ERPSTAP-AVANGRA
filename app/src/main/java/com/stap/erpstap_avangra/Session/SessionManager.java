@@ -9,8 +9,11 @@ import android.util.Log;
 import com.stap.erpstap_avangra.Activity.CrearCuentaActivity;
 import com.stap.erpstap_avangra.Activity.IniciarSesionActivity;
 import com.stap.erpstap_avangra.Activity.PerfilActivity;
+import com.stap.erpstap_avangra.Activity.VerificacionLoginActivity;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.google.gson.Gson;
+import com.stap.erpstap_avangra.Fragments.EditarPerfilFragment;
+import com.stap.erpstap_avangra.Fragments.PasswordEditFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,13 +91,13 @@ public class SessionManager {
         if(!this.isUserLoggedIn())
         {
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, IniciarSesionActivity.class);
+            //Intent i = new Intent(_context, IniciarSesionActivity.class);
             // Closing all the Activities from stack
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             // Staring Login Activity
-            _context.startActivity(i);
+            //_context.startActivity(i);
 
             return false;
         }
@@ -139,7 +142,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        Intent i = new Intent(_context, IniciarSesionActivity.class);
+        Intent i = new Intent(_context, VerificacionLoginActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(i);
@@ -162,7 +165,6 @@ public class SessionManager {
             BufferedReader reader = null;
             OutputStream os = null;
 
-            Log.d("Session", "params: "+datos);
             try {
                 URL url = new URL("http://stap.cl/odata/UsuariosClientes/IniciarSesion");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -175,13 +177,11 @@ public class SessionManager {
                 os = new BufferedOutputStream(urlConnection.getOutputStream());
                 os.write(datos.toString().getBytes());
                 os.flush();
-                Log.d("Session", "pass1: " + "pass");
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
 
                 }
-                Log.d("Session", "pass2: " + "pass2");
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String inputLine = "";
@@ -192,12 +192,10 @@ public class SessionManager {
 
                 JsonResponse = buffer.toString();
                 JSONObject resultadoJSON = new JSONObject(JsonResponse);
-                Log.d("Session", "resultadoJSON: " + resultadoJSON);
 
                 return resultadoJSON;
 
             } catch (IOException e) {
-                Log.d("Session", "Error1: " + e.getMessage());
                 e.printStackTrace();
 
                 try{
@@ -212,7 +210,6 @@ public class SessionManager {
                 }
 
             } catch (JSONException e) {
-                Log.d("Session", "Error2: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -222,7 +219,6 @@ public class SessionManager {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.d("Session", "Error3: " + e.getMessage());
                     }
                 }
             }
@@ -267,7 +263,6 @@ public class SessionManager {
             BufferedReader reader = null;
             OutputStream os = null;
 
-            Log.d("Session", "params: "+datos);
             try {
                 URL url = new URL("http://stap.cl/odata/UsuariosClientes/CrearCuenta");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -280,7 +275,6 @@ public class SessionManager {
                 os = new BufferedOutputStream(urlConnection.getOutputStream());
                 os.write(datos.getBytes());
                 os.flush();
-                Log.d("Session", "pass1: " + "pass");
                 int status = urlConnection.getResponseCode();
                 InputStream inputStream = urlConnection.getInputStream();
                 int status2 = urlConnection.getResponseCode();
@@ -288,7 +282,6 @@ public class SessionManager {
                 if (inputStream == null) {
 
                 }
-                Log.d("Session", "pass2: " + "pass2");
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String inputLine = "";
@@ -299,12 +292,10 @@ public class SessionManager {
 
                 JsonResponse = buffer.toString();
                 JSONObject resultadoJSON = new JSONObject(JsonResponse);
-                Log.d("Session", "resultadoJSON: " + resultadoJSON);
 
                 return resultadoJSON;
 
             } catch (IOException e) {
-                Log.d("Session", "Error1: " + e.getMessage());
                 e.printStackTrace();
 
                 try{
@@ -319,7 +310,6 @@ public class SessionManager {
                 }
                 
             } catch (JSONException e) {
-                Log.d("Session", "Error2: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -329,7 +319,6 @@ public class SessionManager {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.d("Session", "Error3: " + e.getMessage());
                     }
                 }
             }
@@ -352,7 +341,7 @@ public class SessionManager {
         }
     }
 
-    public static class EditarCuenta extends AsyncTask<String,String,JSONObject>
+    public static class EditarDatosCliente extends AsyncTask<String,String,JSONObject>
     {
         @Override
         protected JSONObject doInBackground(String... parametros) {
@@ -365,7 +354,6 @@ public class SessionManager {
             BufferedReader reader = null;
             OutputStream os = null;
 
-            Log.d("Session", "params: "+datos);
             try {
                 URL url = new URL("http://stap.cl/odata/UsuariosClientes/EditarDatosCliente");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -378,7 +366,6 @@ public class SessionManager {
                 os = new BufferedOutputStream(urlConnection.getOutputStream());
                 os.write(datos.getBytes());
                 os.flush();
-                Log.d("Session", "pass1: " + "pass");
                 int status = urlConnection.getResponseCode();
                 InputStream inputStream = urlConnection.getInputStream();
                 int status2 = urlConnection.getResponseCode();
@@ -386,7 +373,6 @@ public class SessionManager {
                 if (inputStream == null) {
 
                 }
-                Log.d("Session", "pass2: " + "pass2");
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String inputLine = "";
@@ -397,12 +383,10 @@ public class SessionManager {
 
                 JsonResponse = buffer.toString();
                 JSONObject resultadoJSON = new JSONObject(JsonResponse);
-                Log.d("Session", "resultadoJSON: " + resultadoJSON);
 
                 return resultadoJSON;
 
             } catch (IOException e) {
-                Log.d("Session", "Error1: " + e.getMessage());
                 e.printStackTrace();
 
                 try{
@@ -417,7 +401,6 @@ public class SessionManager {
                 }
 
             } catch (JSONException e) {
-                Log.d("Session", "Error2: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
@@ -427,7 +410,6 @@ public class SessionManager {
                     try {
                         reader.close();
                     } catch (final IOException e) {
-                        Log.d("Session", "Error3: " + e.getMessage());
                     }
                 }
             }
@@ -439,8 +421,100 @@ public class SessionManager {
         {
             try
             {
-                PerfilActivity cu = (PerfilActivity) ControllerActivity.activiyAbiertaActual;
-                //cu.estadoCuenta(respuestaOdata);
+                EditarPerfilFragment cu = (EditarPerfilFragment) ControllerActivity.fragmentAbiertoActual;
+                cu.estadoCuenta(respuestaOdata);
+
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+    }
+
+    public static class EditarPassword extends AsyncTask<String,String,JSONObject>
+    {
+        @Override
+        protected JSONObject doInBackground(String... parametros) {
+
+
+            String JsonResponse = "";
+            String datos = parametros[0];
+            HttpURLConnection urlConnection = null;
+            //Parámetros
+            BufferedReader reader = null;
+            OutputStream os = null;
+
+            try {
+                URL url = new URL("http://stap.cl/odata/UsuariosClientes/CambiarPassword");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.connect();
+
+                os = new BufferedOutputStream(urlConnection.getOutputStream());
+                os.write(datos.getBytes());
+                os.flush();
+
+                int status = urlConnection.getResponseCode();
+                InputStream inputStream = urlConnection.getInputStream();
+                int status2 = urlConnection.getResponseCode();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String inputLine = "";
+                while ((inputLine = reader.readLine()) != null)
+                {
+                    buffer.append(inputLine);
+                }
+
+                JsonResponse = buffer.toString();
+                JSONObject resultadoJSON = new JSONObject(JsonResponse);
+
+                return resultadoJSON;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                try{
+                    JSONObject jsonObjectError500 = new JSONObject();
+                    jsonObjectError500.put("TipoRespuesta","ERROR");
+                    jsonObjectError500.put("Mensaje","Error 500. Ha ocurrido un problema con el servidor, intente más tarde.");
+
+                    return  jsonObjectError500;
+
+                }catch (JSONException a){
+                    a.getStackTrace();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject respuestaOdata)
+        {
+            try
+            {
+                PasswordEditFragment cu = (PasswordEditFragment) ControllerActivity.fragmentAbiertoActual;
+                cu.estadoPassword(respuestaOdata);
 
             }
             catch (Exception e)

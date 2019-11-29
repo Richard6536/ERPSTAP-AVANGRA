@@ -12,7 +12,9 @@
     android:paddingTop="20px"
     android:gravity="center"
     android:background="@color/colorBackgroundLogin"
-    tools:context=".Activity.IniciarSesionActivity">
+    tools:context=".Activity.IniciarSesionActivity"
+    android:orientation="horizontal">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
