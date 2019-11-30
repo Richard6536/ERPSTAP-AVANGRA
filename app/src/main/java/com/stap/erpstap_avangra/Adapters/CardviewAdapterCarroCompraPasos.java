@@ -108,8 +108,6 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
                 holder = _holder;
                 productoSeleccionado = listaProductos.get(position);
 
-
-
                 if(holder.checkBox_carrocompra_pasos.isChecked()){
                     productoSeleccionado.setChecked(false);
                     holder.checkBox_carrocompra_pasos.setChecked(false);
@@ -194,6 +192,12 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
 
             }
         });
+
+        if(productoSeleccionado.isMarcado()){
+            productoSeleccionado.setChecked(true);
+            holder.checkBox_carrocompra_pasos.setChecked(true);
+            holder.expandableLayout.expand();
+        }
 
         productosTemporalEnCarroFragment = listaProductos;
     }

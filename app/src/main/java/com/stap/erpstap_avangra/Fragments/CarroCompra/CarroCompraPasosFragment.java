@@ -152,45 +152,6 @@ public class CarroCompraPasosFragment extends Fragment {
 
                 }
 
-                /*
-                for(Producto productoAlCarro : productosTemporalEnCarroFragment){
-
-                    for(ProductoEnCarro productoEnCarro : ProductoEnCarro.productosEnCarro){
-
-                        if(productoEnCarro.getId() == productoAlCarro.getId()){
-                            if(productoAlCarro.isChecked() == false){
-                                ProductoEnCarro.productosEnCarro.remove(productoEnCarro);
-                            }
-                            else {
-
-                                productoEnCarro.setCantidad(productoAlCarro.getCantidad());
-                                productoEnCarro.setPaso(pasoActual);
-
-                            }
-
-                            existeProductoEnCarro = true;
-                            break;
-                        }
-                    }
-
-                    if(existeProductoEnCarro == false){
-                        if(productoAlCarro.isChecked()){
-                            ProductoEnCarro nuevoProductoEnCarro = new ProductoEnCarro();
-                            nuevoProductoEnCarro.setId(productoAlCarro.getId());
-                            nuevoProductoEnCarro.setNombre(productoAlCarro.getNombre());
-                            nuevoProductoEnCarro.setCantidad(productoAlCarro.getCantidad());
-                            nuevoProductoEnCarro.setValor(productoAlCarro.getValor()+"");
-                            nuevoProductoEnCarro.setImagenes(productoAlCarro.getImagenes());
-                            nuevoProductoEnCarro.setPaso(pasoActual);
-
-                            ProductoEnCarro.productosEnCarro.add(nuevoProductoEnCarro);
-                        }
-                    }
-
-                    existeProductoEnCarro = false;
-                }
-                */
-
                 if(pasoFinal(condicionSeleccionada.getPasosCondicions().size(), pasoActual)){
 
                     progress_circular_carro_compra_pasos.setVisibility(View.VISIBLE);
@@ -249,6 +210,8 @@ public class CarroCompraPasosFragment extends Fragment {
         int idPaso = pasoActualCondicion.getId();
         txtDescripcionCarroCompraPasos.setText(pasoActualCondicion.getNombre() + ": \n" + pasoActualCondicion.getDescripcion());
 
+        JSONArray idsProductos = new ProductoEnCarro().obtenerIdsProductos();
+
         JSONObject datos = new JSONObject();
 
         try {
@@ -258,6 +221,7 @@ public class CarroCompraPasosFragment extends Fragment {
             datos.put("IdEmpresa",idEmpresa);
             datos.put("IdPerfil",idPerfil);
             datos.put("IdPaso",idPaso);
+            datos.put("Productos", idsProductos);
 
             //Enviar datos al webservice
             new Producto.ObtenerProductosPorPaso().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
@@ -313,6 +277,7 @@ public class CarroCompraPasosFragment extends Fragment {
                     String nombre = proveedor.getString("Nombre");
                     int precio = proveedor.getInt("Valor");
                     int cantidad = proveedor.getInt("Cantidad");
+                    boolean marcado = proveedor.getBoolean("Marcado");
                     String descripcion = proveedor.getString("Descripcion");
                     JSONArray imagenes = proveedor.getJSONArray("DireccionImagenes");
 
@@ -330,6 +295,7 @@ public class CarroCompraPasosFragment extends Fragment {
                     producto.setNombre(nombre);
                     producto.setValor(precio);
                     producto.setCantidad(1);
+                    producto.setMarcado(marcado);
                     producto.setDescripcion(descripcion);
                     producto.setImagenes(imageList);
                     producto.setChecked(false);

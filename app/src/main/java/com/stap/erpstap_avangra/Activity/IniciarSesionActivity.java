@@ -169,7 +169,7 @@ public class IniciarSesionActivity extends AppCompatActivity {
                 int usuarioId = respuesta.getInt("UsuarioId");
                 String nombreUsuario = respuesta.getString("NombreUsuario");
 
-                sessionController.levantarSesion(nombreUsuario,"AVANGRA/AYN", emailStr, llave, usuarioId, 1);//ID:Avangra:1, Testing:3
+                sessionController.levantarSesion(nombreUsuario,"AVANGRA/AYN", emailStr, llave, usuarioId, 3);//ID:Avangra:1, Testing:3
 
                 Intent myIntent = new Intent(IniciarSesionActivity.this, MainNavigationActivity.class);
                 startActivity(myIntent);

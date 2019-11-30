@@ -5,10 +5,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment;
 import com.stap.erpstap_avangra.Fragments.VerProductoFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -196,15 +198,24 @@ public class ProductoEnCarro {
                     CarroCompraPasosFragment carroCompraActivity = new CarroCompraPasosFragment();
                     carroCompraActivity.RespuestaEnvioCotizacion(respuestaOdata);
                 }
-                else if(activityActual.equals("VerProductoFragment")){
-                    VerProductoFragment carroCompraActivity = new VerProductoFragment();
-                    //carroCompraActivity.RespuestaEnvioCotizacion(respuestaOdata);
-                }
             }
             catch (Exception e)
             {
 
             }
         }
+
+    }
+
+
+    public JSONArray obtenerIdsProductos(){
+
+        JSONArray idsProductosJsonArray = new JSONArray();
+
+        for(ProductoEnCarro pc : productosEnCarro){
+            idsProductosJsonArray.put(pc.getId());
+        }
+
+        return idsProductosJsonArray;
     }
 }

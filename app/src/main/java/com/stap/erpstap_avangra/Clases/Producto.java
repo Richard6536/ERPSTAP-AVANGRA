@@ -37,6 +37,7 @@ public class Producto  {
     String descripcion;
     int categoriaId;
     String categoriaNombre;
+    boolean marcado;
     boolean isChecked;
 
 
@@ -114,6 +115,14 @@ public class Producto  {
         this.categoriaNombre = categoriaNombre;
     }
 
+    public boolean isMarcado() {
+        return marcado;
+    }
+
+    public void setMarcado(boolean marcado) {
+        this.marcado = marcado;
+    }
+
     public static List<Producto> productosList = new ArrayList<>();
 
     public static class ObtenerProductosPorPaso extends AsyncTask<String,String, JSONObject>
@@ -130,7 +139,7 @@ public class Producto  {
             OutputStream os = null;
 
             try {
-                URL url = new URL("http://stap.cl/odata/UsuariosClientes/ObtenerProductosPorPaso");
+                URL url = new URL("http://stap.cl/odata/UsuariosClientes/ObtenerProductosPorPasoV2");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestMethod("POST");
