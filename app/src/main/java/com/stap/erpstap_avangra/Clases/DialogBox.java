@@ -181,6 +181,29 @@ public class DialogBox {
         }
     }
 
+    public void AnuncioDialog(final Context context, String titulo, String mensaje){
+
+        try{
+            dialog = new Dialog(context);
+
+            dialog.setContentView(R.layout.dialogbox_anuncio_descripcion);
+
+            closeImageViewDialog = (ImageView) dialog.findViewById(R.id.close_img_dialog);
+            txtTitulo = (TextView) dialog.findViewById(R.id.txtAnuncioTitulo);
+            txtMensaje = (TextView) dialog.findViewById(R.id.txtAnuncioDescripcion);
+
+            txtTitulo.setText(titulo);
+            txtMensaje.setText(mensaje);
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+        catch (Exception e){
+            e.getStackTrace();
+        }
+    }
+
     public void CreateDialogWarning(Context context, String titulo, String mensaje, final Fragment fragment){
 
         try{

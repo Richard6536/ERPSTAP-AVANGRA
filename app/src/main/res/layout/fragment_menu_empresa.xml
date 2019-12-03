@@ -15,8 +15,8 @@
 
         <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
             android:columnOrderPreserved="false"
             android:rowCount="3"
             android:columnCount="2"
@@ -125,16 +125,24 @@
 
             </androidx.cardview.widget.CardView>
         </GridLayout>
-
-        <com.github.islamkhsh.CardSliderViewPager
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/viewPager"
-            android:layout_gravity="bottom"
-            app:cardSlider_smallScaleFactor="0.9"
-            app:cardSlider_otherPagesWidth="24dp"
-            app:cardSlider_pageMargin="2dp"
-            app:cardSlider_cardCornerRadius="1dp"
-            app:auto_slide_time="5"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="4"
+            android:layout_gravity="center"
+            android:gravity="bottom">
+            <com.github.islamkhsh.CardSliderViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardSlider_smallScaleFactor="0.9"
+                app:cardSlider_otherPagesWidth="24dp"
+                app:cardSlider_cardCornerRadius="4dp"
+                app:cardSlider_pageMargin="2dp"
+                app:auto_slide_time="5"/>
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
