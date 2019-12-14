@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.stap.erpstap_avangra.Activity.CotizacionesListActivity;
 import com.stap.erpstap_avangra.Activity.VerCotizacionDXActivity;
+import com.stap.erpstap_avangra.Activity.VistaPreviaCotizacionActivity;
 import com.stap.erpstap_avangra.Fragments.CotizacionesListFragment;
 import com.stap.erpstap_avangra.Fragments.VerCotizacionFragment;
 import com.stap.erpstap_avangra.Session.SessionManager;
@@ -391,6 +392,182 @@ public class Cotizacion {
                 if(activityActual.equals("VerCotizacionFragment")) {
                     VerCotizacionFragment verCot = (VerCotizacionFragment) ControllerActivity.fragmentAbiertoActual;
                     verCot.RecibirCotizacion(respuestaOdata);
+                }
+            }
+            catch (Exception e) {
+
+            }
+        }
+    }
+
+    public static class ConfirmarCotizacion extends AsyncTask<String,String, JSONObject>
+    {
+        @Override
+        protected JSONObject doInBackground(String... parametros) {
+
+
+            String JsonResponse = "";
+            String datos = parametros[0];
+            HttpURLConnection urlConnection = null;
+            //Parámetros
+            BufferedReader reader = null;
+            OutputStream os = null;
+
+            try {
+                URL url = new URL("http://stap.cl/odata/UsuariosClientes/ConfirmarVistaPreviaCotizacion");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.connect();
+
+                os = new BufferedOutputStream(urlConnection.getOutputStream());
+                os.write(datos.toString().getBytes());
+                os.flush();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String inputLine = "";
+                while ((inputLine = reader.readLine()) != null)
+                {
+                    buffer.append(inputLine);
+                }
+
+                JsonResponse = buffer.toString();
+                JSONObject resultadoJSON = new JSONObject(JsonResponse);
+
+                return resultadoJSON;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                try{
+                    JSONObject jsonObjectError500 = new JSONObject();
+                    jsonObjectError500.put("TipoRespuesta","ERROR");
+                    jsonObjectError500.put("Mensaje","Error 500. Ha ocurrido un problema con el servidor, intente más tarde.");
+
+                    return  jsonObjectError500;
+
+                }catch (JSONException a){
+                    a.getStackTrace();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject respuestaOdata) {
+            try {
+                String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
+                if(activityActual.equals("VistaPreviaCotizacionActivity")) {
+                    VistaPreviaCotizacionActivity verCot = (VistaPreviaCotizacionActivity) ControllerActivity.activiyAbiertaActual;
+                    verCot.confirmarRechazarCotizacionRespuesta(respuestaOdata);
+                }
+            }
+            catch (Exception e) {
+
+            }
+        }
+    }
+
+    public static class RechazarCotizacion extends AsyncTask<String,String, JSONObject>
+    {
+        @Override
+        protected JSONObject doInBackground(String... parametros) {
+
+
+            String JsonResponse = "";
+            String datos = parametros[0];
+            HttpURLConnection urlConnection = null;
+            //Parámetros
+            BufferedReader reader = null;
+            OutputStream os = null;
+
+            try {
+                URL url = new URL("http://stap.cl/odata/UsuariosClientes/CancelarVistaPreviaCotizacion");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.connect();
+
+                os = new BufferedOutputStream(urlConnection.getOutputStream());
+                os.write(datos.toString().getBytes());
+                os.flush();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String inputLine = "";
+                while ((inputLine = reader.readLine()) != null)
+                {
+                    buffer.append(inputLine);
+                }
+
+                JsonResponse = buffer.toString();
+                JSONObject resultadoJSON = new JSONObject(JsonResponse);
+
+                return resultadoJSON;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                try{
+                    JSONObject jsonObjectError500 = new JSONObject();
+                    jsonObjectError500.put("TipoRespuesta","ERROR");
+                    jsonObjectError500.put("Mensaje","Error 500. Ha ocurrido un problema con el servidor, intente más tarde.");
+
+                    return  jsonObjectError500;
+
+                }catch (JSONException a){
+                    a.getStackTrace();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(JSONObject respuestaOdata) {
+            try {
+                String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
+                if(activityActual.equals("VistaPreviaCotizacionActivity")) {
+                    VistaPreviaCotizacionActivity verCot = (VistaPreviaCotizacionActivity) ControllerActivity.activiyAbiertaActual;
+                    verCot.confirmarRechazarCotizacionRespuesta(respuestaOdata);
                 }
             }
             catch (Exception e) {

@@ -53,6 +53,7 @@
             android:textSize="26dp"
             android:gravity="center|top"
             android:textColor="#fff"
+            android:fontFamily="sans-serif-condensed-light"
             android:text="No existen productos en el carro de compra"
             android:textStyle="bold"/>
 
@@ -116,7 +117,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:smsp_floatingLabelColor="#1976D2"
-                        app:smsp_floatingLabelText="Servicios adicionales:"
                         app:smsp_hint="Selecciona un servicio adicional"
                         android:spinnerMode="dialog"
                         app:smsp_hintColor="#388E3C"

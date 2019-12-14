@@ -52,6 +52,7 @@ import static com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFra
 import static com.stap.erpstap_avangra.Fragments.CotizacionesListFragment.adapterCotizacionesList;
 import static com.stap.erpstap_avangra.Fragments.CotizacionesListFragment.expandable_layout;
 import static com.stap.erpstap_avangra.Fragments.ProductosListFragment.adapterProductosList;
+import static com.stap.erpstap_avangra.Fragments.ProductosListFragment.drawerLayout;
 
 public class MainNavigationActivity extends AppCompatActivity {
 
@@ -321,15 +322,31 @@ public class MainNavigationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-
         int backStackCount = fm.getBackStackEntryCount();
+
+        String fragmentActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
+        if(fragmentActual.equals("ProductosListFragment")) {
+            if(ProductosListFragment.drawerLayoutIsOpen){
+                ProductosListFragment.drawerLayout.closeDrawers();
+            }
+            else{
+                controlCerrarFragment(backStackCount, fm, fragmentActual);
+            }
+        }
+        else{
+            controlCerrarFragment(backStackCount, fm, fragmentActual);
+        }
+
+    }
+
+    public void controlCerrarFragment(int backStackCount, FragmentManager fm, String fragmentActual){
         if (backStackCount < 1) {
             moveTaskToBack(true);
         }
         else {
+
             fm.popBackStack();
 
-            String fragmentActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
             if(fragmentActual.equals("VerProductoFragment")) {
 
                 searchItem.setVisible(true);
@@ -341,7 +358,6 @@ public class MainNavigationActivity extends AppCompatActivity {
 
             }
         }
-
         String activityActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
         if(activityActual.equals("CarroCompraPasosFragment")) {
             if(condicionSeleccionada != null){

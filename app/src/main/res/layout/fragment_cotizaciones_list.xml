@@ -17,6 +17,10 @@
         android:background="@color/colorBackgroundLogin"
         android:orientation="vertical"
         android:padding="50dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_inbox_black_24dp"/>
 
         <TextView
             android:id="@+id/mensajeNoCotizaciones"
@@ -25,8 +29,11 @@
             android:textSize="26dp"
             android:gravity="center|top"
             android:textColor="#fff"
+            android:fontFamily="sans-serif-condensed-light"
             android:text="No tienes Cotizaciones registradas"
             android:textStyle="bold"/>
+
+
     </LinearLayout>
 
     <LinearLayout

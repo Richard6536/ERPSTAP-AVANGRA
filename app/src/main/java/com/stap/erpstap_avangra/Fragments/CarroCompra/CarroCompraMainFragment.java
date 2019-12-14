@@ -22,9 +22,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.stap.erpstap_avangra.Activity.ServiciosAdicionalesActivity;
+import com.stap.erpstap_avangra.Activity.VistaPreviaCotizacionActivity;
 import com.stap.erpstap_avangra.Adapters.CardviewAdapterCarroCompra;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
 import com.stap.erpstap_avangra.Clases.Categoria;
@@ -81,6 +83,8 @@ public class CarroCompraMainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_carro_compra_main, container, false);
         sessionController = new SessionManager(getActivity());
         ControllerActivity.fragmentAbiertoActual = this;
+        condicionSeleccionada = null;
+
         toolbar.setTitle("Carro de Compra");
         //No existe productos en Carro
         spinnerLayout = (ConstraintLayout)view.findViewById(R.id.spinnerLayout);
@@ -119,6 +123,7 @@ public class CarroCompraMainFragment extends Fragment {
 
         //txtCantidadCardview = (TextView)findViewById(R.id.txtCant);
         btnCrearCotizacion = (Button)view.findViewById(R.id.btnCrearCotizacion);
+        btnCrearCotizacion.setBackgroundColor(Color.parseColor("#767676"));
 
         recyclerView_carro_compra = (RecyclerView)view.findViewById(R.id.recyclerView_carro_compra);
         recyclerView_carro_compra.setHasFixedSize(true);
@@ -132,23 +137,29 @@ public class CarroCompraMainFragment extends Fragment {
             public void onClick(View view) {
                 if(sessionController.checkLogin() == true) {
                     if(productosEnCarro.size() > 0){
+                        if(condicionSeleccionada != null){
+                            if(condicionSeleccionada.getPasosCondicions().size() > 0){
 
-                        if(condicionSeleccionada.getPasosCondicions().size() > 0){
+                                //ArrayList<ProductoEnCarro> productoEnCarroArrayList = new ArrayList<>(productosEnCarro.size());
+                                //productoEnCarroArrayList.addAll(productosEnCarro);
+                                ProductoEnCarro.productosEnCarroTemporalList = productosEnCarro;
 
-                            //ArrayList<ProductoEnCarro> productoEnCarroArrayList = new ArrayList<>(productosEnCarro.size());
-                            //productoEnCarroArrayList.addAll(productosEnCarro);
-                            ProductoEnCarro.productosEnCarroTemporalList = productosEnCarro;
+                                Intent intent = new Intent(getActivity(), ServiciosAdicionalesActivity.class);
+                                startActivity(intent);
+                            }
+                            else {
 
-                            Intent intent = new Intent(getActivity(), ServiciosAdicionalesActivity.class);
-                            startActivity(intent);
+                                progress_circular_carro_compra.setVisibility(View.VISIBLE);
+                                btnCrearCotizacion.setEnabled(false);
+
+                                Intent intent = new Intent(getContext(), VistaPreviaCotizacionActivity.class);
+                                intent.putExtra("IdCondicionSeleccionada", condicionSeleccionada.getId());
+                                startActivity(intent);
+
+                            }
                         }
-                        else {
-
-                            progress_circular_carro_compra.setVisibility(View.VISIBLE);
-                            btnCrearCotizacion.setEnabled(false);
-
-                            new Cotizacion().prepararCotizacion(getActivity(),productosEnCarro, condicionSeleccionada.getId());
-
+                        else{
+                            Toast.makeText(getContext(),"Seleccione un servicio", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -167,14 +178,14 @@ public class CarroCompraMainFragment extends Fragment {
     }
 
 
-    public void cargarSpinner(final List<Condiciones> condiciones){
+    public void cargarSpinner(final List<Condiciones> condiciones) {
 
         if( condiciones != null && condiciones.size() > 0){
 
             spinnerCondicionesCarroCompra.setItem(condiciones);
 
             //condicionSeleccionada = condiciones.get(0);
-            spinnerCondicionesCarroCompra.setSelection(0, true);
+            //spinnerCondicionesCarroCompra.setSelection(0, true);
 
             spinnerCondicionesCarroCompra.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -333,9 +344,9 @@ public class CarroCompraMainFragment extends Fragment {
 
             if(tipoRespuesta.equals("OK")){
                 try {
+
                     DialogBox dialog = new DialogBox();
                     BorrarProductoDelCarro();
-
                     new BottomNavigationController().badgeCartRemove();
                     dialog.Create(ControllerActivity.fragmentAbiertoActual.getContext(), "Cotización Enviada con Éxito", "La nueva cotización se registrará en su lista de cotizaciones.", false);
                 }

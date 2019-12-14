@@ -10,6 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="15dp"
         app:cardBackgroundColor="#C5C5C5"
         android:layout_alignParentTop="true"
@@ -22,35 +23,41 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/linearLayoutAnuncio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="25dp">
-                    <TextView
-                        android:id="@+id/txtAnuncioTitulo"
+                    android:layout_height="match_parent">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-condensed-light"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textSize="25dp"
-                        android:text=""/>
-                    <TextView
-                        android:id="@+id/txtAnuncioDescripcion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginRight="20dp"
-                        android:textAlignment="center"
-                        android:textSize="18dp"
-                        android:text=""/>
-                </LinearLayout>
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="25dp">
+                        <TextView
+                            android:id="@+id/txtAnuncioTitulo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-condensed-light"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="25dp"
+                            android:text=""/>
+                        <TextView
+                            android:id="@+id/txtAnuncioDescripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginRight="20dp"
+                            android:textAlignment="center"
+                            android:textSize="18dp"
+                            android:text=""/>
+                    </LinearLayout>
+                </RelativeLayout>
+
             </ScrollView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

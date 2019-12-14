@@ -58,6 +58,7 @@ public class Condiciones {
         try {
 
             List<Condiciones> condicionesList = new ArrayList<>();
+
             for(int x = 0; x <condiciones.length(); x++){
                 JSONObject condicionJSONObject = null;
                 condicionJSONObject = condiciones.getJSONObject(x);

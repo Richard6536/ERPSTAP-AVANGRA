@@ -108,7 +108,7 @@
                             android:layout_below="@+id/txtNombreProducto"
                             android:layout_gravity="center"
                             android:layout_marginTop="22dp"
-                            android:textColor="#BEBEBE"
+                            android:textColor="#9B9B9B"
                             android:gravity="center"
                             android:text="Modificar cuenta de usuario" />
                     </RelativeLayout>
@@ -158,7 +158,7 @@
                             android:layout_below="@+id/txtNombreProducto"
                             android:layout_gravity="center"
                             android:layout_marginTop="22dp"
-                            android:textColor="#BEBEBE"
+                            android:textColor="#9B9B9B"
                             android:gravity="center"
                             android:text="Cambiar contraseña." />
                     </RelativeLayout>
@@ -206,7 +206,7 @@
                             android:layout_below="@+id/txtNombreProducto"
                             android:layout_gravity="center"
                             android:layout_marginTop="22dp"
-                            android:textColor="#BEBEBE"
+                            android:textColor="#9B9B9B"
                             android:gravity="center"
                             android:text="Acerca de Avangra." />
                     </RelativeLayout>
@@ -215,14 +215,14 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_perfil_about_version"
+                android:id="@+id/cardview_perfil_about_copyright"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#F1F1F1"
                 android:layout_margin="0.5dp">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:orientation="horizontal"
                     android:padding="8dp"
@@ -238,7 +238,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_marginLeft="30px"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -246,7 +246,7 @@
                             android:layout_gravity="center"
                             android:textStyle="bold"
                             android:gravity="left"
-                            android:text="Versión"
+                            android:text="Copyright © 2019"
                             android:textSize="18dp"/>
 
                         <TextView
@@ -254,10 +254,20 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/txtNombreProducto"
                             android:layout_gravity="center"
-                            android:layout_marginTop="22dp"
-                            android:textColor="#BEBEBE"
-                            android:gravity="center"
-                            android:text="@string/app_version" />
+                            android:layout_marginTop="24dp"
+                            android:textColor="#9B9B9B"
+                            android:gravity="left"
+                            android:text="Consultora Avanza Integra Ltda.\nTodos los derechos reservados." />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtNombreProducto"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="65dp"
+                            android:textColor="#9B9B9B"
+                            android:autoLink="web"
+                            android:gravity="left"
+                            android:text="http://www.avangra.cl/" />
                     </RelativeLayout>
 
 
@@ -306,9 +316,58 @@
                             android:layout_below="@+id/txtNombreProducto"
                             android:layout_gravity="center"
                             android:layout_marginTop="22dp"
-                            android:textColor="#BEBEBE"
+                            android:textColor="#9B9B9B"
                             android:gravity="center"
                             android:text="Acerca de Avangra." />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_perfil_about_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#F1F1F1"
+                android:layout_margin="0.5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="60dp"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:layout_width="80px"
+                        android:layout_height="80px"
+                        android:tint="#4CAF50"
+                        android:src="@drawable/ic_subdirectory_arrow_right_black_24dp"
+                        android:adjustViewBounds="true"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="30px"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textStyle="bold"
+                            android:gravity="left"
+                            android:text="Versión"
+                            android:textSize="18dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtNombreProducto"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="22dp"
+                            android:textColor="#9B9B9B"
+                            android:gravity="center"
+                            android:text="@string/app_version" />
                     </RelativeLayout>
 
 

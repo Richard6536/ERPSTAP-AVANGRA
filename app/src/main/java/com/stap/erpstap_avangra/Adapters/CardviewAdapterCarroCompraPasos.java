@@ -109,6 +109,7 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
                 productoSeleccionado = listaProductos.get(position);
 
                 if(holder.checkBox_carrocompra_pasos.isChecked()){
+                    productoSeleccionado.setMarcado(false);
                     productoSeleccionado.setChecked(false);
                     holder.checkBox_carrocompra_pasos.setChecked(false);
                     holder.layoutCardview_carrocompa_pasos.setBackgroundColor(Color.parseColor("#ffffff"));

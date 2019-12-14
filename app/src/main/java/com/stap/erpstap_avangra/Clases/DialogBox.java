@@ -6,11 +6,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -191,9 +196,18 @@ public class DialogBox {
             closeImageViewDialog = (ImageView) dialog.findViewById(R.id.close_img_dialog);
             txtTitulo = (TextView) dialog.findViewById(R.id.txtAnuncioTitulo);
             txtMensaje = (TextView) dialog.findViewById(R.id.txtAnuncioDescripcion);
+            RelativeLayout linearLayoutAnuncio = dialog.findViewById(R.id.linearLayoutAnuncio);
 
             txtTitulo.setText(titulo);
             txtMensaje.setText(mensaje);
+
+            linearLayoutAnuncio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
 
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setCancelable(true);

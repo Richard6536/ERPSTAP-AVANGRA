@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment;
+import com.stap.erpstap_avangra.Fragments.VerCotizacionFragment;
 import com.stap.erpstap_avangra.Fragments.VerProductoFragment;
 
 import org.json.JSONArray;
@@ -120,7 +121,7 @@ public class ProductoEnCarro {
             OutputStream os = null;
 
             try {
-                URL url = new URL("http://stap.cl/odata/UsuariosClientes/CrearCotizacion");
+                URL url = new URL("http://stap.cl/odata/UsuariosClientes/CrearCotizacionV2");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestMethod("POST");
@@ -189,15 +190,16 @@ public class ProductoEnCarro {
             try
             {
                 String activityActual = ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName();
-                if(activityActual.equals("CarroCompraMainFragment"))
+                if(activityActual.equals("VerCotizacionFragment"))
                 {
-                    CarroCompraMainFragment carroCompraActivity = new CarroCompraMainFragment();
-                    carroCompraActivity.RespuestaEnvioCotizacion(respuestaOdata);
+                    VerCotizacionFragment carroCompraActivity = new VerCotizacionFragment();
+                    carroCompraActivity.RecibirCotizacion(respuestaOdata);
                 }
+                /*
                 else if(activityActual.equals("CarroCompraPasosFragment")){
                     CarroCompraPasosFragment carroCompraActivity = new CarroCompraPasosFragment();
                     carroCompraActivity.RespuestaEnvioCotizacion(respuestaOdata);
-                }
+                }*/
             }
             catch (Exception e)
             {

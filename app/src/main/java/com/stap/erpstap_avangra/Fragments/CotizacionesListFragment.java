@@ -253,6 +253,7 @@ public class CotizacionesListFragment extends Fragment {
                     VerCotizacionFragment fragment = new VerCotizacionFragment();
                     Bundle arguments = new Bundle();
 
+                    arguments.putBoolean("FromVistaPrevia", false);
                     arguments.putInt("Id", cotizacionSeleccionada.getId());
 
                     fragment.setArguments(arguments);

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -201,7 +202,7 @@ public class VerCotizacionActivity extends AppCompatActivity {
 
             CardviewAdapterProductosCotizacion adapter = new CardviewAdapterProductosCotizacion(getApplicationContext(), listaProductosAdapter, new CardviewAdapterProductosCotizacion.OnItemClickListener() {
                 @Override
-                public void onItemClicked(int position, int itemPosition, Producto productoSeleccionado) {
+                public void onItemClicked(int position, int itemPosition, Producto productoSeleccionado, Context _context) {
 
                 }
             });

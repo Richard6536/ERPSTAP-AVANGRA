@@ -79,7 +79,9 @@ public class ProductosListFragment extends Fragment {
     TextView txtCategoria_1, txtCategoria_2, txtCategoria_3;
     TextView txtCategoria_1_id, txtCategoria_2_id, txtCategoria_3_id;
 
-    DrawerLayout drawerLayout;
+    public static DrawerLayout drawerLayout;
+    public static boolean drawerLayoutIsOpen = false;
+
     LinearLayout mainView;
     ListView listViewCategorias;
 
@@ -233,12 +235,12 @@ public class ProductosListFragment extends Fragment {
 
             @Override
             public void onDrawerOpened(View drawerView) {
-
+                drawerLayoutIsOpen = true;
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
-
+                drawerLayoutIsOpen = false;
             }
 
             @Override
@@ -698,6 +700,7 @@ public class ProductosListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(Gravity.RIGHT);
+
             }
         });
 

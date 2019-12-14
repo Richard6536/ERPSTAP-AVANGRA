@@ -1,6 +1,8 @@
 package com.stap.erpstap_avangra.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.stap.erpstap_avangra.Activity.ImageviewActivity;
 import com.stap.erpstap_avangra.Clases.Moneda;
 import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardviewAdapterProductosCotizacion extends RecyclerView.Adapter<CardviewAdapterProductosCotizacion.CardViewHolder>{
@@ -22,12 +26,13 @@ public class CardviewAdapterProductosCotizacion extends RecyclerView.Adapter<Car
     private List<Producto> listaProductos;
     Producto producto;
 
+    private Context mCtx;
+
     private OnItemClickListener onItemClickListener; // Global scope
     public interface OnItemClickListener {
-        void onItemClicked(int position, int itemPosition, Producto producto);
+        void onItemClicked(int position, int itemPosition, Producto producto, Context _context);
     }
 
-    private Context mCtx;
 
     //getting the context and product list with constructor
     public CardviewAdapterProductosCotizacion(Context mCtx, List<Producto> lista, CardviewAdapterProductosCotizacion.OnItemClickListener onItemClickListener) {
@@ -73,15 +78,33 @@ public class CardviewAdapterProductosCotizacion extends RecyclerView.Adapter<Car
             public void onClick(View v) {
 
                 Producto productoSeleccionado = listaProductos.get(position);
-                onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
+                onItemClickListener.onItemClicked(position, 0, productoSeleccionado, mCtx);
             }
         });
 
         holder.imgViewProductoCotizacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Producto productoSeleccionado = listaProductos.get(position);
-                onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
+
+                List<String> imagenes = productoSeleccionado.getImagenes();
+
+                if(imagenes.size() > 0){
+
+                    ArrayList<String> imgArray = new ArrayList<>(imagenes);
+
+                    Intent intent = new Intent( mCtx, ImageviewActivity.class);
+                    Bundle arguments = new Bundle();
+                    arguments.putString("Nombre", productoSeleccionado.getNombre());
+                    arguments.putString("Descripcion", productoSeleccionado.getDescripcion());
+                    arguments.putBoolean("MostrarDescripcion", true);
+                    arguments.putStringArrayList("Imagenes", imgArray);
+                    arguments.putInt("Position", 0);
+                    intent.putExtras(arguments);
+                    mCtx.startActivity(intent);
+                }
+                onItemClickListener.onItemClicked(position, 0, productoSeleccionado, mCtx);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.stap.erpstap_avangra.Activity;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -212,7 +213,7 @@ public class VerCotizacionDXActivity extends AppCompatActivity {
 
             CardviewAdapterProductosCotizacion adapter = new CardviewAdapterProductosCotizacion(getApplicationContext(), listaProductosAdapter, new CardviewAdapterProductosCotizacion.OnItemClickListener() {
                 @Override
-                public void onItemClicked(int position, int itemPosition, Producto productoSeleccionado) {
+                public void onItemClicked(int position, int itemPosition, Producto productoSeleccionado, Context _context) {
 
                 }
             });

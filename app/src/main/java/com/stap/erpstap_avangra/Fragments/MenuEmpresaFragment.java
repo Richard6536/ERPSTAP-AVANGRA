@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.github.islamkhsh.CardSliderViewPager;
 import com.stap.erpstap_avangra.Activity.HelpActivity;
@@ -39,6 +40,7 @@ public class MenuEmpresaFragment extends Fragment {
     SessionManager sessionController;
     String nombreEmpresa;
     CardView cardView_cot, cardView_cc, cardView_mc, cardView_help;
+    ProgressBar progressBarAnuncio;
     View view;
 
     @Override
@@ -62,6 +64,8 @@ public class MenuEmpresaFragment extends Fragment {
         cardView_cc = (CardView)view.findViewById(R.id.cv_cc);
         cardView_mc = (CardView)view.findViewById(R.id.cv_mc);
         cardView_help = (CardView)view.findViewById(R.id.cv_help);
+        progressBarAnuncio = (ProgressBar) view.findViewById(R.id.progressBarAnuncio);
+        progressBarAnuncio.setVisibility(View.VISIBLE);
 
         cardView_cot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +141,8 @@ public class MenuEmpresaFragment extends Fragment {
         try {
 
             String tipoRespuesta = respuestaOdata.getString("TipoRespuesta");
+            progressBarAnuncio.setVisibility(View.GONE);
+
             if(tipoRespuesta.equals("OK")){
                 try {
 

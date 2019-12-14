@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stap.erpstap_avangra.Activity.ImageviewActivity;
+import com.stap.erpstap_avangra.Activity.VistaPreviaCotizacionActivity;
 import com.stap.erpstap_avangra.Adapters.CardviewAdapterCarroCompraPasos;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
@@ -157,7 +158,10 @@ public class CarroCompraPasosFragment extends Fragment {
                     progress_circular_carro_compra_pasos.setVisibility(View.VISIBLE);
                     btnContinuarCrearCotizacion.setEnabled(false);
 
-                    new Cotizacion().prepararCotizacion(getActivity(),productosEnCarro, condicionSeleccionada.getId());
+                    Intent intent = new Intent(getContext(), VistaPreviaCotizacionActivity.class);
+                    intent.putExtra("IdCondicionSeleccionada", condicionSeleccionada.getId());
+                    startActivity(intent);
+                    //new Cotizacion().prepararCotizacion(getActivity(),productosEnCarro, condicionSeleccionada.getId());
 
                 }
                 else{
