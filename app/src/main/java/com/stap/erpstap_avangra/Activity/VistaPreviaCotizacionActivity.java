@@ -259,5 +259,6 @@ public class VistaPreviaCotizacionActivity extends AppCompatActivity implements 
         btnRechazarCotizacion.setEnabled(enable);
         btnRechazarCotizacion.setBackgroundColor(Color.parseColor("#7A9B9B9B"));
         btnConfirmarCotizacion.setBackgroundColor(Color.parseColor("#7A9B9B9B"));
+
     }
 }
