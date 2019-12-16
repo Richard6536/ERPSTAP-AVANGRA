@@ -479,7 +479,7 @@ public class Cotizacion {
                 String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
                 if(activityActual.equals("VistaPreviaCotizacionActivity")) {
                     VistaPreviaCotizacionActivity verCot = (VistaPreviaCotizacionActivity) ControllerActivity.activiyAbiertaActual;
-                    verCot.confirmarRechazarCotizacionRespuesta(respuestaOdata);
+                    verCot.confirmarCotizacionRespuesta(respuestaOdata);
                 }
             }
             catch (Exception e) {
@@ -567,7 +567,7 @@ public class Cotizacion {
                 String activityActual = ControllerActivity.activiyAbiertaActual.getClass().getSimpleName();
                 if(activityActual.equals("VistaPreviaCotizacionActivity")) {
                     VistaPreviaCotizacionActivity verCot = (VistaPreviaCotizacionActivity) ControllerActivity.activiyAbiertaActual;
-                    verCot.confirmarRechazarCotizacionRespuesta(respuestaOdata);
+                    verCot.rechazarCotizacionRespuesta(respuestaOdata);
                 }
             }
             catch (Exception e) {

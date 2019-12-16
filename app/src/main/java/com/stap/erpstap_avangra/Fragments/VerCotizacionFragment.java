@@ -3,12 +3,14 @@ package com.stap.erpstap_avangra.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -55,6 +57,7 @@ public class VerCotizacionFragment extends Fragment {
     public static View view;
     public static Context context;
     public static Activity activity;
+    public static CardView txtMensajeCotizacionCardview;
 
     public static boolean fromVistaPrevia = false;
 
@@ -103,6 +106,10 @@ public class VerCotizacionFragment extends Fragment {
         loaderVerCotizacion.setVisibility(View.VISIBLE);
 
         txtMensajeCotizacionTop = view.findViewById(R.id.txtMensajeCotizacionTop);
+        txtMensajeCotizacionCardview = view.findViewById(R.id.txtMensajeCotizacionCardview);
+
+        txtMensajeCotizacionCardview.setCardBackgroundColor(Color.parseColor("#4CAF50"));
+        txtMensajeCotizacionTop.setTextColor(Color.WHITE);
 
         NestedScrollView scrollViewVerCot = view.findViewById(R.id.scrollViewVerCot);
         ViewCompat.setNestedScrollingEnabled(scrollViewVerCot, false);
@@ -211,9 +218,15 @@ public class VerCotizacionFragment extends Fragment {
                 JSONObject cotizacion = jsonArray.getJSONObject(0);
 
                 if(fromVistaPrevia){
+
+                    txtMensajeCotizacionCardview.setCardBackgroundColor(Color.parseColor("#24348B"));
+                    txtMensajeCotizacionTop.setTextColor(Color.WHITE);
                     txtMensajeCotizacionTop.setText("Esto es una vista previa. Al confirmar, se creará la cotización y será enviada automáticamente.");
                     String idCotizacion = cotizacion.getString("Id");
                     passData(idCotizacion);
+                }
+                else{
+
                 }
 
                 MostrarCotizacion(cotizacion);

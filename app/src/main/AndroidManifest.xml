@@ -16,7 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.VistaPreviaCotizacionActivity"></activity>
+        <activity android:name=".Activity.VistaPreviaCotizacionActivity"
+            android:label="Cotización - Vista Previa"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.HelpActivity"
             android:label="Ayuda"

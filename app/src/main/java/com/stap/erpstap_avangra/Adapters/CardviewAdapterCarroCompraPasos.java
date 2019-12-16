@@ -37,7 +37,7 @@ import static com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFra
 public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<CardviewAdapterCarroCompraPasos.CardViewHolder> implements ExpandableLayout.OnExpansionUpdateListener{
 
     public List<Producto> listaProductos = new ArrayList<>();
-    private CardviewAdapterCarroCompraPasos.CardViewHolder holder;
+    public CardviewAdapterCarroCompraPasos.CardViewHolder holder;
     private CardviewAdapterCarroCompraPasos.CardViewHolder holderAnterior = holder;
 
     private static final int UNSELECTED = -1;
@@ -54,7 +54,7 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
     }
 
     public interface OnItemClickListener {
-        void onItemClicked(int position, int itemPosition, Producto auto);
+        void onItemClicked(int position, int itemPosition, Producto productoSeleccionado,List<Producto> listaProductos, boolean isImage);
     }
 
     private Context mCtx;
@@ -78,6 +78,9 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
         return new CardviewAdapterCarroCompraPasos.CardViewHolder(view);
     }
 
+    public void updateHolderContent(int cantidad){
+        holder.txtCantidadPasosCarroCompra.setText("Cantidad: " + cantidad);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull final CardviewAdapterCarroCompraPasos.CardViewHolder _holder, final int position) {
@@ -114,90 +117,38 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
                     holder.checkBox_carrocompra_pasos.setChecked(false);
                     holder.layoutCardview_carrocompa_pasos.setBackgroundColor(Color.parseColor("#ffffff"));
                     holder.itemView.setSelected(true);
-                    holder.expandableLayout.collapse();
+                    //holder.expandableLayout.collapse();
                 }
                 else{
                     productoSeleccionado.setChecked(true);
                     holder.checkBox_carrocompra_pasos.setChecked(true);
-                    holder.editTextCantidadProductoCarroCompra.setText(productoSeleccionado.getCantidad()+"");
-                    holder.layoutCardview_carrocompa_pasos.setBackgroundColor(Color.parseColor("#ffffff"));
+                    //holder.editTextCantidadProductoCarroCompra.setText(productoSeleccionado.getCantidad()+"");
+                    holder.layoutCardview_carrocompa_pasos.setBackgroundColor(Color.parseColor("#CDE5D1"));
                     holder.itemView.setSelected(true);
-                    holder.expandableLayout.expand();
+                    //holder.expandableLayout.expand();
+                    onItemClickListener.onItemClicked(position, 0, productoSeleccionado, listaProductos, false);
+
                 }
 
 
                 selectedItem = position;
-                //holderAnterior = holder;
                 listaProductos.set(position, productoSeleccionado);
                 productosTemporalEnCarroFragment = listaProductos;
-                /*
-                if (position == selectedItem) {
-                    selectedItem = UNSELECTED;
-                } else {
 
-                }*/
-
-                //onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
             }
         });
-
         holder.imgViewProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 productoSeleccionado = listaProductos.get(position);
-                onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
-            }
-        });
-
-        holder.btnAumentarCarroCompra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder = _holder;
-                productoSeleccionado = listaProductos.get(position);
-
-                int cantidad = productoSeleccionado.getCantidad();
-                cantidad = cantidad + 1;
-
-                holder.editTextCantidadProductoCarroCompra.setText(cantidad+"");
-                productoSeleccionado.setCantidad(cantidad);
-
-                listaProductos.set(position, productoSeleccionado);
-                productosTemporalEnCarroFragment = listaProductos;
-
-                holder.txtCantidadPasosCarroCompra.setText("Cantidad: " +cantidad);
-                //onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
-            }
-        });
-
-
-        holder.btnDisminuirCarroCompra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder = _holder;
-                productoSeleccionado = listaProductos.get(position);
-
-                int cantidad = productoSeleccionado.getCantidad();
-
-                if(cantidad > 1){
-                    cantidad = cantidad - 1;
-
-                    holder.editTextCantidadProductoCarroCompra.setText(cantidad+"");
-                    productoSeleccionado.setCantidad(cantidad);
-
-                    listaProductos.set(position,productoSeleccionado);
-                    productosTemporalEnCarroFragment = listaProductos;
-
-                    holder.txtCantidadPasosCarroCompra.setText("Cantidad: " +cantidad);
-                    //onItemClickListener.onItemClicked(position, 0, productoSeleccionado);
-                }
-
+                onItemClickListener.onItemClicked(position, 0, productoSeleccionado, listaProductos, true);
             }
         });
 
         if(productoSeleccionado.isMarcado()){
             productoSeleccionado.setChecked(true);
             holder.checkBox_carrocompra_pasos.setChecked(true);
-            holder.expandableLayout.expand();
+            holder.layoutCardview_carrocompa_pasos.setBackgroundColor(Color.parseColor("#CDE5D1"));
         }
 
         productosTemporalEnCarroFragment = listaProductos;
@@ -209,10 +160,9 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
     }
 
     class CardViewHolder extends RecyclerView.ViewHolder{
-        TextView txtNombreProducto, txtPrecioProducto, editTextCantidadProductoCarroCompra , txtCantidadPasosCarroCompra;
+        TextView txtNombreProducto, txtPrecioProducto , txtCantidadPasosCarroCompra;
         ImageView imgViewProducto;
-        Button btnDisminuirCarroCompra, btnAumentarCarroCompra;
-        ExpandableLayout expandableLayout;
+
         CheckBox checkBox_carrocompra_pasos;
         LinearLayout layoutCardview_carrocompa_pasos;
 
@@ -221,28 +171,12 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
 
             txtNombreProducto = itemView.findViewById(R.id.txtNombreProductoCarroCompraPasos);
             txtPrecioProducto = itemView.findViewById(R.id.txtPrecioProductoCarroCompraPasos);
-
             txtCantidadPasosCarroCompra = itemView.findViewById(R.id.txtCantidadPasosCarroCompra);
-
             imgViewProducto = itemView.findViewById(R.id.imgViewProductoCarroCompraPasos);
 
-            editTextCantidadProductoCarroCompra = itemView.findViewById(R.id.editTextCantidadProductoCarroCompraPasos);
-            btnDisminuirCarroCompra = itemView.findViewById(R.id.btnDisminuirCarroCompraPasos);
-            btnAumentarCarroCompra = itemView.findViewById(R.id.btnAumentarCarroCompraPasos);
             checkBox_carrocompra_pasos = itemView.findViewById(R.id.checkBox_carrocompra_pasos);
             layoutCardview_carrocompa_pasos = itemView.findViewById(R.id.layoutCardview_carrocompa_pasos);
 
-            expandableLayout = itemView.findViewById(R.id.expandable_layout_cardview_carroCompra_pasos);
-            expandableLayout.setInterpolator(new OvershootInterpolator());
-            expandableLayout.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
-                @Override
-                public void onExpansionUpdate(float expansionFraction, int state) {
-                    Log.d("ExpandableLayout", "State: " + state);
-                    if (state == ExpandableLayout.State.EXPANDING) {
-                        recyclerView_carro_compra_pasos.smoothScrollToPosition(pos);
-                    }
-                }
-            });
         }
     }
 

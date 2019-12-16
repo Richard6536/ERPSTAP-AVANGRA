@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    android:id="@+id/scrollViewVerCot"
+<androidx.core.widget.NestedScrollView android:id="@+id/scrollViewVerCot"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.cardview.widget.CardView
-            android:id="@+id/txtMensajeCotizacion"
+            android:id="@+id/txtMensajeCotizacionCardview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="#4CAF50">
+            app:cardCornerRadius="0dp">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -37,7 +37,8 @@
             android:id="@+id/txtTituloPrincipal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/txtMensajeCotizacion"
+            android:layout_below="@+id/txtMensajeCotizacionCardview"
+            app:cardCornerRadius="0dp"
             android:backgroundTint="#FFC107">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -79,6 +80,7 @@
             android:id="@+id/txtTituloProductos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:cardCornerRadius="0dp"
             android:layout_below="@+id/cot_main"
             android:backgroundTint="#FFC107">
             <RelativeLayout

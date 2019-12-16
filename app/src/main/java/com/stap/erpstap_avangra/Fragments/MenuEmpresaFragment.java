@@ -1,6 +1,7 @@
 package com.stap.erpstap_avangra.Fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -39,7 +40,7 @@ public class MenuEmpresaFragment extends Fragment {
 
     SessionManager sessionController;
     String nombreEmpresa;
-    CardView cardView_cot, cardView_cc, cardView_mc, cardView_help;
+    CardView cardView_cot, cardView_cc, cardView_mc, cardView_help, cardview_update;
     ProgressBar progressBarAnuncio;
     View view;
 
@@ -64,6 +65,9 @@ public class MenuEmpresaFragment extends Fragment {
         cardView_cc = (CardView)view.findViewById(R.id.cv_cc);
         cardView_mc = (CardView)view.findViewById(R.id.cv_mc);
         cardView_help = (CardView)view.findViewById(R.id.cv_help);
+        cardview_update = (CardView)view.findViewById(R.id.cv_update);
+        cardview_update.setVisibility(View.GONE);
+
         progressBarAnuncio = (ProgressBar) view.findViewById(R.id.progressBarAnuncio);
         progressBarAnuncio.setVisibility(View.VISIBLE);
 
@@ -100,12 +104,21 @@ public class MenuEmpresaFragment extends Fragment {
             }
         });
 
+        cardview_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.stap.erpstap"));
+                startActivity(browserIntent);
+            }
+        });
+
         if(sessionController.checkLogin() == true) {
             HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
             nombreEmpresa = datosUsuario.get(SessionManager.KEY_NOMBREEMPRESA);
         }
 
         llamarObtenerAnuncios();
+        obtenerVersionAPP();
 
         return view;
     }
@@ -132,6 +145,65 @@ public class MenuEmpresaFragment extends Fragment {
             //Enviar datos al webservice
             new Anuncio.ObtenerAnuncios().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void obtenerVersionAPP(){
+
+
+        JSONObject datos = new JSONObject();
+
+        try {
+
+            String idUsuario = "0";
+            String llave = "";
+            String idEmpresa = "1";
+
+            if(sessionController.checkLogin() == true) {
+
+                HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
+                idUsuario = datosUsuario.get(SessionManager.KEY_ID);
+                llave = datosUsuario.get(SessionManager.KEY_LLAVE);
+                idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
+            }
+
+            datos.put("IdUser", idUsuario);
+            datos.put("IdEmpresa",idEmpresa);
+            datos.put("Llave",llave);
+
+            //Enviar datos al webservice
+            new Empresa.ObtenerEmpresa().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void obtenerVersionAPPRespuesta(JSONObject respuestaOdata){
+        try {
+
+            String tipoRespuesta = respuestaOdata.getString("TipoRespuesta");
+
+            if(tipoRespuesta.equals("OK")){
+                try {
+
+                    int version = respuestaOdata.getInt("VersionAPP");
+                    mostrarActualizacionApp(version);
+
+                }
+                catch (Exception e){
+                    e.getStackTrace();
+                }
+            }
+            else if(tipoRespuesta.equals("ERROR")){
+                String errorMensaje = respuestaOdata.getString("Mensaje");
+                new DialogBox().CreateDialogError(ControllerActivity.fragmentAbiertoActual.getContext(),"Ha ocurrido un problema", errorMensaje);
+            }
+            else if(tipoRespuesta.equals("ERROR_SESION")) {
+                sessionController.logoutUser();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -207,6 +279,13 @@ public class MenuEmpresaFragment extends Fragment {
             cardSliderViewPager.setSmallScaleFactor(0.9f);
             cardSliderViewPager.setSmallAlphaFactor(0.5f);
 
+        }
+    }
+
+    public void mostrarActualizacionApp(int version){
+
+        if(version > R.string.APP_VERSION_CODE){
+            cardview_update.setVisibility(View.VISIBLE);
         }
     }
 }

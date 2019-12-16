@@ -208,8 +208,19 @@ public class MainNavigationActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             boolean KEY_COT_CREADA = extras.getBoolean("KEY_COT_CREADA");
+            boolean KEY_COT_RECHAZADA = extras.getBoolean("KEY_COT_RECHAZADA");
+
             if(KEY_COT_CREADA){
+                getIntent().removeExtra("KEY_COT_CREADA");
+                getIntent().removeExtra("KEY_COT_RECHAZADA");
+
                 new BottomNavigationController().changeItemPosition(R.id.navigation_cotizaciones);
+            }
+            else if(KEY_COT_RECHAZADA){
+                getIntent().removeExtra("KEY_COT_CREADA");
+                getIntent().removeExtra("KEY_COT_RECHAZADA");
+
+                new BottomNavigationController().changeItemPosition(R.id.navigation_carro_compra);
             }
         }
     }

@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.stap.erpstap_avangra.Adapters.CardviewAdapterCotizaciones;
@@ -50,7 +51,7 @@ public class CotizacionesListFragment extends Fragment {
     public RecyclerView recyclerView_Cotizaciones;
     public static JSONArray listaCotizaciones;
     public TextView mensajeNoCotizaciones;
-    MKLoader loader;
+    ProgressBar loader;
     public static CardviewAdapterCotizaciones adapterCotizacionesList;
     public static ExpandableLayout expandable_layout;
     public static EditText txtFechaToolbarDesde, txtFechaToolbarHasta;
@@ -71,7 +72,7 @@ public class CotizacionesListFragment extends Fragment {
         ControllerActivity.fragmentAbiertoActual = this;
         toolbar.setTitle("Cotizaciones");
 
-        loader = (MKLoader)view.findViewById(R.id.loaderCotizaciones);
+        loader = (ProgressBar)view.findViewById(R.id.loaderCotizaciones);
         loader.setVisibility(View.VISIBLE);
         no_cot_registradas_layout = view.findViewById(R.id.no_cot_registradas_layout);
         mensajeNoCotizaciones = view.findViewById(R.id.mensajeNoCotizaciones);

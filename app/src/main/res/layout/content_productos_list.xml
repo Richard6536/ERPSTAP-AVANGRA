@@ -29,6 +29,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal|center">
 
+
         <com.tuyenmonkey.mkloader.MKLoader
             android:id="@+id/loaderProductos"
             android:layout_width="150dp"

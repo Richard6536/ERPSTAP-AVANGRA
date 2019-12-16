@@ -9,6 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
         android:background="#fff"
         android:layout_margin="0.5dp">
         <LinearLayout
@@ -65,6 +66,7 @@
                     android:id="@+id/checkBox_carrocompra_pasos"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:buttonTint="#36BA4C"
                     android:clickable="false"
                     android:layout_alignParentEnd="true"/>
 
@@ -74,52 +76,4 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <net.cachapa.expandablelayout.ExpandableLayout
-        android:id="@+id/expandable_layout_cardview_carroCompra_pasos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        app:el_duration="300"
-        app:el_expanded="false">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:gravity="center">
-            <Button
-                android:id="@+id/btnDisminuirCarroCompraPasos"
-                android:layout_width="50dp"
-                android:backgroundTint="#fff"
-                android:textColor="@color/colorBackgroundLogin"
-                android:layout_height="match_parent"
-                android:textStyle="bold"
-                android:text="—"/>
-            <EditText
-                android:id="@+id/editTextCantidadProductoCarroCompraPasos"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:textColor="#fff"
-                android:textColorHint="#F1F1F1"
-                android:backgroundTint="#fff"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:enabled="false"
-                android:gravity="center"
-                android:textSize="20dp"
-                android:text="1"/>
-            <Button
-                android:id="@+id/btnAumentarCarroCompraPasos"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:backgroundTint="#fff"
-                android:textColor="@color/colorBackgroundLogin"
-                android:textStyle="bold"
-                android:text="＋"/>
-        </LinearLayout>
-
-    </net.cachapa.expandablelayout.ExpandableLayout>
 </LinearLayout>

@@ -60,6 +60,7 @@ public class DialogBox {
 
                         Intent i = new Intent(context, MainNavigationActivity.class);
                         i.putExtra("KEY_COT_CREADA", true);
+                        i.putExtra("KEY_COT_RECHAZADA", false);
                         ControllerActivity.activiyAbiertaActual.startActivity(i);
                         ControllerActivity.activiyAbiertaActual.finish();
                     }

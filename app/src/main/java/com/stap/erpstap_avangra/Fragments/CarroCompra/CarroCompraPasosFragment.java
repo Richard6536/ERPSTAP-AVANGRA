@@ -15,11 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.stap.erpstap_avangra.Activity.ImageviewActivity;
 import com.stap.erpstap_avangra.Activity.VistaPreviaCotizacionActivity;
 import com.stap.erpstap_avangra.Adapters.CardviewAdapterCarroCompraPasos;
@@ -64,6 +66,8 @@ public class CarroCompraPasosFragment extends Fragment {
     public static List<Producto> productosTemporalEnCarroFragment = new ArrayList<>();
     Producto productoSeleccionado;
     View view;
+    public static int cantidadProducto;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +159,7 @@ public class CarroCompraPasosFragment extends Fragment {
 
                 if(pasoFinal(condicionSeleccionada.getPasosCondicions().size(), pasoActual)){
 
-                    progress_circular_carro_compra_pasos.setVisibility(View.VISIBLE);
+                    progress_circular_carro_compra_pasos.setVisibility(View.GONE);
                     btnContinuarCrearCotizacion.setEnabled(false);
 
                     Intent intent = new Intent(getContext(), VistaPreviaCotizacionActivity.class);
@@ -313,35 +317,89 @@ public class CarroCompraPasosFragment extends Fragment {
 
             adapterCarroCompraPasos = new CardviewAdapterCarroCompraPasos(getActivity(), listaProductosAdapter, new CardviewAdapterCarroCompraPasos.OnItemClickListener() {
                 @Override
-                public void onItemClicked(int position, int itemPosition, Producto _productoSeleccionado) {
+                public void onItemClicked(int position, int itemPosition, Producto _productoSeleccionado, List<Producto> listaProductos, boolean isImage) {
 
-                    List<String> imagenes = _productoSeleccionado.getImagenes();
+                    if(isImage){
+                        List<String> imagenes = _productoSeleccionado.getImagenes();
 
-                    if(imagenes.size() > 0){
+                        if(imagenes.size() > 0){
 
-                        ArrayList<String> imgArray = new ArrayList<>(imagenes);
+                            ArrayList<String> imgArray = new ArrayList<>(imagenes);
 
-                        ImageViewFragment imageViewFragment = new ImageViewFragment();
-                        Bundle arguments = new Bundle();
+                            ImageViewFragment imageViewFragment = new ImageViewFragment();
+                            Bundle arguments = new Bundle();
 
-                        arguments.putString("Nombre", _productoSeleccionado.getNombre());
-                        arguments.putString("Descripcion", _productoSeleccionado.getDescripcion());
-                        arguments.putBoolean("MostrarDescripcion", true);
-                        arguments.putStringArrayList("Imagenes", imgArray);
-                        arguments.putInt("Position", 0);
+                            arguments.putString("Nombre", _productoSeleccionado.getNombre());
+                            arguments.putString("Descripcion", _productoSeleccionado.getDescripcion());
+                            arguments.putBoolean("MostrarDescripcion", true);
+                            arguments.putStringArrayList("Imagenes", imgArray);
+                            arguments.putInt("Position", 0);
 
-                        imageViewFragment.setArguments(arguments);
-                        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.addToBackStack(null);
-                        ft.add(R.id.fragment_container_servicios_adicionales, imageViewFragment);
-                        ft.commit();
+                            imageViewFragment.setArguments(arguments);
+                            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.addToBackStack(null);
+                            ft.add(R.id.fragment_container_servicios_adicionales, imageViewFragment);
+                            ft.commit();
+                        }
                     }
+                    else{
 
+                        View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_ver_producto, null);
+
+                        Button btnAgregarAlCarro = (Button)dialogView.findViewById(R.id.btnAgregarAlCarro);
+                        TextView txtTituloBottomSheetProducto = (TextView)dialogView.findViewById(R.id.txtTituloBottomSheetProducto);
+
+                        EditText editTextCantidadProducto = (EditText) dialogView.findViewById(R.id.editTextCantidadProducto);
+                        cantidadProducto = _productoSeleccionado.getCantidad();
+                        editTextCantidadProducto.setText(String.valueOf(cantidadProducto));
+
+                        Button btnAumentar = (Button)dialogView.findViewById(R.id.btnAumentar);
+                        Button btnDisminuir = (Button)dialogView.findViewById(R.id.btnDisminuir);
+
+                        btnAumentar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cantidadProducto = cantidadProducto + 1;
+                                editTextCantidadProducto.setText(String.valueOf(cantidadProducto));
+                            }
+                        });
+
+                        btnDisminuir.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(cantidadProducto > 1){
+                                    cantidadProducto = cantidadProducto - 1;
+                                    editTextCantidadProducto.setText(String.valueOf(cantidadProducto));
+                                }
+                            }
+                        });
+
+                        final BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+                        dialog.setContentView(dialogView);
+                        dialog.show();
+
+                        txtTituloBottomSheetProducto.setText(_productoSeleccionado.getNombre());
+
+                        btnAgregarAlCarro.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                _productoSeleccionado.setCantidad(cantidadProducto);
+
+                                listaProductos.set(position, _productoSeleccionado);
+                                productosTemporalEnCarroFragment = listaProductos;
+
+                                adapterCarroCompraPasos.updateHolderContent(cantidadProducto);
+
+                                dialog.dismiss();
+                            }
+                        });
+                    }
                 }
             });
 
             recyclerView_carro_compra_pasos.setAdapter(adapterCarroCompraPasos);
-
+            recyclerView_carro_compra_pasos.getRecycledViewPool().setMaxRecycledViews(0,listaProductosAdapter.size());
+            recyclerView_carro_compra_pasos.setItemViewCacheSize(listaProductosAdapter.size());
         }
         else
         {

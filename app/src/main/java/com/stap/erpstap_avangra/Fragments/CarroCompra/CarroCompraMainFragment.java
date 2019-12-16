@@ -149,7 +149,7 @@ public class CarroCompraMainFragment extends Fragment {
                             }
                             else {
 
-                                progress_circular_carro_compra.setVisibility(View.VISIBLE);
+                                progress_circular_carro_compra.setVisibility(View.GONE);
                                 btnCrearCotizacion.setEnabled(false);
 
                                 Intent intent = new Intent(getContext(), VistaPreviaCotizacionActivity.class);
@@ -346,7 +346,7 @@ public class CarroCompraMainFragment extends Fragment {
                 try {
 
                     DialogBox dialog = new DialogBox();
-                    BorrarProductoDelCarro();
+                    //BorrarProductoDelCarro();
                     new BottomNavigationController().badgeCartRemove();
                     dialog.Create(ControllerActivity.fragmentAbiertoActual.getContext(), "Cotización Enviada con Éxito", "La nueva cotización se registrará en su lista de cotizaciones.", false);
                 }
@@ -367,11 +367,4 @@ public class CarroCompraMainFragment extends Fragment {
 
     }
 
-
-    public void BorrarProductoDelCarro(){
-        for (Iterator<ProductoEnCarro> iter = productosEnCarro.listIterator(); iter.hasNext(); ) {
-            ProductoEnCarro prod = iter.next();
-            iter.remove();
-        }
-    }
 }

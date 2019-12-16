@@ -6,6 +6,7 @@ import android.util.Log;
 import com.stap.erpstap_avangra.Activity.MenuEmpresaActivity;
 import com.stap.erpstap_avangra.Activity.ProductosListActivity;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
+import com.stap.erpstap_avangra.Fragments.MenuEmpresaFragment;
 import com.stap.erpstap_avangra.Fragments.ProductosListFragment;
 import com.stap.erpstap_avangra.Fragments.VerProductoFragment;
 
@@ -134,6 +135,10 @@ public class Empresa {
                 else if(activityActual.equals("VerProductoFragment")){
                     VerProductoFragment cc = (VerProductoFragment) ControllerActivity.fragmentAbiertoActual;
                     //cc.obtenerListaPerfilCondicionesRespuesta(respuestaOdata);
+                }
+                else if(activityActual.equals("MenuEmpresaFragment")){
+                    MenuEmpresaFragment cc = (MenuEmpresaFragment) ControllerActivity.fragmentAbiertoActual;
+                    cc.obtenerVersionAPPRespuesta(respuestaOdata);
                 }
             }
             catch (Exception e)
