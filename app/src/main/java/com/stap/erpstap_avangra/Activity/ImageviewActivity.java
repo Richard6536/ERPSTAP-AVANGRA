@@ -32,7 +32,7 @@ public class ImageviewActivity extends AppCompatActivity {
     String nombre, descripcion;
     List<String> imagenes;
     CarouselView carouselView;
-    TextView txtDescripcionCarroCompraImageView;
+    TextView txtDescripcionCarroCompraImageView, txtTituloImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +45,16 @@ public class ImageviewActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
+        nombre = bundle.getString("Nombre");
         position = bundle.getInt("Position", 0);
         descripcion = bundle.getString("Descripcion");
         mostrarDescripcion = bundle.getBoolean("MostrarDescripcion");
-        toolbar.setTitle(nombre);
+
+        //toolbar.setTitle(nombre);
         imagenes = bundle.getStringArrayList("Imagenes");
 
+        txtTituloImageView = findViewById(R.id.txtTituloImageView);
+        txtTituloImageView.setText(nombre);
         txtDescripcionCarroCompraImageView = findViewById(R.id.txtDescripcionCarroCompraImageView);
         txtDescripcionCarroCompraImageView.setText("Descripción:\n" + descripcion);
         ImageView img_close_imageview = findViewById(R.id.img_close_imageview);

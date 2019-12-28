@@ -177,6 +177,7 @@ public class VistaPreviaCotizacionActivity extends AppCompatActivity implements 
                 Intent i = new Intent(getApplication(), MainNavigationActivity.class);
                 i.putExtra("KEY_COT_CREADA", false);
                 i.putExtra("KEY_COT_RECHAZADA", true);
+                i.putExtra("KEY_BUSQUEDA_AVANZADA", false);
                 ControllerActivity.activiyAbiertaActual.startActivity(i);
                 ControllerActivity.activiyAbiertaActual.finish();
 

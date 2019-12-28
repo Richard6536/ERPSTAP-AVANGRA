@@ -1,0 +1,120 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.stap.erpstap_avangra.Fragments.BusquedaAvanzadaFormFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/item_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="22dp"
+                android:gravity="center">
+            </TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/checkboxForm"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:button="@null"
+                android:background="?android:attr/listChoiceIndicatorMultiple"
+                android:visibility="gone"
+                android:gravity="center"/>
+
+
+            <EditText
+                android:id="@+id/editTextNumericoForm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:visibility="gone"
+                android:ems="10"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/editTextRangoForm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textSize="50dp"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_busqueda_avanzada_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:weightSum="2">
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/btnOmitirBusquedaAvanzada"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="#1E88E5"
+                android:text="Omitir" />
+
+            <com.gc.materialdesign.views.ButtonFlat
+                android:id="@+id/btnSiguienteBusquedaAvanzada"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="#1E88E5"
+                android:text="Siguiente" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/loaderSubmitForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#FFFFFF"
+        android:gravity="center_horizontal|center">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</FrameLayout>

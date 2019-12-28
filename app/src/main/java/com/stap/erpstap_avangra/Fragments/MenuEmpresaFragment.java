@@ -1,10 +1,12 @@
 package com.stap.erpstap_avangra.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -14,13 +16,17 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.github.islamkhsh.CardSliderViewPager;
+import com.stap.erpstap_avangra.Activity.BusquedaAvanzadaActivity;
 import com.stap.erpstap_avangra.Activity.HelpActivity;
+import com.stap.erpstap_avangra.Activity.MainNavigationActivity;
 import com.stap.erpstap_avangra.Adapters.AnunciosAdapter;
 import com.stap.erpstap_avangra.Clases.Anuncio;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
+import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
+import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
 import com.stap.erpstap_avangra.R;
 import com.stap.erpstap_avangra.Session.SessionManager;
@@ -33,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.stap.erpstap_avangra.Activity.MainNavigationActivity.toolbar;
 
 public class MenuEmpresaFragment extends Fragment {
@@ -40,7 +47,7 @@ public class MenuEmpresaFragment extends Fragment {
 
     SessionManager sessionController;
     String nombreEmpresa;
-    CardView cardView_cot, cardView_cc, cardView_mc, cardView_help, cardview_update;
+    CardView cardView_cot, cardView_cc, cardView_mc, cardView_help, cv_filtro_avanzado;
     ProgressBar progressBarAnuncio;
     View view;
 
@@ -65,8 +72,7 @@ public class MenuEmpresaFragment extends Fragment {
         cardView_cc = (CardView)view.findViewById(R.id.cv_cc);
         cardView_mc = (CardView)view.findViewById(R.id.cv_mc);
         cardView_help = (CardView)view.findViewById(R.id.cv_help);
-        cardview_update = (CardView)view.findViewById(R.id.cv_update);
-        cardview_update.setVisibility(View.GONE);
+        cv_filtro_avanzado = (CardView)view.findViewById(R.id.cv_filtro_avanzado);
 
         progressBarAnuncio = (ProgressBar) view.findViewById(R.id.progressBarAnuncio);
         progressBarAnuncio.setVisibility(View.VISIBLE);
@@ -104,11 +110,11 @@ public class MenuEmpresaFragment extends Fragment {
             }
         });
 
-        cardview_update.setOnClickListener(new View.OnClickListener() {
+        cv_filtro_avanzado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.stap.erpstap"));
-                startActivity(browserIntent);
+                Intent intent = new Intent(getActivity(), BusquedaAvanzadaActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -118,7 +124,10 @@ public class MenuEmpresaFragment extends Fragment {
         }
 
         llamarObtenerAnuncios();
-        obtenerVersionAPP();
+
+        if(!FiltroAvanzado.is_busqueda_avanzada){
+            obtenerVersionAPP();
+        }
 
         return view;
     }
@@ -126,6 +135,10 @@ public class MenuEmpresaFragment extends Fragment {
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
+            Bundle arguments = new Bundle();
+            arguments.putBoolean("is_busqueda_avanzada", FiltroAvanzado.is_busqueda_avanzada);
+            fragment.setArguments(arguments);
+
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
@@ -284,8 +297,40 @@ public class MenuEmpresaFragment extends Fragment {
 
     public void mostrarActualizacionApp(int version){
 
-        if(version > R.string.APP_VERSION_CODE){
-            cardview_update.setVisibility(View.VISIBLE);
+        String v = getResources().getString(R.string.APP_VERSION_CODE);
+        int versionActual = Integer.parseInt(v);
+
+        if(version == versionActual){
+            boolean firstrun = getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("firstrun", true);
+            if (firstrun){
+                AlertDialogCotizacion("Una nueva versión de AVANGRA está disponible.","Actualización");
+                getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("firstrun", false).commit();
+            }
+
         }
     }
+
+    public void AlertDialogCotizacion(String mensaje, String titulo){
+
+        AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
+        builder.setMessage(mensaje)
+                .setTitle(titulo)
+                .setCancelable(false)
+                .setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.stap.erpstap"));
+                        startActivity(browserIntent);
+
+                    }})
+                .setNegativeButton("Después", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }

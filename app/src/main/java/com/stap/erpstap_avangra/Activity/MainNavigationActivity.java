@@ -1,13 +1,8 @@
 package com.stap.erpstap_avangra.Activity;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -16,10 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
 import com.stap.erpstap_avangra.Clases.Categoria;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
-import com.stap.erpstap_avangra.Clases.DialogBox;
+import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
 import com.stap.erpstap_avangra.Clases.ProductoEnCarro;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
-import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment;
 import com.stap.erpstap_avangra.Fragments.CotizacionesListFragment;
 import com.stap.erpstap_avangra.Fragments.MenuEmpresaFragment;
 import com.stap.erpstap_avangra.Fragments.ProductosListFragment;
@@ -38,21 +32,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import static com.stap.erpstap_avangra.Clases.Condiciones.condicionSeleccionada;
 import static com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment.pasoUS;
 import static com.stap.erpstap_avangra.Fragments.CotizacionesListFragment.adapterCotizacionesList;
 import static com.stap.erpstap_avangra.Fragments.CotizacionesListFragment.expandable_layout;
 import static com.stap.erpstap_avangra.Fragments.ProductosListFragment.adapterProductosList;
-import static com.stap.erpstap_avangra.Fragments.ProductosListFragment.drawerLayout;
 
 public class MainNavigationActivity extends AppCompatActivity {
 
@@ -61,6 +49,7 @@ public class MainNavigationActivity extends AppCompatActivity {
     public static Toolbar toolbar;
     public static int actualFragment;
     public Button btnAcceder;
+
 
     SessionManager sessionController;
 
@@ -110,18 +99,19 @@ public class MainNavigationActivity extends AppCompatActivity {
                     Categoria.categoriaSeleccionada = null;
 
                     fragment = new ProductosListFragment();
+
                     break;
             }
 
             if (!verificarVsitaCarroCompra()) {
-                return loadFragment(fragment);
+                return loadFragment(fragment, FiltroAvanzado.is_busqueda_avanzada);
             }
             else{
 
                 //Compuebo si vengo desde un fragment de "Pasos"
                 new ProductoEnCarro().limpiarListaProductosEnCarro();
 
-                return loadFragment(fragment);
+                return loadFragment(fragment, FiltroAvanzado.is_busqueda_avanzada);
                 //DialogBox
                 //CreateDialogWarning(getApplicationContext(),"","¿Desea cancelar la Cotización?", fragment, item.getItemId());
             }
@@ -137,7 +127,6 @@ public class MainNavigationActivity extends AppCompatActivity {
         //ControllerActivity.activiyAbiertaActual = this;
 
         sessionController = new SessionManager(getApplicationContext());
-
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -162,23 +151,23 @@ public class MainNavigationActivity extends AppCompatActivity {
 
         if(savedInstanceState == null) {
             actualFragment = 0;
-            loadFragment(new MenuEmpresaFragment());
+            loadFragment(new MenuEmpresaFragment(), FiltroAvanzado.is_busqueda_avanzada);
             //new BottomNavigationController().changeItemPosition(R.id.navigation_productos);
         }
         else{
             actualFragment = savedInstanceState.getInt("currentFragment");
             switch(actualFragment){
                 case 0:
-                    loadFragment(new MenuEmpresaFragment());
+                    loadFragment(new MenuEmpresaFragment(), FiltroAvanzado.is_busqueda_avanzada);
                     break;
                 case 1:
-                    loadFragment(new CotizacionesListFragment());
+                    loadFragment(new CotizacionesListFragment(), FiltroAvanzado.is_busqueda_avanzada);
                     break;
                 case 2:
-                    loadFragment(new CarroCompraMainFragment());
+                    loadFragment(new CarroCompraMainFragment(), FiltroAvanzado.is_busqueda_avanzada);
                     break;
                 case 3:
-                    loadFragment(new ProductosListFragment());
+                    loadFragment(new ProductosListFragment(), FiltroAvanzado.is_busqueda_avanzada);
                     break;
             }
         }
@@ -199,6 +188,7 @@ public class MainNavigationActivity extends AppCompatActivity {
             }
 
         }
+
     }
 
     @Override
@@ -209,25 +199,41 @@ public class MainNavigationActivity extends AppCompatActivity {
         if (extras != null) {
             boolean KEY_COT_CREADA = extras.getBoolean("KEY_COT_CREADA");
             boolean KEY_COT_RECHAZADA = extras.getBoolean("KEY_COT_RECHAZADA");
+            boolean KEY_BUSQUEDA_AVANZADA = extras.getBoolean("KEY_BUSQUEDA_AVANZADA", false);
 
             if(KEY_COT_CREADA){
                 getIntent().removeExtra("KEY_COT_CREADA");
                 getIntent().removeExtra("KEY_COT_RECHAZADA");
+                getIntent().removeExtra("KEY_BUSQUEDA_AVANZADA");
 
                 new BottomNavigationController().changeItemPosition(R.id.navigation_cotizaciones);
             }
             else if(KEY_COT_RECHAZADA){
                 getIntent().removeExtra("KEY_COT_CREADA");
                 getIntent().removeExtra("KEY_COT_RECHAZADA");
+                getIntent().removeExtra("KEY_BUSQUEDA_AVANZADA");
 
                 new BottomNavigationController().changeItemPosition(R.id.navigation_carro_compra);
+            }
+            else if(KEY_BUSQUEDA_AVANZADA){
+                getIntent().removeExtra("KEY_COT_CREADA");
+                getIntent().removeExtra("KEY_COT_RECHAZADA");
+                getIntent().removeExtra("KEY_BUSQUEDA_AVANZADA");
+
+                FiltroAvanzado.is_busqueda_avanzada = KEY_BUSQUEDA_AVANZADA;
+                new BottomNavigationController().changeItemPosition(R.id.navigation_productos);
             }
         }
     }
 
-    private boolean loadFragment(Fragment fragment) {
+    private boolean loadFragment(Fragment fragment, boolean is_busqueda_avanzada) {
         //switching fragment
         if (fragment != null) {
+
+            Bundle arguments = new Bundle();
+            arguments.putBoolean("is_busqueda_avanzada", is_busqueda_avanzada);
+            fragment.setArguments(arguments);
+
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)

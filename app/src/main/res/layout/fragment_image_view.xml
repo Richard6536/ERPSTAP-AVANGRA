@@ -8,28 +8,59 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right">
-        <ImageView
-            android:id="@+id/img_close_imageview"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="5dp"
-            android:tint="#fff"
-            android:src="@drawable/ic_close_black_24dp"/>
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="left">
+                <ImageView
+                    android:id="@+id/img_close_imageview"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:tint="#fff"
+                    android:src="@drawable/ic_close_black_24dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp">
+                <TextView
+                    android:id="@+id/txtTituloImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#fff"
+                    android:textSize="20dp"
+                    android:text="Titulo">
+
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/imgViewProd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="58dp"
+            app:fillColor="#000000"
+            app:pageColor="#00000000"
+            app:radius="6dp"
+            app:slideInterval="3000"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp" />
     </LinearLayout>
 
-    <com.synnapps.carouselview.CarouselView
-        android:id="@+id/imgViewProd"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="75dp"
-        app:fillColor="#000000"
-        app:pageColor="#00000000"
-        app:radius="6dp"
-        app:slideInterval="3000"
-        app:strokeColor="#FF777777"
-        app:strokeWidth="1dp" />
 
     <include layout="@layout/bottomsheets_carrocompra" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

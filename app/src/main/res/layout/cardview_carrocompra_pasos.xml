@@ -15,64 +15,82 @@
         <LinearLayout
             android:id="@+id/layoutCardview_carrocompa_pasos"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:weightSum="1">
+            android:padding="8dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/imgViewProductoCarroCompraPasos"
+                    android:layout_width="150px"
+                    android:layout_height="150px"
+                    android:adjustViewBounds="true" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imgViewProductoCarroCompraPasos"
-                android:layout_width="150px"
-                android:layout_height="150px"
-                android:adjustViewBounds="true" />
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginLeft="30px"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/txtNombreProductoCarroCompraPasos"
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="left"
-                    android:text="Nombre" />
+                    android:layout_marginLeft="10dp">
+                    <TextView
+                        android:id="@+id/txtNombreProductoCarroCompraPasos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Nombre" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtPrecioProductoCarroCompraPasos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtNombreProductoCarroCompraPasos"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="7dp"
-                    android:gravity="center"
-                    android:text="Precio"
-                    android:textColor="#4CAF50"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/txtPrecioProductoCarroCompraPasos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtNombreProductoCarroCompraPasos"
+                            android:layout_marginTop="7dp"
+                            android:gravity="center"
+                            android:text="Precio"
+                            android:textColor="#4CAF50"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtCantidadPasosCarroCompra"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:gravity="center"
-                    android:textSize="15dp"
-                    android:text="Cantidad: 10"
-                    android:layout_below="@+id/txtPrecioProductoCarroCompraPasos"/>
+                        <TextView
+                            android:id="@+id/txtCantidadPasosCarroCompra"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:gravity="center"
+                            android:textSize="15dp"
+                            android:text="Cantidad: 10"
+                            android:layout_below="@+id/txtPrecioProductoCarroCompraPasos"/>
 
-                <CheckBox
-                    android:id="@+id/checkBox_carrocompra_pasos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:buttonTint="#36BA4C"
-                    android:clickable="false"
-                    android:layout_alignParentEnd="true"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:layout_gravity="center">
+                        <CheckBox
+                            android:id="@+id/checkBox_carrocompra_pasos"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:buttonTint="#36BA4C"
+                            android:clickable="false" />
+                    </LinearLayout>
+                </LinearLayout>
 
-
-            </RelativeLayout>
-
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

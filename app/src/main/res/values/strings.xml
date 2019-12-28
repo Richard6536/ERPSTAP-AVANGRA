@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AVANGRA</string>
     <string name="app_version">1.0.4</string>
-    <string name="APP_VERSION_CODE">4</string>
+    <string name="APP_VERSION_CODE">5</string>
     <string name="title_activity_sesion">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -153,4 +153,8 @@ AVANGRA Se reserva el derecho de cambiar los términos de la presente Política 
     <string name="key_password_change">key_password_change</string>
     <string name="title_activity_default">DefaultActivity</string>
     <string name="title_activity_test2">Test2Activity</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

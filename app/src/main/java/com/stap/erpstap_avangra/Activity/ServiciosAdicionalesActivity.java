@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.ProductoEnCarro;
@@ -28,6 +29,7 @@ import java.util.List;
 public class ServiciosAdicionalesActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+    public static AppBarLayout app_bar_ServiciosAdicionales;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class ServiciosAdicionalesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_servicios_adicionales);
         ControllerActivity.activiyAbiertaActual = this;
 
+        app_bar_ServiciosAdicionales = findViewById(R.id.app_bar);
         toolbar = findViewById(R.id.toolbar_servicios_adicionales);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Carro de Compra");

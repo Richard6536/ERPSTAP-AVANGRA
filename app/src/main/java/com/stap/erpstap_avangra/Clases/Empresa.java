@@ -129,8 +129,10 @@ public class Empresa {
                     cc.obtenerListaPerfilCondicionesRespuesta(respuestaOdata);
                 }
                 else if(activityActual.equals("ProductosListFragment")){
-                    ProductosListFragment cc = (ProductosListFragment) ControllerActivity.fragmentAbiertoActual;
-                    cc.obtenerListaProductos(respuestaOdata);
+                    if(FiltroAvanzado.is_busqueda_avanzada == false){
+                        ProductosListFragment cc = (ProductosListFragment) ControllerActivity.fragmentAbiertoActual;
+                        cc.obtenerListaProductos(respuestaOdata);
+                    }
                 }
                 else if(activityActual.equals("VerProductoFragment")){
                     VerProductoFragment cc = (VerProductoFragment) ControllerActivity.fragmentAbiertoActual;

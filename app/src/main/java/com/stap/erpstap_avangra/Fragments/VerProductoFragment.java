@@ -187,22 +187,6 @@ public class VerProductoFragment extends Fragment {
                         arguments.putInt("Position", position);
                         intent.putExtras(arguments); //Put your id to your next Intent
                         startActivity(intent);
-
-                        /*
-                        ImageViewFragment imageViewFragment = new ImageViewFragment();
-                        Bundle arguments = new Bundle();
-
-                        arguments.putString("Nombre", nombre);
-                        arguments.putString("Descripcion", "");
-                        arguments.putBoolean("MostrarDescripcion", false);
-                        arguments.putStringArrayList("Imagenes", imgArray);
-                        arguments.putInt("Position", position);
-
-                        imageViewFragment.setArguments(arguments);
-                        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.addToBackStack(null);
-                        ft.add(R.id.fragment_container, imageViewFragment);
-                        ft.commit();*/
                     }
                 }
             }
@@ -255,40 +239,6 @@ public class VerProductoFragment extends Fragment {
 
                     txtTituloBottomSheetProducto.setText(nombre);
 
-                    /*
-                    btnCrearCotizacionSeleccionarCondiciones.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            if(sessionController.checkLogin() == true) {
-
-                                controlAgregarProducto();
-                                dialog.dismiss();
-
-                                if(productosEnCarro.size() > 0){
-
-                                    if(condicionSeleccionada.getPasosCondicions().size() > 0){
-
-                                        Intent intent = new Intent(getActivity(), ServiciosAdicionalesActivity.class);
-                                        intent.putExtra("NombreProd", nombre);
-                                        startActivity(intent);
-                                    }
-                                    else {
-
-                                        //progr.setVisibility(View.VISIBLE);
-                                        btnCrearCotizacionSeleccionarCondiciones.setEnabled(false);
-
-                                        new Cotizacion().prepararCotizacion(getActivity(),productosEnCarro, condicionSeleccionada.getId());
-
-                                    }
-                                }
-                            }
-                            else{
-                                new DialogBox().IniciarSesionDialog(getActivity(),"Iniciar Sesión","Necesitas Iniciar Sesión para crear una Cotización");
-                            }
-                        }
-                    });*/
-
                     btnAgregarAlCarro.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -334,133 +284,6 @@ public class VerProductoFragment extends Fragment {
 
         return view;
     }
-
-    /*
-
-    public void obtenerListaPerfilCondiciones(){
-
-        JSONObject datos = new JSONObject();
-
-        try {
-
-            String idUsuario = "0";
-            String llave = "";
-            String idEmpresa = "1";
-
-            if(sessionController.checkLogin() == true) {
-
-                HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
-                idUsuario = datosUsuario.get(SessionManager.KEY_ID);
-                llave = datosUsuario.get(SessionManager.KEY_LLAVE);
-                idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
-            }
-
-            datos.put("IdUser", idUsuario);
-            datos.put("IdEmpresa",idEmpresa);
-            datos.put("Llave",llave);
-
-            //Enviar datos al webservice
-            new Empresa.ObtenerEmpresa().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    public void obtenerListaPerfilCondicionesRespuesta(JSONObject respuesta)
-    {
-        try {
-
-            String tipoRespuesta = respuesta.getString("TipoRespuesta");
-            if(tipoRespuesta.equals("OK")){
-                try {
-
-                    JSONArray listaCondiciones = respuesta.getJSONArray("PerfilesCondicionesCotizacion");
-                    condicionesLs = new Condiciones().cargarCondiciones(listaCondiciones);
-                    cargarSpinner(condicionesLs);
-                }
-                catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
-            else if(tipoRespuesta.equals("ERROR")){
-                String errorMensaje = respuesta.getString("Mensaje");
-                new DialogBox().CreateDialogError(ControllerActivity.fragmentAbiertoActual.getContext(),"Ha ocurrido un problema", errorMensaje);
-            }
-            else if(tipoRespuesta.equals("ERROR_SESION")) {
-                sessionController.logoutUser();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    public void RespuestaEnvioCotizacion(JSONObject respuesta){
-
-        try {
-            String tipoRespuesta = respuesta.getString("TipoRespuesta");
-            //progress_circular_carro_compra.setVisibility(View.GONE);
-            //btnCrearCotizacionSeleccionarCondiciones.setEnabled(true);
-
-            if(tipoRespuesta.equals("OK")){
-                try {
-                    DialogBox dialog = new DialogBox();
-                    BorrarProductoDelCarro();
-
-                    new BottomNavigationController().badgeCartRemove();
-                    dialog.Create(ControllerActivity.fragmentAbiertoActual.getContext(), "Cotización Enviada con Éxito", "La nueva cotización se registrará en su lista de cotizaciones.", false);
-                }
-                catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
-            else if(tipoRespuesta.equals("ERROR")){
-                String errorMensaje = respuesta.getString("Mensaje");
-                new DialogBox().CreateDialogError(ControllerActivity.fragmentAbiertoActual.getContext(),"Ha ocurrido un problema", errorMensaje);
-            }
-            else if(tipoRespuesta.equals("ERROR_SESION")) {
-                sessionController.logoutUser();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-    public void cargarSpinner(final List<Condiciones> condiciones){
-
-        spinnerCondicionesCarroCompraVerProducto.setItem(condiciones);
-
-        //condicionSeleccionada = condiciones.get(0);
-        spinnerCondicionesCarroCompraVerProducto.setSelection(0, true);
-
-        spinnerCondicionesCarroCompraVerProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
-                condicionSeleccionada = condiciones.get(position);
-
-                if(condicionSeleccionada.getPasosCondicions().size() > 0){
-                    Drawable img = getContext().getResources().getDrawable( R.drawable.ic_keyboard_arrow_right_black_24dp );
-                    btnCrearCotizacionSeleccionarCondiciones.setCompoundDrawablesWithIntrinsicBounds( null, null, img, null);
-
-                    int condSize = condicionSeleccionada.getPasosCondicions().size() + 1;
-                    btnCrearCotizacionSeleccionarCondiciones.setText("Continuar (Paso 1/"+condSize+")");
-                    btnCrearCotizacionSeleccionarCondiciones.setBackgroundColor(Color.parseColor("#4CAF50"));
-
-                }
-                else {
-
-                    btnCrearCotizacionSeleccionarCondiciones.setText("Crear Cotización");
-                    Drawable img = getContext().getResources().getDrawable( R.drawable.ic_add_black_24dp );
-                    btnCrearCotizacionSeleccionarCondiciones.setCompoundDrawablesWithIntrinsicBounds( null, null, img, null);
-                    btnCrearCotizacionSeleccionarCondiciones.setBackgroundColor(Color.parseColor("#EB3323"));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-    }
-*/
 
     public void verificarProductoEnCarro(){
         if (checkProduct() == true) {

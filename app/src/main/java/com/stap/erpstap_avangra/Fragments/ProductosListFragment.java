@@ -2,6 +2,7 @@ package com.stap.erpstap_avangra.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -43,6 +44,7 @@ import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.stap.erpstap_avangra.Activity.BusquedaAvanzadaActivity;
 import com.stap.erpstap_avangra.Activity.MainNavigationActivity;
 import com.stap.erpstap_avangra.Adapters.CardFragmentPagerAdapter;
 import com.stap.erpstap_avangra.Adapters.CardviewAdapterProductos;
@@ -53,6 +55,7 @@ import com.stap.erpstap_avangra.Clases.Categoria;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
+import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
 import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.MainActivity;
 import com.stap.erpstap_avangra.R;
@@ -81,14 +84,13 @@ public class ProductosListFragment extends Fragment {
     public static DrawerLayout drawerLayout;
     public static boolean drawerLayoutIsOpen = false;
 
-    LinearLayout mainView;
+    LinearLayout mainView, content_categorias, content_mensaje_busqueda_avanzada;
     ListView listViewCategorias;
 
     RelativeLayout mensajeCategoriaSinProductos;
     public static TextView txtMensajeNoExistenProductosList;
     SessionManager sessionController;
     public int idSeleccionado = 0;
-    public static JSONArray listaProductos;
 
     RadioGroup radioButton;
     CardView img_filter_options;
@@ -101,6 +103,7 @@ public class ProductosListFragment extends Fragment {
     public static CardviewAdapterProductos adapterProductosList;
     CategoriaRecyclerViewAdapter adapterCategoria;
     View view;
+    boolean is_busqueda_avanzada = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +122,9 @@ public class ProductosListFragment extends Fragment {
 
         sessionController = new SessionManager(getActivity());
         toolbar.setTitle("Productos");
+
+        Bundle bundle = getArguments();
+        is_busqueda_avanzada = bundle.getBoolean("is_busqueda_avanzada",false);
 
         loader = (RelativeLayout)view.findViewById(R.id.loaderProductos);
         loader.setVisibility(View.VISIBLE);
@@ -140,6 +146,27 @@ public class ProductosListFragment extends Fragment {
         txtTituloCategoriaProducto = (TextView)view.findViewById(R.id.txtTituloCategoriaProducto);
         layoutTextTittle = (CardView) view.findViewById(R.id.layoutTextTittle);
         layoutTextTittle.setVisibility(View.GONE);
+        content_categorias = (LinearLayout) view.findViewById(R.id.content_categorias);
+        content_mensaje_busqueda_avanzada = (LinearLayout) view.findViewById(R.id.content_mensaje_busqueda_avanzada);
+
+        Button btnNuevaBusqueda = (Button)view.findViewById(R.id.btnNuevaBusqueda);
+        Button btnSalirBusquedaAvanzada = (Button)view.findViewById(R.id.btnSalirBusquedaAvanzada);
+
+        btnNuevaBusqueda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), BusquedaAvanzadaActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSalirBusquedaAvanzada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FiltroAvanzado.is_busqueda_avanzada = false;
+                new BottomNavigationController().changeItemPosition(R.id.navigation_productos);
+            }
+        });
 
         //MainNavigationActivity.searchItem.setVisible(true);
 
@@ -209,20 +236,6 @@ public class ProductosListFragment extends Fragment {
             }
         });
 
-
-        if(Categoria.categoriaSeleccionada == null){
-            llamarListaProductos();
-        }
-        else{
-
-            List<Producto> productoListCategorias = new Categoria().buscarProductosPorCategoria(Categoria.categoriaSeleccionada.getId());
-            txtTituloCategoriaProducto.setText(Categoria.categoriaSeleccionada.getNombre());
-            layoutTextTittle.setVisibility(View.VISIBLE);
-            agregarProductosAlAdapter(productoListCategorias);
-            mostrarCategorias();
-
-        }
-
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
         mainView=(LinearLayout) view.findViewById(R.id.content_frame);
 
@@ -249,6 +262,28 @@ public class ProductosListFragment extends Fragment {
         });
 
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+
+        if(Categoria.categoriaSeleccionada == null){
+            if(is_busqueda_avanzada){
+                mostrarProductos();
+                mostrarCategorias();
+                layoutTextTittle.setVisibility(View.VISIBLE);
+            }
+            else{
+                llamarListaProductos();
+            }
+
+        }
+        else{
+
+            List<Producto> productoListCategorias = new Categoria().buscarProductosPorCategoria(Categoria.categoriaSeleccionada.getId());
+            txtTituloCategoriaProducto.setText(Categoria.categoriaSeleccionada.getNombre());
+            layoutTextTittle.setVisibility(View.VISIBLE);
+            agregarProductosAlAdapter(productoListCategorias);
+            mostrarCategorias();
+
+        }
 
         return view;
     }
@@ -296,17 +331,17 @@ public class ProductosListFragment extends Fragment {
     }
 
     public void mostrarProductos() {
-        if(listaProductos.length() > 0) {
+        if(Producto.listaProductos.length() > 0) {
 
             Producto.productosList = new ArrayList<>();
 
-            for(int x = 0; x <listaProductos.length(); x++) {
+            for(int x = 0; x <Producto.listaProductos.length(); x++) {
 
                 JSONObject proveedor = null;
 
                 try {
 
-                    proveedor = listaProductos.getJSONObject(x);
+                    proveedor = Producto.listaProductos.getJSONObject(x);
 
                     int id = proveedor.getInt("Id");
                     String nombre = proveedor.getString("Nombre");
@@ -441,7 +476,7 @@ public class ProductosListFragment extends Fragment {
                 try {
 
                     layoutTextTittle.setVisibility(View.VISIBLE);
-                    listaProductos = respuesta.getJSONArray("Productos");
+                    Producto.listaProductos = respuesta.getJSONArray("Productos");
                     Categoria.listaCategoriasJsonArray = respuesta.getJSONArray("Categorias");
                     //chipGroup.removeAllViews();
 
@@ -465,6 +500,7 @@ public class ProductosListFragment extends Fragment {
     }
 
     public void mostrarCategorias() {
+
         Categoria.categoriasList = new ArrayList<>();
 
         new Categoria().ordenarCategoriasPrincipales("ESTUFA");
@@ -479,17 +515,21 @@ public class ProductosListFragment extends Fragment {
 
                 proveedor = Categoria.listaCategoriasJsonArray.getJSONObject(x);
 
-                final int id = proveedor.getInt("Id");
-                final String nombre = proveedor.getString("Nombre");
+                int id = proveedor.getInt("Id");
+                String nombre = proveedor.getString("Nombre");
 
-                if(!nombre.equals("ESTUFA") || !nombre.equals("CALDERA") || !nombre.equals("SERVICIO")){
+                if(!nombre.equals("ESTUFA")){
+                    if(!nombre.equals("CALDERA")){
+                        if(!nombre.equals("SERVICIO")){
+                            Categoria categoria = new Categoria();
+                            categoria.setId(id);
+                            categoria.setPosition(x);
+                            categoria.setNombre(nombre);
 
-                    final Categoria categoria = new Categoria();
-                    categoria.setId(id);
-                    categoria.setPosition(x);
-                    categoria.setNombre(nombre);
+                            Categoria.categoriasList.add(categoria);
+                        }
+                    }
 
-                    Categoria.categoriasList.add(categoria);
                 }
 
 
@@ -499,13 +539,14 @@ public class ProductosListFragment extends Fragment {
 
         }
 
-        Categoria categoriaTodosLosProductos = new Categoria();
-        categoriaTodosLosProductos.setId(-1);
-        categoriaTodosLosProductos.setPosition(-1);
-        categoriaTodosLosProductos.setNombre("PRODUCTOS");
+        if(is_busqueda_avanzada == false){
+            Categoria categoriaTodosLosProductos = new Categoria();
+            categoriaTodosLosProductos.setId(-1);
+            categoriaTodosLosProductos.setPosition(-1);
+            categoriaTodosLosProductos.setNombre("PRODUCTOS");
 
-        Categoria.categoriasList.add(categoriaTodosLosProductos);
-
+            Categoria.categoriasList.add(categoriaTodosLosProductos);
+        }
 
         cardview_categoria_1 = view.findViewById(R.id.cardview_categoria_1);
         cardview_categoria_2 = view.findViewById(R.id.cardview_categoria_2);
@@ -522,6 +563,7 @@ public class ProductosListFragment extends Fragment {
 
         if(Categoria.categoriasList.size() != 0){
             List<Producto> productosPorCategoria = new Categoria().buscarProductosPorCategoria(Categoria.categoriasList.get(0).getId());
+
             agregarProductosAlAdapter(productosPorCategoria);
 
             txtTituloCategoriaProducto.setText(Categoria.categoriasList.get(0).getNombre());
@@ -555,8 +597,8 @@ public class ProductosListFragment extends Fragment {
 
                 for(Categoria categoria : Categoria.categoriasList){
                     if(Integer.parseInt(txtCategoria_1_id.getText().toString()) != categoria.getId() &&
-                    Integer.parseInt(txtCategoria_2_id.getText().toString()) != categoria.getId() &&
-                    Integer.parseInt(txtCategoria_3_id.getText().toString()) != categoria.getId()){
+                            Integer.parseInt(txtCategoria_2_id.getText().toString()) != categoria.getId() &&
+                            Integer.parseInt(txtCategoria_3_id.getText().toString()) != categoria.getId()){
                         categoriasListOrdenada.add(categoria);
                     }
                 }
@@ -644,7 +686,6 @@ public class ProductosListFragment extends Fragment {
                 listViewCategorias.setBackgroundColor(Color.parseColor("#ffffff"));
             }
         });
-
         cardview_categoria_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -669,7 +710,6 @@ public class ProductosListFragment extends Fragment {
                 listViewCategorias.setBackgroundColor(Color.parseColor("#ffffff"));
             }
         });
-
         cardview_categoria_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -694,7 +734,6 @@ public class ProductosListFragment extends Fragment {
                 listViewCategorias.setBackgroundColor(Color.parseColor("#ffffff"));
             }
         });
-
         cardView_categoria_mas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -703,6 +742,21 @@ public class ProductosListFragment extends Fragment {
             }
         });
 
+        if(is_busqueda_avanzada){
+
+            content_mensaje_busqueda_avanzada.setVisibility(View.VISIBLE);
+            if(Categoria.categoriasList.size() == 1){
+                content_categorias.setVisibility(View.GONE);
+            }
+
+            if(Producto.productosList.size() == 0){
+                txtMensajeNoExistenProductosList.setVisibility(View.VISIBLE);
+                content_categorias.setVisibility(View.GONE);
+                layoutTextTittle.setVisibility(View.GONE);
+                loader.setVisibility(View.GONE);
+            }
+
+        }
 
     }
 

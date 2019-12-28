@@ -10,6 +10,7 @@ import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment;
 import com.stap.erpstap_avangra.Fragments.ProductosListFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -124,6 +125,7 @@ public class Producto  {
     }
 
     public static List<Producto> productosList = new ArrayList<>();
+    public static JSONArray listaProductos = new JSONArray();
 
     public static class ObtenerProductosPorPaso extends AsyncTask<String,String, JSONObject>
     {

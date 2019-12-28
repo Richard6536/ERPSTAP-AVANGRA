@@ -1,6 +1,5 @@
 package com.stap.erpstap_avangra.Fragments;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -19,10 +19,13 @@ import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.squareup.picasso.Picasso;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
@@ -35,6 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 import static com.stap.erpstap_avangra.Activity.MainNavigationActivity.toolbar;
+import static com.stap.erpstap_avangra.Activity.ServiciosAdicionalesActivity.app_bar_ServiciosAdicionales;
 
 public class ImageViewFragment extends Fragment {
 
@@ -43,7 +47,7 @@ public class ImageViewFragment extends Fragment {
     String nombre, descripcion;
     List<String> imagenes;
     CarouselView carouselView;
-    TextView txtDescripcionCarroCompraImageView;
+    TextView txtDescripcionCarroCompraImageView, txtTituloImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,8 @@ public class ImageViewFragment extends Fragment {
         toolbar.setTitle("Carro de Compra");
         imagenes = bundle.getStringArrayList("Imagenes");
 
+        txtTituloImageView = view.findViewById(R.id.txtTituloImageView);
+        txtTituloImageView.setText(nombre);
         txtDescripcionCarroCompraImageView = view.findViewById(R.id.txtDescripcionCarroCompraImageView);
         txtDescripcionCarroCompraImageView.setText("Descripción:\n" + descripcion);
         ImageView img_close_imageview = view.findViewById(R.id.img_close_imageview);
