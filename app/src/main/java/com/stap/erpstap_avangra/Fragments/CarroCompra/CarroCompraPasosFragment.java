@@ -1,11 +1,13 @@
 package com.stap.erpstap_avangra.Fragments.CarroCompra;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -159,14 +161,18 @@ public class CarroCompraPasosFragment extends Fragment {
 
                 if(pasoFinal(condicionSeleccionada.getPasosCondicions().size(), pasoActual)){
 
-                    progress_circular_carro_compra_pasos.setVisibility(View.GONE);
-                    btnContinuarCrearCotizacion.setEnabled(false);
+                    if(ProductoEnCarro.productosEnCarro.size() > 0){
+                        progress_circular_carro_compra_pasos.setVisibility(View.GONE);
+                        btnContinuarCrearCotizacion.setEnabled(false);
 
-                    Intent intent = new Intent(getContext(), VistaPreviaCotizacionActivity.class);
-                    intent.putExtra("IdCondicionSeleccionada", condicionSeleccionada.getId());
-                    startActivity(intent);
-                    //new Cotizacion().prepararCotizacion(getActivity(),productosEnCarro, condicionSeleccionada.getId());
-
+                        Intent intent = new Intent(getContext(), VistaPreviaCotizacionActivity.class);
+                        intent.putExtra("IdCondicionSeleccionada", condicionSeleccionada.getId());
+                        startActivity(intent);
+                        //new Cotizacion().prepararCotizacion(getActivity(),productosEnCarro, condicionSeleccionada.getId());
+                    }
+                    else{
+                        AlertDialogProductos("Necesita agregar productos al Carro de Compra para continuar","Carro de Compra vacío");
+                    }
                 }
                 else{
 
@@ -205,6 +211,23 @@ public class CarroCompraPasosFragment extends Fragment {
 
         llamarListaProductos();
     }
+
+    public void AlertDialogProductos(String mensaje, String titulo){
+
+        AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
+        builder.setMessage(mensaje)
+                .setTitle(titulo)
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }});
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 
     public void llamarListaProductos(){
 

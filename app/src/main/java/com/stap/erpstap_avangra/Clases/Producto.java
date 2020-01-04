@@ -41,6 +41,9 @@ public class Producto  {
     boolean marcado;
     boolean isChecked;
 
+    List<CaracteristicaProducto> caracteristicasProducto = new ArrayList<>();
+    int numeroCaracteristicasTrue;
+    boolean busquedaCoincide100Porciento;
 
     List<String> imagenes = new ArrayList<>();
 
@@ -122,6 +125,30 @@ public class Producto  {
 
     public void setMarcado(boolean marcado) {
         this.marcado = marcado;
+    }
+
+    public List<CaracteristicaProducto> getCaracteristicasProducto() {
+        return caracteristicasProducto;
+    }
+
+    public void setCaracteristicasProducto(List<CaracteristicaProducto> caracteristicasProducto) {
+        this.caracteristicasProducto = caracteristicasProducto;
+    }
+
+    public int getNumeroCaracteristicasTrue() {
+        return numeroCaracteristicasTrue;
+    }
+
+    public void setNumeroCaracteristicasTrue(int numeroCaracteristicasTrue) {
+        this.numeroCaracteristicasTrue = numeroCaracteristicasTrue;
+    }
+
+    public boolean isBusquedaCoincide100Porciento() {
+        return busquedaCoincide100Porciento;
+    }
+
+    public void setBusquedaCoincide100Porciento(boolean busquedaCoincide100Porciento) {
+        this.busquedaCoincide100Porciento = busquedaCoincide100Porciento;
     }
 
     public static List<Producto> productosList = new ArrayList<>();

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.preference.PreferenceManager;
@@ -39,13 +41,17 @@ import com.squareup.picasso.Picasso;
 import com.stap.erpstap_avangra.Activity.DescriptionActivity;
 import com.stap.erpstap_avangra.Activity.ImageviewActivity;
 import com.stap.erpstap_avangra.Activity.ServiciosAdicionalesActivity;
+import com.stap.erpstap_avangra.Adapters.CardviewAdapterCaracteristicasProducto;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
+import com.stap.erpstap_avangra.Clases.CaracteristicaProducto;
 import com.stap.erpstap_avangra.Clases.Condiciones;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.Cotizacion;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
+import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
 import com.stap.erpstap_avangra.Clases.Moneda;
+import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.Clases.ProductoEnCarro;
 import com.stap.erpstap_avangra.R;
 import com.stap.erpstap_avangra.Session.SessionManager;
@@ -82,6 +88,7 @@ public class VerProductoFragment extends Fragment {
     FrameLayout gradient_view;
     CardView cardView_descripcion_producto;
     FrameLayout img_descrip;
+    View view;
 
     Button btnCrearCotizacionSeleccionarCondiciones;
 
@@ -96,7 +103,7 @@ public class VerProductoFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_ver_producto, container, false);
+        view = inflater.inflate(R.layout.fragment_ver_producto, container, false);
         ControllerActivity.fragmentAbiertoActual = this;
         sessionController = new SessionManager(getActivity());
 
@@ -282,7 +289,41 @@ public class VerProductoFragment extends Fragment {
 
         verificarProductoEnCarro();
 
+
+        if(FiltroAvanzado.is_busqueda_avanzada){
+            mostrarCaracteristicas();
+        }
+
         return view;
+    }
+
+    public void mostrarCaracteristicas(){
+        List<CaracteristicaProducto> caracteristicasProducto = new ArrayList<>();
+
+        for(Producto p : Producto.productosList){
+            if(id == p.getId()){
+                caracteristicasProducto = p.getCaracteristicasProducto();
+            }
+        }
+
+        CardView cardView_caracteristicas = (CardView)view.findViewById(R.id.cardView_caracteristicas);
+        cardView_caracteristicas.setVisibility(View.VISIBLE);
+
+        //TODO:VIEW:content_caracteristicas_ver_producto.xml
+        RecyclerView recyclerView_condiciones_cotizacion = (RecyclerView)view.findViewById(R.id.recyclerView_caracteristicas_ver_producto);
+        recyclerView_condiciones_cotizacion.setHasFixedSize(true);
+        GridLayoutManager mGridLayoutManager2 = new GridLayoutManager(getContext(), 1);
+        recyclerView_condiciones_cotizacion.setLayoutManager(mGridLayoutManager2);
+        //TODO:VIEW:content_caracteristicas_ver_producto.xml
+
+        CardviewAdapterCaracteristicasProducto adapterCondiciones = new CardviewAdapterCaracteristicasProducto(getContext(), caracteristicasProducto, new CardviewAdapterCaracteristicasProducto.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int position, int itemPosition, CaracteristicaProducto caracteristicaProducto) {
+
+            }
+        });
+
+        recyclerView_condiciones_cotizacion.setAdapter(adapterCondiciones);
     }
 
     public void verificarProductoEnCarro(){

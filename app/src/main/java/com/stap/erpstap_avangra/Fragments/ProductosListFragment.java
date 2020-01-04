@@ -51,6 +51,7 @@ import com.stap.erpstap_avangra.Adapters.CardviewAdapterProductos;
 import com.stap.erpstap_avangra.Adapters.CategoriaRecyclerViewAdapter;
 import com.stap.erpstap_avangra.Adapters.ShadowTransformer;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
+import com.stap.erpstap_avangra.Clases.CaracteristicaProducto;
 import com.stap.erpstap_avangra.Clases.Categoria;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
@@ -351,6 +352,10 @@ public class ProductosListFragment extends Fragment {
                     int categoriaId = proveedor.getInt("CategoriaId");
                     String categoriaNombre = proveedor.getString("CategoriaNombre");
                     JSONArray imagenes = proveedor.getJSONArray("DireccionImagenes");
+                    JSONArray caracteristicas = proveedor.getJSONArray("Caracteristicas");
+
+                    boolean busquedaCoincide100Porciento = proveedor.getBoolean("BusquedaCoincide100Porciento");
+                    int numeroCaracteristicasTrue = proveedor.getInt("NumeroCaracteristicasTrue");
 
                     ArrayList<String> imageList = new ArrayList<String>();
 
@@ -360,6 +365,32 @@ public class ProductosListFragment extends Fragment {
                             imageList.add("http://stap.cl"+imagenes.get(i).toString().substring(1));
                         }
                     }
+
+                    ArrayList<CaracteristicaProducto> caracteristicasProducto = new ArrayList<>();
+
+                    if (caracteristicas != null) {
+                        for (int c = 0; c <caracteristicas.length(); c++){
+                            JSONObject caracteristicaJSONObject = caracteristicas.getJSONObject(c);
+
+                            int idCaract = caracteristicaJSONObject.getInt("Id");
+                            int idCaracteristica = caracteristicaJSONObject.getInt("IdCaracteristica");
+                            String nombreCaracteristica = caracteristicaJSONObject.getString("Nombre");
+                            String descripcionCaracteristica = caracteristicaJSONObject.getString("Descripcion");
+                            String valorCaracteristica = caracteristicaJSONObject.getString("Valor");
+                            boolean coincideBusquedaCaracteristica = caracteristicaJSONObject.getBoolean("CoincideBusqueda");
+
+                            CaracteristicaProducto caracteristicaProducto = new CaracteristicaProducto();
+                            caracteristicaProducto.setId(idCaract);
+                            caracteristicaProducto.setIdCatacteristica(idCaracteristica);
+                            caracteristicaProducto.setNombre(nombreCaracteristica);
+                            caracteristicaProducto.setDescripcion(descripcionCaracteristica);
+                            caracteristicaProducto.setValor(valorCaracteristica);
+                            caracteristicaProducto.setCoincideBusqueda(coincideBusquedaCaracteristica);
+
+                            caracteristicasProducto.add(caracteristicaProducto);
+                        }
+                    }
+
                     Producto producto = new Producto();
                     producto.setId(id);
                     producto.setNombre(nombre);
@@ -369,6 +400,10 @@ public class ProductosListFragment extends Fragment {
                     producto.setCategoriaId(categoriaId);
                     producto.setCategoriaNombre(categoriaNombre);
                     producto.setImagenes(imageList);
+
+                    producto.setNumeroCaracteristicasTrue(numeroCaracteristicasTrue);
+                    producto.setBusquedaCoincide100Porciento(busquedaCoincide100Porciento);
+                    producto.setCaracteristicasProducto(caracteristicasProducto);
 
                     Producto.productosList.add(producto);
 
@@ -431,8 +466,10 @@ public class ProductosListFragment extends Fragment {
                 int cantidad = productoSeleccionado.getCantidad();
                 String descripcion = productoSeleccionado.getDescripcion();
                 String categoriaNombre = productoSeleccionado.getCategoriaNombre();
+
                 List<String> imagenes = productoSeleccionado.getImagenes();
                 ArrayList<String> imgArray = new ArrayList<>(imagenes);
+
 
                     /*
                     Intent intent = new Intent(getActivity(), VerProductoActivity.class);

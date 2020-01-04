@@ -73,6 +73,7 @@ public class MenuEmpresaFragment extends Fragment {
         cardView_mc = (CardView)view.findViewById(R.id.cv_mc);
         cardView_help = (CardView)view.findViewById(R.id.cv_help);
         cv_filtro_avanzado = (CardView)view.findViewById(R.id.cv_filtro_avanzado);
+        cv_filtro_avanzado.setVisibility(View.GONE);
 
         progressBarAnuncio = (ProgressBar) view.findViewById(R.id.progressBarAnuncio);
         progressBarAnuncio.setVisibility(View.VISIBLE);
@@ -203,7 +204,10 @@ public class MenuEmpresaFragment extends Fragment {
                 try {
 
                     int version = respuestaOdata.getInt("VersionAPP");
+                    boolean mostrarCotizador = respuestaOdata.getBoolean("MostrarCotizador");
+
                     mostrarActualizacionApp(version);
+                    mostrarOcultarCotizador(mostrarCotizador);
 
                 }
                 catch (Exception e){
@@ -295,12 +299,22 @@ public class MenuEmpresaFragment extends Fragment {
         }
     }
 
+    public void mostrarOcultarCotizador(boolean mostrarCotizador){
+        if(mostrarCotizador){
+            cv_filtro_avanzado.setVisibility(View.VISIBLE);
+        }
+        else{
+            cv_filtro_avanzado.setVisibility(View.GONE);
+        }
+    }
+
     public void mostrarActualizacionApp(int version){
 
         String v = getResources().getString(R.string.APP_VERSION_CODE);
         int versionActual = Integer.parseInt(v);
 
-        if(version == versionActual){
+        if(version > versionActual){
+
             boolean firstrun = getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("firstrun", true);
             if (firstrun){
                 AlertDialogCotizacion("Una nueva versión de AVANGRA está disponible.","Actualización");

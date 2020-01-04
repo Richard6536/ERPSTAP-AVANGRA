@@ -145,6 +145,16 @@ public class CardviewAdapterCarroCompraPasos extends RecyclerView.Adapter<Cardvi
             }
         });
 
+        for(ProductoEnCarro p : ProductoEnCarro.productosEnCarro){
+            if(p.getId() == productoSeleccionado.getId()){
+                productoSeleccionado.setChecked(true);
+                productoSeleccionado.setCantidad(p.getCantidad());
+                holder.txtCantidadPasosCarroCompra.setText("Cantidad: " + String.valueOf(p.getCantidad()));
+                holder.checkBox_carrocompra_pasos.setChecked(true);
+                holder.layoutCardview_carrocompa_pasos.setBackgroundColor(Color.parseColor("#CDE5D1"));
+            }
+        }
+
         if(productoSeleccionado.isMarcado()){
             productoSeleccionado.setChecked(true);
             holder.checkBox_carrocompra_pasos.setChecked(true);

@@ -44,6 +44,7 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
     SessionManager sessionController;
     public static CustomViewPager viewPagerBusquedaAvanzada;
     ProgressBar progressBarBusquedaAvanzada;
+    public static int actualPositionBA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Producto.productosList = new ArrayList<>();
 
         getSupportActionBar().setTitle("Búsqueda Avanzada");
         findViewById(R.id.app_bar).bringToFront();
@@ -191,5 +194,15 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
         Drawable mDrawable = ContextCompat.getDrawable(context, icon).mutate();
         mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.SRC_IN));
         return mDrawable;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (viewPagerBusquedaAvanzada.getCurrentItem() != 0) {
+            viewPagerBusquedaAvanzada.setCurrentItem(viewPagerBusquedaAvanzada.getCurrentItem() - 1,false);
+        }else{
+            finish();
+        }
     }
 }

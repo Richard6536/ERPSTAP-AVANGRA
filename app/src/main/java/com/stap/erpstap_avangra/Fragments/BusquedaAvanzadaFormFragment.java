@@ -227,10 +227,10 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        int position = FragmentPagerItem.getPosition(getArguments());
+        BusquedaAvanzadaActivity.actualPositionBA = FragmentPagerItem.getPosition(getArguments());
         int finalPosition = new FiltroAvanzado().getFiltroAvanzadoCount();
 
-        int pos = position;
+        int pos = BusquedaAvanzadaActivity.actualPositionBA;
         int finalPos = finalPosition - 1;
 
         if(pos == finalPos){
@@ -261,10 +261,17 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
 
             }
 
-            HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
-            String idUsuario = datosUsuario.get(SessionManager.KEY_ID);
-            String llave = datosUsuario.get(SessionManager.KEY_LLAVE);
-            String idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
+            String idUsuario = "0";
+            String llave = "";
+            String idEmpresa = "1";
+
+            if(sessionController.checkLogin() == true) {
+
+                HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
+                idUsuario = datosUsuario.get(SessionManager.KEY_ID);
+                llave = datosUsuario.get(SessionManager.KEY_LLAVE);
+                idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
+            }
 
             datos.put("IdUser", idUsuario);
             datos.put("IdEmpresa",idEmpresa);

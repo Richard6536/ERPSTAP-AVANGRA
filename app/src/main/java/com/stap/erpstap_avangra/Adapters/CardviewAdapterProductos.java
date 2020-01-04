@@ -8,10 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
+import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
 import com.stap.erpstap_avangra.Clases.Moneda;
 import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.Fragments.ProductosListFragment;
@@ -75,6 +78,13 @@ public class CardviewAdapterProductos extends RecyclerView.Adapter<CardviewAdapt
             Picasso.with(mCtx).load("http://www.losprincipios.org/images/default.jpg").fit().into(holder.imgViewProducto);
         }
 
+        if(FiltroAvanzado.is_busqueda_avanzada) {
+            holder.linearLayoutBusquedaAvanzada.setVisibility(View.VISIBLE);
+            if(producto.isBusquedaCoincide100Porciento()){
+                holder.chipCoincide100.setVisibility(View.VISIBLE);
+            }
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,11 +100,16 @@ public class CardviewAdapterProductos extends RecyclerView.Adapter<CardviewAdapt
         return listaProductos.size();
     }
     class CardViewHolder extends RecyclerView.ViewHolder{
+        LinearLayout linearLayoutBusquedaAvanzada;
+        Chip chipCoincide100;
         TextView txtNombreProducto, txtPrecioProducto;
         ImageView imgViewProducto;
 
         public CardViewHolder(View itemView) {
             super(itemView);
+
+            linearLayoutBusquedaAvanzada = itemView.findViewById(R.id.linearLayoutBusquedaAvanzada);
+            chipCoincide100 = itemView.findViewById(R.id.chipCoincide100);
 
             txtNombreProducto = itemView.findViewById(R.id.txtNombreProducto);
             txtPrecioProducto = itemView.findViewById(R.id.txtPrecioProducto);
