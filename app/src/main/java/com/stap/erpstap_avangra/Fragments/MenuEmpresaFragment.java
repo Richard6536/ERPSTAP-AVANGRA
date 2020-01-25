@@ -8,14 +8,18 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.github.islamkhsh.CardSliderViewPager;
+import com.google.android.material.snackbar.Snackbar;
 import com.stap.erpstap_avangra.Activity.BusquedaAvanzadaActivity;
 import com.stap.erpstap_avangra.Activity.HelpActivity;
 import com.stap.erpstap_avangra.Activity.MainNavigationActivity;
@@ -26,6 +30,7 @@ import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
 import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
+import com.stap.erpstap_avangra.Clases.InternetConnection;
 import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
 import com.stap.erpstap_avangra.R;
@@ -124,10 +129,14 @@ public class MenuEmpresaFragment extends Fragment {
             nombreEmpresa = datosUsuario.get(SessionManager.KEY_NOMBREEMPRESA);
         }
 
-        llamarObtenerAnuncios();
-
-        if(!FiltroAvanzado.is_busqueda_avanzada){
-            obtenerVersionAPP();
+        if(InternetConnection.internetAccess){
+            llamarObtenerAnuncios();
+            if(!FiltroAvanzado.is_busqueda_avanzada){
+                obtenerVersionAPP();
+            }
+            else{
+                cv_filtro_avanzado.setVisibility(View.VISIBLE);
+            }
         }
 
         return view;

@@ -82,7 +82,7 @@
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 app:strokeColor="@color/colorAccent"
                                 app:strokeWidth="1.6dp"
-                                android:text="Salir"></Button>
+                                android:text="Menú"></Button>
                         </LinearLayout>
                     </LinearLayout>
 

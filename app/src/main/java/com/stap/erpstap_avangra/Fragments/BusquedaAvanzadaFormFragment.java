@@ -46,6 +46,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.stap.erpstap_avangra.Activity.BusquedaAvanzadaActivity.viewPagerBusquedaAvanzada;
+
 public class BusquedaAvanzadaFormFragment extends Fragment {
 
     View view;
@@ -147,11 +149,13 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
                             float numText = Float.parseFloat(editTextNumericoForm.getText().toString());
                             new TipoCaracteristicaProductoBusquedaAvanzada().agregarSeleccion(filtroAvanzado.getId(), position, numText, -1, false, "", filtroAvanzado.getTipo());
 
-                            if((position + 1) == finalPosition){
+                            int pos = position + 1;
+                            if(pos == finalPosition){
                                 submitForm();
                             }
                             else{
-                                BusquedaAvanzadaActivity.viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                                viewPagerBusquedaAvanzada.setCurrentItem(pos);
+                                setProgresoText(pos, finalPosition);
                             }
                         }
                         else{
@@ -170,7 +174,8 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
                                 submitForm();
                             }
                             else{
-                                BusquedaAvanzadaActivity.viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                                viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                                setProgresoText(position+1, finalPosition);
                             }
                         }
                         else{
@@ -188,7 +193,8 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
                             submitForm();
                         }
                         else{
-                            BusquedaAvanzadaActivity.viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                            viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                            setProgresoText(position+1, finalPosition);
                         }
 
                         break;
@@ -199,7 +205,8 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
                             submitForm();
                         }
                         else{
-                            BusquedaAvanzadaActivity.viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                            viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                            setProgresoText(position+1, finalPosition);
                         }
 
                         break;
@@ -214,7 +221,8 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
                     submitForm();
                 }
                 else{
-                    BusquedaAvanzadaActivity.viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                    viewPagerBusquedaAvanzada.setCurrentItem(position+1);
+                    setProgresoText(position+1, finalPosition);
                 }
             }
         });
@@ -222,6 +230,9 @@ public class BusquedaAvanzadaFormFragment extends Fragment {
         return view;
     }
 
+    public void setProgresoText(int position, int finalPosition){
+        BusquedaAvanzadaActivity.txtProgresoBA.setText("Progreso: "+(position+1)+"/"+finalPosition);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

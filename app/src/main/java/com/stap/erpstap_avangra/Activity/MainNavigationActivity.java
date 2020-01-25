@@ -1,6 +1,10 @@
 package com.stap.erpstap_avangra.Activity;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,10 +12,12 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.stap.erpstap_avangra.Clases.BottomNavigationController;
 import com.stap.erpstap_avangra.Clases.Categoria;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
+import com.stap.erpstap_avangra.Clases.InternetConnection;
 import com.stap.erpstap_avangra.Clases.ProductoEnCarro;
 import com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraMainFragment;
 import com.stap.erpstap_avangra.Fragments.CotizacionesListFragment;
@@ -24,10 +30,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,6 +44,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import static com.stap.erpstap_avangra.Clases.Condiciones.condicionSeleccionada;
 import static com.stap.erpstap_avangra.Fragments.CarroCompra.CarroCompraPasosFragment.pasoUS;
@@ -49,10 +59,12 @@ public class MainNavigationActivity extends AppCompatActivity {
     public static Toolbar toolbar;
     public static int actualFragment;
     public Button btnAcceder;
-
+    public CoordinatorLayout coordinatorMain;
+    Bundle savedInstanceStateLocal;
 
     SessionManager sessionController;
 
+    InternetConnection myReceiver;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -122,9 +134,10 @@ public class MainNavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_navigation);
+        savedInstanceStateLocal = savedInstanceState;
 
         ControllerActivity.mainNavigationActivityController = this;
-        //ControllerActivity.activiyAbiertaActual = this;
+        ControllerActivity.activiyAbiertaActual = this;
 
         sessionController = new SessionManager(getApplicationContext());
         toolbar = findViewById(R.id.toolbar);
@@ -132,6 +145,8 @@ public class MainNavigationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("AVANGRA");
         findViewById(R.id.app_bar).bringToFront();
+
+        coordinatorMain = findViewById(R.id.coordinatorMain);
 
         btnAcceder = findViewById(R.id.btnAcceder);
         btnAcceder.setVisibility(View.GONE);
@@ -146,30 +161,6 @@ public class MainNavigationActivity extends AppCompatActivity {
             Drawable newdrawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 30, 30, true));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(newdrawable);
-
-        }
-
-        if(savedInstanceState == null) {
-            actualFragment = 0;
-            loadFragment(new MenuEmpresaFragment(), FiltroAvanzado.is_busqueda_avanzada);
-            //new BottomNavigationController().changeItemPosition(R.id.navigation_productos);
-        }
-        else{
-            actualFragment = savedInstanceState.getInt("currentFragment");
-            switch(actualFragment){
-                case 0:
-                    loadFragment(new MenuEmpresaFragment(), FiltroAvanzado.is_busqueda_avanzada);
-                    break;
-                case 1:
-                    loadFragment(new CotizacionesListFragment(), FiltroAvanzado.is_busqueda_avanzada);
-                    break;
-                case 2:
-                    loadFragment(new CarroCompraMainFragment(), FiltroAvanzado.is_busqueda_avanzada);
-                    break;
-                case 3:
-                    loadFragment(new ProductosListFragment(), FiltroAvanzado.is_busqueda_avanzada);
-                    break;
-            }
         }
 
         if(sessionController.checkLogin() == false){
@@ -189,11 +180,55 @@ public class MainNavigationActivity extends AppCompatActivity {
 
         }
 
+        //Verifica si hay coneción a internet antes de iniciar sesión
+
+        //new InternetConnection.hasInternetAccess().execute(getApplication());
+        selectFragment();
+    }
+
+    public void hasInternet(Boolean result){
+        InternetConnection.internetAccess = result;
+        if(!result){
+            new InternetConnection().showSnackbar();
+        }
+
+        selectFragment();
+    }
+
+    public void selectFragment(){
+        if(savedInstanceStateLocal == null) {
+            actualFragment = 0;
+            loadFragment(new MenuEmpresaFragment(), FiltroAvanzado.is_busqueda_avanzada);
+            //new BottomNavigationController().changeItemPosition(R.id.navigation_productos);
+        }
+        else{
+            actualFragment = savedInstanceStateLocal.getInt("currentFragment");
+            switch(actualFragment){
+                case 0:
+                    loadFragment(new MenuEmpresaFragment(), FiltroAvanzado.is_busqueda_avanzada);
+                    break;
+                case 1:
+                    loadFragment(new CotizacionesListFragment(), FiltroAvanzado.is_busqueda_avanzada);
+                    break;
+                case 2:
+                    loadFragment(new CarroCompraMainFragment(), FiltroAvanzado.is_busqueda_avanzada);
+                    break;
+                case 3:
+                    loadFragment(new ProductosListFragment(), FiltroAvanzado.is_busqueda_avanzada);
+                    break;
+            }
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        InternetConnection.coordinatorInternet = coordinatorMain;
+        myReceiver= new InternetConnection();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(myReceiver, filter);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -304,9 +339,7 @@ public class MainNavigationActivity extends AppCompatActivity {
             }
         });
 
-        if(ControllerActivity.fragmentAbiertoActual.getClass().getSimpleName().equals("MenuEmpresaFragment")){
-            searchItem.setVisible(false);
-        }
+        searchItem.setVisible(false);
 
         return true;
     }
@@ -405,5 +438,11 @@ public class MainNavigationActivity extends AppCompatActivity {
             userItem.setVisible(true);
             btnAcceder.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(myReceiver);
     }
 }

@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <receiver android:name=".Clases.InternetConnection"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.journaldev.AN_INTENT" />
+            </intent-filter>
+        </receiver>
         <activity android:name=".Activity.BusquedaAvanzadaActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

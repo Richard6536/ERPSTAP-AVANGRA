@@ -2,10 +2,12 @@ package com.stap.erpstap_avangra.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -15,6 +17,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
@@ -24,6 +28,7 @@ import com.stap.erpstap_avangra.Adapters.CustomViewPager;
 import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
+import com.stap.erpstap_avangra.Clases.InternetConnection;
 import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.Clases.TipoCaracteristicaProductoBusquedaAvanzada;
 import com.stap.erpstap_avangra.Fragments.BusquedaAvanzadaFormFragment;
@@ -45,6 +50,10 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
     public static CustomViewPager viewPagerBusquedaAvanzada;
     ProgressBar progressBarBusquedaAvanzada;
     public static int actualPositionBA;
+    public CoordinatorLayout coordinatorBusquedaAvanzada;
+    public static TextView txtProgresoBA;
+
+    InternetConnection myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +72,10 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
         findViewById(R.id.app_bar).bringToFront();
 
         Drawable drawable = changeDrawableColor(getApplicationContext(),R.drawable.ic_close_black_24dp, Color.WHITE);
+        coordinatorBusquedaAvanzada = findViewById(R.id.coordinatorBusquedaAvanzada);
+        InternetConnection.coordinatorInternet = coordinatorBusquedaAvanzada;
+
+        txtProgresoBA = findViewById(R.id.txtProgresoBA);
 
         toolbar.setNavigationIcon(drawable);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -75,32 +88,49 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
         progressBarBusquedaAvanzada = (ProgressBar) findViewById(R.id.progressBarBusquedaAvanzada);
         new TipoCaracteristicaProductoBusquedaAvanzada().clearMapList();
 
-        JSONObject datos = new JSONObject();
 
-        try {
 
-            String idUsuario = "0";
-            String llave = "";
-            String idEmpresa = "1";
+        myReceiver= new InternetConnection();
 
-            if(sessionController.checkLogin() == true) {
+        if(InternetConnection.internetAccess){
+            try {
+                JSONObject datos = new JSONObject();
+                String idUsuario = "0";
+                String llave = "";
+                String idEmpresa = "1";
 
-                HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
-                idUsuario = datosUsuario.get(SessionManager.KEY_ID);
-                llave = datosUsuario.get(SessionManager.KEY_LLAVE);
-                idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
+                if(sessionController.checkLogin() == true) {
+
+                    HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
+                    idUsuario = datosUsuario.get(SessionManager.KEY_ID);
+                    llave = datosUsuario.get(SessionManager.KEY_LLAVE);
+                    idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
+                }
+
+                datos.put("IdUser", idUsuario);
+                datos.put("IdEmpresa",idEmpresa);
+                datos.put("Llave",llave);
+
+                //Enviar datos al webservice
+                new FiltroAvanzado.ObtenerFormulario().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            datos.put("IdUser", idUsuario);
-            datos.put("IdEmpresa",idEmpresa);
-            datos.put("Llave",llave);
-
-            //Enviar datos al webservice
-            new FiltroAvanzado.ObtenerFormulario().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+        else{
+            new InternetConnection().showSnackbar();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        InternetConnection.coordinatorInternet = coordinatorBusquedaAvanzada;
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(myReceiver, filter);
     }
 
     public void mostrarFormularioRespuesta(JSONObject respuestaOdata){
@@ -148,6 +178,8 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
 
         SmartTabLayout viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
         viewPagerTab.setViewPager(viewPagerBusquedaAvanzada);
+
+        txtProgresoBA.setText("Progreso: "+(viewPagerBusquedaAvanzada.getCurrentItem() + 1)+"/"+count);
 
     }
 
@@ -199,8 +231,10 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        int pos = viewPagerBusquedaAvanzada.getCurrentItem() + 1;
         if (viewPagerBusquedaAvanzada.getCurrentItem() != 0) {
             viewPagerBusquedaAvanzada.setCurrentItem(viewPagerBusquedaAvanzada.getCurrentItem() - 1,false);
+            txtProgresoBA.setText("Progreso: "+(pos - 1)+"/"+ new FiltroAvanzado().getFiltroAvanzadoCount());
         }else{
             finish();
         }

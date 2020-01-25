@@ -27,6 +27,7 @@ import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.Cotizacion;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.GeneralCotizaciones;
+import com.stap.erpstap_avangra.Clases.InternetConnection;
 import com.stap.erpstap_avangra.ClasesAbstractas.ListDataCotizaciones;
 import com.stap.erpstap_avangra.R;
 import com.stap.erpstap_avangra.Session.SessionManager;
@@ -102,33 +103,6 @@ public class CotizacionesListFragment extends Fragment {
 
         expandable_layout = (ExpandableLayout)view.findViewById(R.id.expandable_layout);
 
-        JSONObject datos = new JSONObject();
-
-        try {
-
-            String idUsuario = "0";
-            String llave = "";
-            String idEmpresa = "1";
-
-            if(sessionController.checkLogin() == true) {
-
-                HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
-                idUsuario = datosUsuario.get(SessionManager.KEY_ID);
-                llave = datosUsuario.get(SessionManager.KEY_LLAVE);
-                idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
-            }
-
-            datos.put("IdUser", idUsuario);
-            datos.put("IdEmpresa",idEmpresa);
-            datos.put("Llave",llave);
-
-            //Enviar datos al webservice
-            new Cotizacion.ObtenerCotizaciones().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         txtFechaToolbarDesde.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,9 +141,41 @@ public class CotizacionesListFragment extends Fragment {
             }
         });
 
+        if(InternetConnection.internetAccess){
+            inicializarCotizaciones();
+        }
+
         return view;
     }
 
+    public void inicializarCotizaciones(){
+        JSONObject datos = new JSONObject();
+
+        try {
+
+            String idUsuario = "0";
+            String llave = "";
+            String idEmpresa = "1";
+
+            if(sessionController.checkLogin() == true) {
+
+                HashMap<String, String> datosUsuario = sessionController.obtenerDetallesUsuario();
+                idUsuario = datosUsuario.get(SessionManager.KEY_ID);
+                llave = datosUsuario.get(SessionManager.KEY_LLAVE);
+                idEmpresa = datosUsuario.get(SessionManager.KEY_IDEMPRESA);
+            }
+
+            datos.put("IdUser", idUsuario);
+            datos.put("IdEmpresa",idEmpresa);
+            datos.put("Llave",llave);
+
+            //Enviar datos al webservice
+            new Cotizacion.ObtenerCotizaciones().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, datos.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void CargarCotizaciones(JSONObject respuesta){
         try {

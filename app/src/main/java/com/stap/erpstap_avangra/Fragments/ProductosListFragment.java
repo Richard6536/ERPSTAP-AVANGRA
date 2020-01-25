@@ -57,6 +57,7 @@ import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
 import com.stap.erpstap_avangra.Clases.FiltroAvanzado;
+import com.stap.erpstap_avangra.Clases.InternetConnection;
 import com.stap.erpstap_avangra.Clases.Producto;
 import com.stap.erpstap_avangra.MainActivity;
 import com.stap.erpstap_avangra.R;
@@ -264,7 +265,25 @@ public class ProductosListFragment extends Fragment {
 
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
+        if(InternetConnection.internetAccess){
+            inicializarProductos();
+        }
 
+        return view;
+    }
+
+
+    /**
+     * Change value in dp to pixels
+     * @param dp
+     * @param context
+     * @return
+     */
+    public static float dpToPixels(int dp, Context context) {
+        return dp * (context.getResources().getDisplayMetrics().density);
+    }
+
+    public void inicializarProductos(){
         if(Categoria.categoriaSeleccionada == null){
             if(is_busqueda_avanzada){
                 mostrarProductos();
@@ -285,19 +304,6 @@ public class ProductosListFragment extends Fragment {
             mostrarCategorias();
 
         }
-
-        return view;
-    }
-
-
-    /**
-     * Change value in dp to pixels
-     * @param dp
-     * @param context
-     * @return
-     */
-    public static float dpToPixels(int dp, Context context) {
-        return dp * (context.getResources().getDisplayMetrics().density);
     }
 
     public void llamarListaProductos(){

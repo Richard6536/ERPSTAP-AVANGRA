@@ -35,6 +35,7 @@ import com.stap.erpstap_avangra.Clases.ControllerActivity;
 import com.stap.erpstap_avangra.Clases.Cotizacion;
 import com.stap.erpstap_avangra.Clases.DialogBox;
 import com.stap.erpstap_avangra.Clases.Empresa;
+import com.stap.erpstap_avangra.Clases.InternetConnection;
 import com.stap.erpstap_avangra.Clases.ProductoEnCarro;
 import com.stap.erpstap_avangra.R;
 import com.stap.erpstap_avangra.Session.SessionManager;
@@ -170,9 +171,10 @@ public class CarroCompraMainFragment extends Fragment {
             }
         });
 
-        //Compuebo si vengo desde un fragment de "Pasos"
         new ProductoEnCarro().limpiarListaProductosEnCarro();
-        obtenerListaPerfilCondiciones();
+        if(InternetConnection.internetAccess){
+            obtenerListaPerfilCondiciones();
+        }
 
         return view;
     }
