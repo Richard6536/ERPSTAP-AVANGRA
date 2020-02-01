@@ -275,7 +275,9 @@ public class MainNavigationActivity extends AppCompatActivity {
                     .commit();
             return true;
         }
+
         return false;
+
     }
 
     @Override
@@ -293,7 +295,7 @@ public class MainNavigationActivity extends AppCompatActivity {
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
+        
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

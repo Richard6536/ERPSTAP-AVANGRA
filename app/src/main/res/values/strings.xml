@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AVANGRA</string>
-    <string name="app_version">1.0.5</string>
-    <string name="APP_VERSION_CODE">5</string>
+    <string name="app_version">1.0.7</string>
+    <string name="APP_VERSION_CODE">7</string>
     <string name="title_activity_sesion">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

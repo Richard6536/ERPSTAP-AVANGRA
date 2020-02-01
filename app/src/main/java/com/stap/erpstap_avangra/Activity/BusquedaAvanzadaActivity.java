@@ -215,7 +215,7 @@ public class BusquedaAvanzadaActivity extends AppCompatActivity {
                 cargarTabbed();
 
             } else {
-                //txtNombreVehiculo.setText("No se ha podido obtener la lista de vehículos");
+                Toast.makeText(getApplicationContext(),"No existe un formulario en este momento. Intente Más tarde.", Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

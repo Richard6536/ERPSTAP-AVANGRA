@@ -20,6 +20,7 @@ public class VerificacionLoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verificacion_login);
         ControllerActivity.activiyAbiertaActual = this;
         sessionController = new SessionManager(getApplicationContext());
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("firstrun", true).commit();
 
         new CountDownTimer(2000, 1000) {
             public void onTick(long millisUntilFinished) {
